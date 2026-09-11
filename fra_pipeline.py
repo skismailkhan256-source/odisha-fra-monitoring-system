@@ -1,11 +1,6 @@
 # ============================================================
 # ODISHA FRA MONITORING SYSTEM
-# AUTOMATIC PDF CLEANING + VILLAGE SUMMARY + MERGING
-# ============================================================
-
-
-# ============================================================
-# 1. IMPORT LIBRARIES
+# AUTOMATIC DATA CLEANING + DISTRICT MERGING PIPELINE
 # ============================================================
 
 import os
@@ -15,7 +10,7 @@ import pandas as pd
 
 
 # ============================================================
-# 2. DATA FOLDER PATHS
+# 1. PATHS
 # ============================================================
 
 RAW_DATA_PATH = "data/raw"
@@ -24,53 +19,39 @@ CLEANED_DATA_PATH = "data/Cleaned"
 os.makedirs(CLEANED_DATA_PATH, exist_ok=True)
 
 
-print("\n==============================================")
-print("      ODISHA FRA DATA PROCESSING SYSTEM")
-print("==============================================")
-
-
-
 # ============================================================
-# 3. FIND ALL DISTRICT FOLDERS
+# 2. STANDARD COLUMNS
 # ============================================================
 
-districts = [
-    folder
-    for folder in os.listdir(RAW_DATA_PATH)
-    if os.path.isdir(
-        os.path.join(RAW_DATA_PATH, folder)
-    )
+RAW_COLUMNS = [
+    "Sl. No.",
+    "Block",
+    "Gram Panchayat",
+    "Village",
+    "Name of the FRA beneficiary"
 ]
 
-districts = sorted(districts)
-
-print("\nDistrict folders found:")
-print(districts)
-
-print("\nTotal district folders:", len(districts))
-
+SUMMARY_COLUMNS = [
+    "District",
+    "Block",
+    "Gram Panchayat",
+    "Village",
+    "Beneficiary_Count"
+]
 
 
 # ============================================================
-# 4. BASIC TEXT CLEANING
+# 3. BASIC TEXT CLEANING
 # ============================================================
 
 def clean_text(value):
 
-    # Handle missing values
-
     if value is None or pd.isna(value):
         return ""
 
-    # Convert value into string
-
     value = str(value)
 
-    # Replace line breaks with spaces
-
     value = value.replace("\n", " ")
-
-    # Remove multiple spaces
 
     value = re.sub(
         r"\s+",
@@ -78,53 +59,43 @@ def clean_text(value):
         value
     )
 
-    # Remove leading and trailing spaces
-
     return value.strip()
 
 
-
 # ============================================================
-# 5. SAFE OCR DUPLICATION FIX
+# 4. SAFE OCR DOUBLE CHARACTER FIX
 # ============================================================
 
-def fix_doubled_text(text):
+def fix_doubled_text(value):
 
-    # Handle missing values safely
-
-    if text is None or pd.isna(text):
+    if value is None or pd.isna(value):
         return ""
 
-    text = str(text).strip()
+    value = str(value).strip()
 
-    # Empty text
-
-    if text == "":
+    if value == "":
         return ""
 
-    # Detect full character duplication
+    # Only fix a string when EVERY character is duplicated.
     #
     # Example:
     # NNiisshhcchhiinnttaa
-    #
-    # becomes:
+    # ->
     # Nishchintaa
 
-    if len(text) % 2 == 0:
+    if len(value) >= 4 and len(value) % 2 == 0:
 
-        first_half_pattern = text[::2]
-        second_half_pattern = text[1::2]
+        first = value[::2]
+        second = value[1::2]
 
-        if first_half_pattern == second_half_pattern:
+        if first == second:
+            return first
 
-            return first_half_pattern
-
-    return text
-
+    return value
 
 
 # ============================================================
-# 6. CHECK WHETHER VALUE IS A "DO" PLACEHOLDER
+# 5. CHECK -DO- VALUE
 # ============================================================
 
 def is_do_value(value):
@@ -132,38 +103,85 @@ def is_do_value(value):
     if value is None or pd.isna(value):
         return True
 
-    value = str(value).strip()
+    value = str(value).strip().lower()
 
     if value == "":
         return True
 
-    # Remove spaces and hyphens for checking
-
     normalized = re.sub(
         r"[\s\-]+",
         "",
-        value.lower()
+        value
     )
 
-    # Detect:
-    # -do-
-    # --do--
-    # -- ddoo --
-    # etc.
-
-    if re.fullmatch(
-        r"d+o+",
-        normalized
-    ):
-
-        return True
-
-    return False
-
+    return normalized == "do"
 
 
 # ============================================================
-# 7. EXTRACT TABLES FROM PDF
+# 6. REMOVE OBVIOUS HEADER ARTIFACTS
+# ============================================================
+
+def remove_header_artifacts(df):
+
+    # Case 1:
+    # BLOCK | GRAM PANCHAYAT | VILLAGE
+
+    mask_1 = (
+        df["Block"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("BLOCK")
+        &
+        df["Gram Panchayat"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("GRAM PANCHAYAT")
+        &
+        df["Village"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("VILLAGE")
+    )
+
+    # Case 2:
+    # GRAM PANCHAYAT | VILLAGE
+    #
+    # Some PDFs have a damaged/missing Block header.
+
+    mask_2 = (
+        df["Gram Panchayat"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("GRAM PANCHAYAT")
+        &
+        df["Village"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("VILLAGE")
+    )
+
+    header_mask = mask_1 | mask_2
+
+    removed = int(header_mask.sum())
+
+    if removed > 0:
+
+        print(
+            f"Header artifact rows removed: {removed}"
+        )
+
+    return df.loc[
+        ~header_mask
+    ].copy()
+
+
+# ============================================================
+# 7. EXTRACT ALL TABLES FROM A PDF
 # ============================================================
 
 def extract_pdf_tables(pdf_path):
@@ -171,8 +189,10 @@ def extract_pdf_tables(pdf_path):
     all_rows = []
 
     print("\n----------------------------------------------")
-    print("Reading PDF:")
-    print(pdf_path)
+    print(
+        "Reading:",
+        os.path.basename(pdf_path)
+    )
     print("----------------------------------------------")
 
     try:
@@ -199,57 +219,55 @@ def extract_pdf_tables(pdf_path):
 
                         for row in table:
 
-                            # Keep only rows having data
+                            if row:
 
-                            if row and len(row) >= 5:
+                                row = list(row[:5])
 
-                                # Keep first five columns
+                                while len(row) < 5:
+                                    row.append("")
 
-                                all_rows.append(
-                                    row[:5]
-                                )
-
-                    # Progress message
-
-                    if page_number % 100 == 0:
-
-                        print(
-                            f"Processed "
-                            f"{page_number}/"
-                            f"{total_pages} pages"
-                        )
+                                all_rows.append(row)
 
                 except Exception as page_error:
 
                     print(
-                        f"Warning: Page "
-                        f"{page_number} skipped."
+                        f"Warning: page {page_number} "
+                        f"could not be extracted."
                     )
+
+                if page_number % 100 == 0:
 
                     print(
-                        "Reason:",
-                        page_error
+                        f"Processed "
+                        f"{page_number}/{total_pages} pages"
                     )
 
-    except Exception as pdf_error:
+    except Exception as error:
 
         print(
-            "\nERROR reading PDF:"
+            "PDF ERROR:",
+            error
         )
 
-        print(pdf_error)
+        return pd.DataFrame(
+            columns=RAW_COLUMNS
+        )
 
-        return pd.DataFrame()
-
-
-    return pd.DataFrame(
-        all_rows
+    df = pd.DataFrame(
+        all_rows,
+        columns=RAW_COLUMNS
     )
 
+    print(
+        "Raw extracted rows:",
+        len(df)
+    )
+
+    return df
 
 
 # ============================================================
-# 8. CLEAN FRA DATA
+# 8. CLEAN RAW BENEFICIARY DATA
 # ============================================================
 
 def clean_fra_data(
@@ -257,103 +275,68 @@ def clean_fra_data(
     district_name
 ):
 
-    # Check whether dataframe is empty
-
     if df.empty:
 
         return pd.DataFrame(
-            columns=[
-                "Sl. No.",
-                "Block",
-                "Gram Panchayat",
-                "Village",
-                "Name of the FRA beneficiary",
-                "District"
-            ]
+            columns=SUMMARY_COLUMNS
         )
-
-
-    # Make a copy
 
     df = df.copy()
 
+    # Keep first 5 columns only
 
-    # Make sure only first five columns are used
+    df = df.iloc[:, :5]
 
-    df = df.iloc[:, :5].copy()
-
-
-    # Give standard column names
-
-    df.columns = [
-        "Sl. No.",
-        "Block",
-        "Gram Panchayat",
-        "Village",
-        "Name of the FRA beneficiary"
-    ]
-
-
-    # Clean text in every column
-
-    for column in df.columns:
-
-        df[column] = df[column].apply(
-            clean_text
-        )
-
+    df.columns = RAW_COLUMNS
 
     # --------------------------------------------------------
-    # REMOVE REPEATED HEADERS
+    # Basic text cleaning
+    # --------------------------------------------------------
+
+    for column in RAW_COLUMNS:
+
+        df[column] = (
+            df[column]
+            .apply(clean_text)
+        )
+
+    # --------------------------------------------------------
+    # Remove repeated headers
     # --------------------------------------------------------
 
     df = df[
-        ~df["Sl. No."].str.contains(
-            "Sl. No.",
-            case=False,
+        ~df["Sl. No."]
+        .str.upper()
+        .str.contains(
+            "SL. NO.",
             na=False
         )
     ].copy()
 
+    # --------------------------------------------------------
+    # Remove 1 2 3 4 5 numbering row
+    # --------------------------------------------------------
 
-    # --------------------------------------------------------
-    # REMOVE 1 2 3 4 5 HEADER NUMBERING ROW
-    # --------------------------------------------------------
+    numbering_mask = (
+        df["Sl. No."].eq("1")
+        &
+        df["Block"].eq("2")
+        &
+        df["Gram Panchayat"].eq("3")
+        &
+        df["Village"].eq("4")
+        &
+        df[
+            "Name of the FRA beneficiary"
+        ].eq("5")
+    )
 
     df = df[
-        ~(
-            (df["Sl. No."] == "1") &
-            (df["Block"] == "2") &
-            (df["Gram Panchayat"] == "3") &
-            (df["Village"] == "4") &
-            (
-                df[
-                    "Name of the FRA beneficiary"
-                ] == "5"
-            )
-        )
+        ~numbering_mask
     ].copy()
 
-
     # --------------------------------------------------------
-    # CONVERT -DO- VALUES TO EMPTY
-    # --------------------------------------------------------
-
-    for column in [
-        "Block",
-        "Gram Panchayat",
-        "Village"
-    ]:
-
-        df[column] = df[column].apply(
-            lambda x: ""
-            if is_do_value(x)
-            else x
-        )
-
-
-    # --------------------------------------------------------
-    # FORWARD FILL LOCATION
+    # Convert -do- to blank
     # --------------------------------------------------------
 
     location_columns = [
@@ -362,6 +345,19 @@ def clean_fra_data(
         "Village"
     ]
 
+    for column in location_columns:
+
+        df[column] = df[column].apply(
+            lambda x:
+            ""
+            if is_do_value(x)
+            else x
+        )
+
+    # --------------------------------------------------------
+    # Forward fill locations
+    # --------------------------------------------------------
+
     df[location_columns] = (
         df[location_columns]
         .replace("", pd.NA)
@@ -369,116 +365,126 @@ def clean_fra_data(
         .fillna("")
     )
 
-
     # --------------------------------------------------------
-    # FIX OCR DUPLICATION
-    # --------------------------------------------------------
-
-    for column in location_columns:
-
-        df[column] = df[column].apply(
-            fix_doubled_text
-        )
-
-
-    # --------------------------------------------------------
-    # CLEAN LOCATION TEXT AGAIN
-    # --------------------------------------------------------
-
-    for column in location_columns:
-
-        df[column] = df[column].apply(
-            clean_text
-        )
-
-
-    # --------------------------------------------------------
-    # STANDARDIZE CASE
-    #
-    # This only changes upper/lowercase.
-    # It does NOT guess spelling corrections.
+    # Fix OCR duplication in locations
     # --------------------------------------------------------
 
     for column in location_columns:
 
         df[column] = (
             df[column]
-            .astype(str)
-            .str.strip()
-            .str.upper()
+            .apply(fix_doubled_text)
         )
 
+    # --------------------------------------------------------
+    # Clean again
+    # --------------------------------------------------------
+
+    for column in location_columns:
+
+        df[column] = (
+            df[column]
+            .apply(clean_text)
+        )
 
     # --------------------------------------------------------
-    # REMOVE ROWS WITHOUT BENEFICIARY NAME
+    # Remove rows without beneficiary
     # --------------------------------------------------------
+
+    beneficiary_column = (
+        "Name of the FRA beneficiary"
+    )
+
+    df[beneficiary_column] = (
+        df[beneficiary_column]
+        .fillna("")
+        .astype(str)
+        .apply(clean_text)
+    )
 
     df = df[
-        df[
-            "Name of the FRA beneficiary"
-        ]
-        .astype(str)
+        df[beneficiary_column]
         .str.strip()
         .ne("")
     ].copy()
 
-
     # --------------------------------------------------------
-    # REMOVE OBVIOUS NUMERIC GARBAGE LOCATION ROWS
-    # Example:
-    # Block = 2
-    # GP = 4
-    # Village = 5
+    # Remove obvious numeric garbage rows
     # --------------------------------------------------------
 
     numeric_location_mask = (
         df["Block"]
         .astype(str)
-        .str.fullmatch(r"\d+")
+        .str.fullmatch(
+            r"\d+",
+            na=False
+        )
         &
         df["Gram Panchayat"]
         .astype(str)
-        .str.fullmatch(r"\d+")
+        .str.fullmatch(
+            r"\d+",
+            na=False
+        )
         &
         df["Village"]
         .astype(str)
-        .str.fullmatch(r"\d+")
+        .str.fullmatch(
+            r"\d+",
+            na=False
+        )
     )
 
     df = df[
         ~numeric_location_mask
     ].copy()
 
-
     # --------------------------------------------------------
-    # ADD DISTRICT
+    # Add District
     # --------------------------------------------------------
 
     df["District"] = district_name
 
+    # --------------------------------------------------------
+    # Remove obvious header artifacts
+    # --------------------------------------------------------
 
-    # Reset row numbers
+    df = remove_header_artifacts(df)
 
-    df = df.reset_index(
+    # --------------------------------------------------------
+    # Return cleaned beneficiary data
+    # --------------------------------------------------------
+
+    final_columns = [
+        "District",
+        "Block",
+        "Gram Panchayat",
+        "Village",
+        "Name of the FRA beneficiary"
+    ]
+
+    df = df[
+        final_columns
+    ].reset_index(
         drop=True
     )
-
 
     return df
 
 
-
 # ============================================================
-# 9. CREATE VILLAGE-LEVEL SUMMARY
+# 9. CREATE VILLAGE SUMMARY
 # ============================================================
 
-def create_village_summary(
-    clean_df
-):
+def create_village_summary(clean_df):
 
-    # Group beneficiary records by location
+    if clean_df.empty:
 
-    village_summary = (
+        return pd.DataFrame(
+            columns=SUMMARY_COLUMNS
+        )
+
+    summary = (
         clean_df
         .groupby(
             [
@@ -498,372 +504,471 @@ def create_village_summary(
         )
     )
 
-
-    return village_summary
-
+    return summary
 
 
 # ============================================================
-# 10. PROCESS ALL DISTRICTS
+# 10. CLEAN AN EXISTING DISTRICT SUMMARY
 # ============================================================
 
-all_village_summaries = []
+def clean_existing_summary(
+    summary,
+    district
+):
 
-successful_districts = []
+    if summary.empty:
 
-failed_districts = []
+        return summary
+
+    # Make sure required columns exist
+
+    for column in SUMMARY_COLUMNS:
+
+        if column not in summary.columns:
+
+            return None
+
+    summary = summary[
+        SUMMARY_COLUMNS
+    ].copy()
+
+    # Clean text
+
+    for column in [
+        "District",
+        "Block",
+        "Gram Panchayat",
+        "Village"
+    ]:
+
+        summary[column] = (
+            summary[column]
+            .apply(clean_text)
+        )
+
+    # Remove obvious header artifacts
+
+    before = len(summary)
+
+    summary = remove_header_artifacts(
+        summary
+    )
+
+    removed = before - len(summary)
+
+    if removed > 0:
+
+        print(
+            f"{district}: removed "
+            f"{removed} old header artifacts."
+        )
+
+    # Make sure district is correct
+
+    summary["District"] = district
+
+    # Remove exact duplicate village records
+
+    summary = (
+        summary
+        .drop_duplicates(
+            subset=[
+                "District",
+                "Block",
+                "Gram Panchayat",
+                "Village"
+            ]
+        )
+        .reset_index(
+            drop=True
+        )
+    )
+
+    # Make count numeric
+
+    summary["Beneficiary_Count"] = pd.to_numeric(
+        summary["Beneficiary_Count"],
+        errors="coerce"
+    )
+
+    summary = summary[
+        summary["Beneficiary_Count"]
+        .notna()
+    ].copy()
+
+    summary["Beneficiary_Count"] = (
+        summary["Beneficiary_Count"]
+        .astype(int)
+    )
+
+    return summary
 
 
-for district in districts:
+# ============================================================
+# 11. PROCESS ONE DISTRICT
+# ============================================================
 
-    print("\n")
-    print("==============================================")
-    print(
-        "PROCESSING DISTRICT:",
+def process_district(district):
+
+    raw_district_path = os.path.join(
+        RAW_DATA_PATH,
         district
     )
-    print("==============================================")
 
-
-    # Create district cleaned folder
-
-    district_clean_path = os.path.join(
+    cleaned_district_path = os.path.join(
         CLEANED_DATA_PATH,
         district
     )
 
     os.makedirs(
-        district_clean_path,
+        cleaned_district_path,
         exist_ok=True
     )
 
-
-    # Output village summary
-
-    village_summary_path = os.path.join(
-        district_clean_path,
+    summary_path = os.path.join(
+        cleaned_district_path,
         f"{district}_Village_Summary.csv"
     )
 
-
     # --------------------------------------------------------
-    # IF SUMMARY ALREADY EXISTS
+    # EXISTING SUMMARY
     # --------------------------------------------------------
 
-    if os.path.exists(
-        village_summary_path
-    ):
+    if os.path.exists(summary_path):
 
         print(
-            "\nExisting village summary found."
-        )
-
-        print(
-            "Loading saved CSV..."
+            f"\n{district}: existing summary found."
         )
 
         try:
 
-            village_summary = pd.read_csv(
-                village_summary_path
+            summary = pd.read_csv(
+                summary_path
             )
 
+            summary = clean_existing_summary(
+                summary,
+                district
+            )
 
-            # Check required columns
+            if summary is not None:
 
-            required_columns = [
-                "District",
-                "Block",
-                "Gram Panchayat",
-                "Village",
-                "Beneficiary_Count"
-            ]
-
-
-            if all(
-                column in village_summary.columns
-                for column in required_columns
-            ):
-
-                print(
-                    "Loaded villages:",
-                    len(village_summary)
-                )
-
-                all_village_summaries.append(
-                    village_summary
-                )
-
-                successful_districts.append(
-                    district
-                )
-
-                continue
-
-            else:
-
-                print(
-                    "Saved CSV structure is invalid."
+                summary.to_csv(
+                    summary_path,
+                    index=False
                 )
 
                 print(
-                    "Reprocessing district..."
+                    f"{district}: loaded "
+                    f"{len(summary)} villages."
                 )
 
-        except Exception as csv_error:
+                return summary
+
+        except Exception as error:
 
             print(
-                "Could not load saved CSV."
+                f"{district}: existing summary "
+                f"could not be used."
             )
+
+            print(error)
 
             print(
-                csv_error
+                "Reprocessing PDFs..."
             )
-
-            print(
-                "Reprocessing district..."
-            )
-
 
     # --------------------------------------------------------
-    # FIND DISTRICT PDF FILES
+    # FIND PDFs
     # --------------------------------------------------------
 
-    district_path = os.path.join(
-        RAW_DATA_PATH,
-        district
-    )
+    if not os.path.isdir(
+        raw_district_path
+    ):
 
-
-    pdf_files = [
-        file
-        for file in os.listdir(
-            district_path
+        print(
+            f"{district}: raw folder not found."
         )
-        if file.lower().endswith(".pdf")
-    ]
 
+        return None
 
     pdf_files = sorted(
-        pdf_files
+        [
+            file
+            for file in os.listdir(
+                raw_district_path
+            )
+            if file.lower().endswith(".pdf")
+        ]
     )
-
 
     print(
-        "\nPDF files found:",
-        len(pdf_files)
+        f"{district}: {len(pdf_files)} PDF(s) found."
     )
-
 
     if not pdf_files:
 
         print(
-            "WARNING: No PDF found for",
-            district
+            f"{district}: no PDF found."
         )
 
-        failed_districts.append(
-            district
-        )
-
-        continue
-
+        return None
 
     # --------------------------------------------------------
-    # PROCESS ALL PDFs IN THIS DISTRICT
+    # PROCESS ALL PDFS
     # --------------------------------------------------------
 
-    district_dataframes = []
+    cleaned_parts = []
 
-
-    for pdf_number, pdf_file in enumerate(
+    for number, pdf_file in enumerate(
         pdf_files,
         start=1
     ):
 
-        print("\n")
         print(
-            f"PDF {pdf_number}/"
-            f"{len(pdf_files)}:"
+            f"\n{district}: PDF "
+            f"{number}/{len(pdf_files)}"
         )
-
-        print(pdf_file)
-
 
         pdf_path = os.path.join(
-            district_path,
+            raw_district_path,
             pdf_file
         )
-
-
-        # Extract PDF
 
         raw_df = extract_pdf_tables(
             pdf_path
         )
 
-
-        print(
-            "Raw extracted rows:",
-            len(raw_df)
-        )
-
-
         if raw_df.empty:
 
             print(
-                "WARNING: No data extracted."
+                "No data extracted."
             )
 
             continue
-
-
-        # Clean PDF data
 
         clean_df = clean_fra_data(
             raw_df,
             district
         )
 
-
         print(
-            "Cleaned rows:",
+            "Cleaned beneficiary rows:",
             len(clean_df)
         )
 
-
         if not clean_df.empty:
 
-            district_dataframes.append(
+            cleaned_parts.append(
                 clean_df
             )
 
-
     # --------------------------------------------------------
-    # CHECK WHETHER DISTRICT DATA EXISTS
+    # COMBINE ALL PDFs OF DISTRICT
     # --------------------------------------------------------
 
-    if not district_dataframes:
+    if not cleaned_parts:
 
         print(
-            "\nNo usable data found for:",
-            district
+            f"{district}: no usable data."
         )
 
-        failed_districts.append(
-            district
-        )
+        return None
 
-        continue
-
-
-    # --------------------------------------------------------
-    # MERGE ALL PDFs OF THE DISTRICT
-    # --------------------------------------------------------
-
-    combined_clean_df = pd.concat(
-        district_dataframes,
+    combined_df = pd.concat(
+        cleaned_parts,
         ignore_index=True
     )
 
-
     print(
-        "\nCombined cleaned beneficiary records:",
-        len(combined_clean_df)
+        f"{district}: total cleaned beneficiary "
+        f"rows = {len(combined_df)}"
     )
-
 
     # --------------------------------------------------------
     # CREATE VILLAGE SUMMARY
     # --------------------------------------------------------
 
-    village_summary = create_village_summary(
-        combined_clean_df
+    summary = create_village_summary(
+        combined_df
     )
-
-
-    # --------------------------------------------------------
-    # REMOVE EXACT DUPLICATES
-    # --------------------------------------------------------
-
-    village_summary = (
-        village_summary
-        .drop_duplicates(
-            subset=[
-                "District",
-                "Block",
-                "Gram Panchayat",
-                "Village"
-            ]
-        )
-        .reset_index(
-            drop=True
-        )
-    )
-
 
     # --------------------------------------------------------
     # SAVE DISTRICT SUMMARY
     # --------------------------------------------------------
 
-    village_summary.to_csv(
-        village_summary_path,
+    summary.to_csv(
+        summary_path,
         index=False
     )
 
-
     print(
-        "\nVillage summary saved:"
+        f"{district}: village summary saved."
     )
-
-    print(
-        village_summary_path
-    )
-
 
     print(
         "Total villages:",
-        len(village_summary)
+        len(summary)
     )
 
-
-    # Add to master list
-
-    all_village_summaries.append(
-        village_summary
-    )
-
-
-    successful_districts.append(
-        district
-    )
-
+    return summary
 
 
 # ============================================================
-# 11. CREATE MASTER ODISHA DATASET
+# 12. MAIN PIPELINE
 # ============================================================
 
-print("\n")
-print("==============================================")
-print("CREATING ODISHA MASTER DATASET")
-print("==============================================")
+def main():
 
+    print(
+        "\n================================================"
+    )
 
-if all_village_summaries:
+    print(
+        "ODISHA FRA DATA CLEANING PIPELINE"
+    )
 
-    # Combine all district summaries
+    print(
+        "================================================"
+    )
 
-    odisha_master_df = pd.concat(
-        all_village_summaries,
+    # --------------------------------------------------------
+    # Find district folders
+    # --------------------------------------------------------
+
+    if not os.path.isdir(
+        RAW_DATA_PATH
+    ):
+
+        print(
+            f"ERROR: {RAW_DATA_PATH} not found."
+        )
+
+        return
+
+    districts = sorted(
+        [
+            folder
+            for folder in os.listdir(
+                RAW_DATA_PATH
+            )
+            if os.path.isdir(
+                os.path.join(
+                    RAW_DATA_PATH,
+                    folder
+                )
+            )
+        ]
+    )
+
+    print(
+        f"\nDistrict folders found: "
+        f"{len(districts)}"
+    )
+
+    print(districts)
+
+    all_summaries = []
+
+    successful = []
+
+    failed = []
+
+    # --------------------------------------------------------
+    # Process districts
+    # --------------------------------------------------------
+
+    for district in districts:
+
+        print(
+            "\n================================================"
+        )
+
+        print(
+            f"PROCESSING: {district}"
+        )
+
+        print(
+            "================================================"
+        )
+
+        try:
+
+            summary = process_district(
+                district
+            )
+
+            if summary is not None:
+
+                all_summaries.append(
+                    summary
+                )
+
+                successful.append(
+                    district
+                )
+
+            else:
+
+                failed.append(
+                    district
+                )
+
+        except Exception as error:
+
+            print(
+                f"\nERROR in {district}:"
+            )
+
+            print(error)
+
+            failed.append(
+                district
+            )
+
+    # --------------------------------------------------------
+    # CREATE MASTER DATASET
+    # --------------------------------------------------------
+
+    print(
+        "\n================================================"
+    )
+
+    print(
+        "CREATING MASTER DATASET"
+    )
+
+    print(
+        "================================================"
+    )
+
+    if not all_summaries:
+
+        print(
+            "No usable district data found."
+        )
+
+        return
+
+    master_df = pd.concat(
+        all_summaries,
         ignore_index=True
     )
 
+    # --------------------------------------------------------
+    # Final header-artifact removal
+    # --------------------------------------------------------
 
-    # Remove exact duplicate village records
+    master_df = remove_header_artifacts(
+        master_df
+    )
 
-    odisha_master_df = (
-        odisha_master_df
+    # --------------------------------------------------------
+    # Remove exact duplicate village keys
+    # --------------------------------------------------------
+
+    master_df = (
+        master_df
         .drop_duplicates(
             subset=[
                 "District",
@@ -877,9 +982,31 @@ if all_village_summaries:
         )
     )
 
+    # --------------------------------------------------------
+    # Remove invalid counts
+    # --------------------------------------------------------
+
+    master_df["Beneficiary_Count"] = pd.to_numeric(
+        master_df["Beneficiary_Count"],
+        errors="coerce"
+    )
+
+    master_df = master_df[
+        master_df["Beneficiary_Count"]
+        .notna()
+    ].copy()
+
+    master_df = master_df[
+        master_df["Beneficiary_Count"] > 0
+    ].copy()
+
+    master_df["Beneficiary_Count"] = (
+        master_df["Beneficiary_Count"]
+        .astype(int)
+    )
 
     # --------------------------------------------------------
-    # SAVE MASTER DATASET
+    # Save master
     # --------------------------------------------------------
 
     master_path = os.path.join(
@@ -887,159 +1014,117 @@ if all_village_summaries:
         "Odisha_FRA_Village_Master.csv"
     )
 
-
-    odisha_master_df.to_csv(
+    master_df.to_csv(
         master_path,
         index=False
     )
 
+    # --------------------------------------------------------
+    # VALIDATION
+    # --------------------------------------------------------
 
     print(
-        "\nOdisha master dataset saved!"
+        "\n================================================"
     )
 
     print(
-        "File:",
-        master_path
+        "FINAL MASTER DATASET"
+    )
+
+    print(
+        "================================================"
+    )
+
+    print(
+        "District folders found:",
+        len(districts)
+    )
+
+    print(
+        "Successfully processed:",
+        len(successful)
+    )
+
+    print(
+        "Failed:",
+        len(failed)
+    )
+
+    print(
+        "Districts in master:",
+        master_df["District"].nunique()
     )
 
     print(
         "Total village records:",
-        len(odisha_master_df)
+        len(master_df)
     )
-
-
-    # --------------------------------------------------------
-    # MASTER DATASET VALIDATION
-    # --------------------------------------------------------
-
-    print("\n")
-    print("MASTER DATASET CHECK")
-    print("----------------------------------------------")
-
-
-    print(
-        "Districts in master:",
-        odisha_master_df[
-            "District"
-        ].nunique()
-    )
-
-
-    print(
-        "Total villages:",
-        len(odisha_master_df)
-    )
-
 
     print(
         "Missing District:",
-        odisha_master_df[
-            "District"
-        ].isna().sum()
+        master_df["District"].isna().sum()
     )
-
 
     print(
         "Missing Block:",
-        odisha_master_df[
-            "Block"
-        ].isna().sum()
+        master_df["Block"].isna().sum()
     )
-
 
     print(
         "Missing Gram Panchayat:",
-        odisha_master_df[
+        master_df[
             "Gram Panchayat"
         ].isna().sum()
     )
 
-
     print(
         "Missing Village:",
-        odisha_master_df[
-            "Village"
-        ].isna().sum()
+        master_df["Village"].isna().sum()
     )
-
 
     print(
         "Missing Beneficiary Count:",
-        odisha_master_df[
+        master_df[
             "Beneficiary_Count"
         ].isna().sum()
     )
 
-
-    print("\nFirst 10 master records:")
-
     print(
-        odisha_master_df.head(10)
-    )
-
-
-else:
-
-    print(
-        "\nNo district data was successfully processed."
-    )
-
-
-
-# ============================================================
-# 12. PROCESSING SUMMARY
-# ============================================================
-
-print("\n")
-print("==============================================")
-print("PROCESSING SUMMARY")
-print("==============================================")
-
-
-print(
-    "District folders found:",
-    len(districts)
-)
-
-
-print(
-    "Successfully processed:",
-    len(successful_districts)
-)
-
-
-print(
-    "Failed / no usable data:",
-    len(failed_districts)
-)
-
-
-print(
-    "\nSuccessful districts:"
-)
-
-print(
-    successful_districts
-)
-
-
-if failed_districts:
-
-    print(
-        "\nFailed districts:"
+        "Duplicate village keys:",
+        master_df.duplicated(
+            subset=[
+                "District",
+                "Block",
+                "Gram Panchayat",
+                "Village"
+            ]
+        ).sum()
     )
 
     print(
-        failed_districts
+        "\nMaster file:"
+    )
+
+    print(
+        master_path
+    )
+
+    print(
+        "\n================================================"
+    )
+
+    print(
+        "PIPELINE COMPLETED SUCCESSFULLY"
+    )
+
+    print(
+        "================================================"
     )
 
 
 # ============================================================
-# 13. COMPLETED
+# START PROGRAM
 # ============================================================
 
-print("\n")
-print("==============================================")
-print("      PIPELINE COMPLETED SUCCESSFULLY")
-print("==============================================")
+if __name__ == "__main__":
+    main()

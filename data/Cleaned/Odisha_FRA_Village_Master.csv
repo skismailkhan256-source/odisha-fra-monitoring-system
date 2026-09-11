@@ -177,7 +177,6 @@ Angul,TALCHER,PADMABATIPUR,BARAPALI,3
 Angul,TALCHER,PADMABATIPUR,JORAGADIA,26
 Balasore,BALIAPAL,BETAGADIA,BETAGADIA,4
 Balasore,BALIAPAL,DAGARA,JUGADIHA,4
-Balasore,BLOCK,GRAM PANCHAYAT,VILLAGE,52
 Balasore,JALESWAR,BANIDA,SUGO,17
 Balasore,JALESWAR,DHARAMPUR,KALIKO,2
 Balasore,JALESWAR,KALIKA SAMIL DHARAMPUR,KALIKO,3
@@ -649,7 +648,6 @@ Bhadrakh,BHANDARIPOKHARI,PATULI,MOBARAKPUR,49
 Bhadrakh,BHANDARIPOKHARI,SANSASAN,BAHADULNAGAR,2
 Bhadrakh,BHANDARIPOKHARI,SARSADA,KUBERGADIA,10
 Bhadrakh,BHANDARIPOKHARI,SARSADA,UTTARAGADIA,2
-Bhadrakh,BLOCK,GRAM PANCHAYAT,VILLAGE,4
 Bolangir,AGALPUR,BADTIKA,BADATIKA,10
 Bolangir,AGALPUR,BADTIKA,LARAMBHAMUNDA,24
 Bolangir,AGALPUR,BENDRA,RAMPUR,9
@@ -695,7 +693,6 @@ Bolangir,BELPADA,TENTULIMUNDA,BARJURA,1
 Bolangir,BELPADA,TENTULIMUNDA,LAHERJURI,1
 Bolangir,BELPADA,TENTULIMUNDA,PANDESARA,1
 Bolangir,BELPADA,TENTULIMUNDA,SATCHUAN,1
-Bolangir,BLOCK,GRAM PANCHAYAT,VILLAGE,45
 Bolangir,DEOGAON,BADBAHAL,BUDHABAHAL,4
 Bolangir,DEOGAON,BANDHPADA,GHATULDUNGURI,13
 Bolangir,DEOGAON,DESAND,BHALUKUND,13
@@ -836,7 +833,6 @@ Bolangir,TUREKELA,TUREKELA,KUTURAKENDH,3
 Bolangir,TUREKELA,TUREKELA,PIPILIBANDH,1
 Bolangir,TUREKELA,TUREKELA,SATBAHANI,4
 Bolangir,TUREKELA,TUREKELA,TUREKELA,13
-Boudh,BLOCK,GRAM PANCHAYAT,VILLAGE,40
 Boudh,BOUDH,BAGHIAPADA,DURAGAPARSAD,7
 Boudh,BOUDH,BAGHIAPADA,PALSADADAR,18
 Boudh,BOUDH,BRAHMANIPALI,BARAKODA,33
@@ -1026,7 +1022,6 @@ Cuttackk,ATHAGARH,GOBARA,"RAJABALLAVEPUR,",1
 Cuttackk,ATHAGARH,GOBARA,RAJABALLAVPUR,11
 Cuttackk,ATHAGARH,GRAM PANCHAYAT,ORADA,37
 Cuttackk,ATHAGARH,GRAM PANCHAYAT,SARASWATIPUR,23
-Cuttackk,ATHAGARH,GRAM PANCHAYAT,VILLAGE,122
 Cuttackk,ATHAGARH,GURUDIJHATIA,BAGHABINDHA,13
 Cuttackk,ATHAGARH,GURUDIJHATIA,DABAGADIA,9
 Cuttackk,ATHAGARH,GURUDIJHATIA,KANDAMUGURI,1
@@ -1048,15 +1043,11 @@ Cuttackk,BADAMBA,"BADAKAMBILO,","DANDAKHUMBA,",6
 Cuttackk,BADAMBA,BUDHAPANK,KUANRPALA,28
 Cuttackk,BADAMBA,CHHANCHUNIA,BADAKAMBILO,45
 Cuttackk,BADAMBA,DASARATHIPUR,KHARODA,32
-Cuttackk,BADAMBA,GRAM PANCHAYAT,VILLAGE,57
 Cuttackk,BADAMBA,MANDIAPALI,MANDIAPALI,9
 Cuttackk,BADAMBA,TINIGHARIA,TINIGHARIA,22
 Cuttackk,BANKI,BANIA,KARADAPALI,5
-Cuttackk,BANKI,GRAM PANCHAYAT,VILLAGE,3
 Cuttackk,BANKI,PUICHA,GAHIRAGADIA,4
-Cuttackk,BANKI-DOMPADA,GRAM PANCHAYAT,VILLAGE,12
 Cuttackk,BANKI-DOMPADA,NANDAPUR,TALABASTA,39
-Cuttackk,BLOCK,GRAM PANCHAYAT,VILLAGE,34
 Cuttackk,NARSINGHPUR,BADABHUIN,BADABHUIN,20
 Cuttackk,NARSINGHPUR,BADABHUIN,NANDAGOLA,2
 Cuttackk,NARSINGHPUR,BARASINGA,BARASINGA,12
@@ -1074,7 +1065,6 @@ Cuttackk,NARSINGHPUR,DEBABHUIN,"KANDHADEBABHUIN,",19
 Cuttackk,NARSINGHPUR,DEBABHUIN,KARABIRA,9
 Cuttackk,NARSINGHPUR,DEBABHUIN,NUAGADA,3
 Cuttackk,NARSINGHPUR,DEBABHUIN,SERAMUNDA,10
-Cuttackk,NARSINGHPUR,GRAM PANCHAYAT,VILLAGE,63
 Cuttackk,NARSINGHPUR,GUPTAMANIKA,GUPTAMANIKA,14
 Cuttackk,NARSINGHPUR,JAYADAMODARPUR,JAYADAMODARPUR,11
 Cuttackk,NARSINGHPUR,JAYAPUR,JAYAPUR,4
@@ -1098,7 +1088,6 @@ Cuttackk,TANGI-CHOUDWAR,GARUDAGAON,GARUDAGAON,23
 Cuttackk,TANGI-CHOUDWAR,GARUDAGAON,KUSAPADA,15
 Cuttackk,TANGI-CHOUDWAR,GAURDAGAON,CHANDANPUR,13
 Cuttackk,TANGI-CHOUDWAR,GAURDAGAON,TANGI-CHOUDWAR,25
-Cuttackk,TANGI-CHOUDWAR,GRAM PANCHAYAT,VILLAGE,72
 Cuttackk,TANGI-CHOUDWAR,KOCHILANUAGAON,MANGARAJPUR,2
 Cuttackk,TANGI-CHOUDWAR,MANGARAJPUR,KOCHILANUAGAON,9
 Cuttackk,TANGI-CHOUDWAR,MANGARAJPUR,RAMACHANDRAPUR,18
@@ -1193,7 +1182,6 @@ Deogarh,BARKOTE,SINGHSAL,AMBGAON,9
 Deogarh,BARKOTE,SINGHSAL,GHANTIPASI,4
 Deogarh,BARKOTE,SINGHSAL,JAGANNATHAPUR,18
 Deogarh,BARKOTE,SINGHSAL,MASINTA,48
-Deogarh,BLOCK,GRAM PANCHAYAT,VILLAGE,177
 Deogarh,REAMAL,ADAS,ANDHARIKHOL,40
 Deogarh,REAMAL,ADAS,ANLAKULI,7
 Deogarh,REAMAL,ADAS,BAILADIHI,14
@@ -1386,7 +1374,6 @@ Dhenkanal,BHUBAN,DAYANABILI,CHHATIASAHI (KANHEIPAL),24
 Dhenkanal,BHUBAN,DHALPADA,JORAGADIA,16
 Dhenkanal,BHUBAN,DHALPADA,SENANDA,53
 Dhenkanal,BHUBAN,ODISHA,ODISHA,41
-Dhenkanal,BLOCK,GRAM PANCHAYAT,VILLAGE,130
 Dhenkanal,DHENKANAL SADAR,CHAULIA,CHAULIA,75
 Dhenkanal,DHENKANAL SADAR,MANIPUR,MANIPUR,58
 Dhenkanal,DHENKANAL SADAR,SAPTASAJYA,KAMANING,32
@@ -1922,7 +1909,6 @@ Ganjam,SURADA,SIDHAPUR,KHAJURIDIHA,24
 Ganjam,SURADA,SIDHAPUR,LAXMIPUR,19
 Ganjam,SURADA,SIDHAPUR,ORA,11
 Ganjam,SURADA,SIDHAPUR,TORADI,12
-Jagatsingpur,BLOCK,GRAM PANCHAYAT,VILLAGE,1
 Jagatsingpur,ERASAMA,PADMAPUR,RAMTARA,47
 Jajpur,AWŸPYÛ,ICÒ@Û,IÛZCÛY,40
 Jajpur,IÊKÒ¦Û,EÑÛÙIÛK,CJÊFLFÛ,36
@@ -1995,7 +1981,6 @@ Jajpur,\Û^M\Ú,_U_ÛK,AWŸGÒCKÒWÒJ,77
 Jajpur,\Û^M\Ú,ÙMÛAE]^_ÊE,@Û´WÛJÒ,173
 Jajpur,\Û^M\Ú,Ù\CKKY,LŠÊEÛA_ÛUYÛ,35
 Jajpur,ÙKÛÙEA,ZÛKMWŸÒ@Û,ÙMÛJÒEMXÒ@Û,22
-Jharuguda,BLOCK,GRAM PANCHAYAT,VILLAGE,49
 Jharuguda,JHARSUGUDA,BADMAL,BADMAL,18
 Jharuguda,JHARSUGUDA,BADMAL,BRUNDAMAL,17
 Jharuguda,JHARSUGUDA,CHANDINIMAL,BARPALI,2
@@ -2872,7 +2857,6 @@ Kalahandi,TH.RAMPUR,TH. RAMPUR,KASABARA,3
 Kalahandi,TH.RAMPUR,TH. RAMPUR,MELKUNDAL,70
 Kalahandi,TH.RAMPUR,UDRI,TANGRI,8
 Kalahandi,TH.RAMPUR,URLADANI,TALCHIGUDA ( GANDIGUDA),8
-Kendrapada,BLOCK,GRAM PANCHAYAT,VILLAGE,1
 Kendrapada,MAHAKALAPADA,BARAKENDA,LUNIMATIA,98
 Kendrapada,MAHAKALAPADA,BAULAKANI,BAGHUAMEDI,85
 Kendrapada,MAHAKALAPADA,BAULAKANI,PANDARMAILE,33
@@ -7626,8 +7610,7 @@ Mayurbhanj,Badasahi,Jarkani,Jamsole,1
 Mayurbhanj,Badasahi,Kochilakhunta,Ghusuria,42
 Mayurbhanj,Badasahi,Kochilakhunta,Junapada,44
 Mayurbhanj,Badasahi,Kuchilakhunta,Kuchilakhunta,9
-Mayurbhanj,Badasahi,"Managobinda
-pur",Dhanapal,5
+Mayurbhanj,Badasahi,Managobinda pur,Dhanapal,5
 Mayurbhanj,Badasahi,Paunsia,Jaganathpur,34
 Mayurbhanj,Badasahi,Paunsia,Paunsia,23
 Mayurbhanj,Badasahi,Paunsia,Rajgarh,62
@@ -7649,10 +7632,8 @@ Mayurbhanj,Badsahi,Badsahi,Badsahi,34
 Mayurbhanj,Badsahi,Balabhadrapur,Chelia B,5
 Mayurbhanj,Badsahi,Balabhadrapur,Chhelia B,1
 Mayurbhanj,Badsahi,Bhimda,Ratanpur,28
-Mayurbhanj,Badsahi,Bireswappur,"Belpal Samil
-Purunapani",5
-Mayurbhanj,Badsahi,Bireswapur,"Belpal Samil
-Purunapani",137
+Mayurbhanj,Badsahi,Bireswappur,Belpal Samil Purunapani,5
+Mayurbhanj,Badsahi,Bireswapur,Belpal Samil Purunapani,137
 Mayurbhanj,Badsahi,Bireswarpur,Belpal-Samil-Purunapani,33
 Mayurbhanj,Badsahi,Durgapur,Asukanda,24
 Mayurbhanj,Badsahi,Durgapur,Gandhali,14
@@ -7680,16 +7661,12 @@ Mayurbhanj,Badsahi,Patisari,Patisari,27
 Mayurbhanj,Badsahi,Paunsia,Bhandarikala,7
 Mayurbhanj,Badsahi,Pratapur,Haripur,27
 Mayurbhanj,Badsahi,Punasia,Gidhinisole,6
-Mayurbhanj,Badsahi,"Purna Chandra
-Pur",Naranapur,16
-Mayurbhanj,Badsahi,"Purna Chandra
-Pur",Sansarishabhila,1
-Mayurbhanj,Badsahi,Purnachandrapur,"Goudadiha
-Samil Komalasole",29
+Mayurbhanj,Badsahi,Purna Chandra Pur,Naranapur,16
+Mayurbhanj,Badsahi,Purna Chandra Pur,Sansarishabhila,1
+Mayurbhanj,Badsahi,Purnachandrapur,Goudadiha Samil Komalasole,29
 Mayurbhanj,Badsahi,Purnachandrapur,Madhupur,24
 Mayurbhanj,Badsahi,Purnachandrapur,Purnachandrapur,35
-Mayurbhanj,Badsahi,Purnnachandrapur,"Goudadiha
-Samil Komalasole",2
+Mayurbhanj,Badsahi,Purnnachandrapur,Goudadiha Samil Komalasole,2
 Mayurbhanj,Badsahi,Purnnachandrapur,Purnnachandrapur,1
 Mayurbhanj,Badsahi,Sankeroka,Jadipal,16
 Mayurbhanj,Badsahi,Shalgan,Gambharia,17
@@ -7811,13 +7788,9 @@ Mayurbhanj,Bangiriposi,K.M Kata,Begunadiha,34
 Mayurbhanj,Bangiriposi,Kalabadia,Brahamangan,12
 Mayurbhanj,Bangiriposi,Kalabadia,Kalabadia,6
 Mayurbhanj,Bangiriposi,Kalabadia,Panasadiha,11
-Mayurbhanj,Bangiriposi,"Kumbhara
-mundakata",Gahmapur,13
-Mayurbhanj,Bangiriposi,"Kumbhara
-mundakata",Gahnapur,1
-Mayurbhanj,Bangiriposi,"Kumbhara
-mundakata","Kumbhara
-mundakata",103
+Mayurbhanj,Bangiriposi,Kumbhara mundakata,Gahmapur,13
+Mayurbhanj,Bangiriposi,Kumbhara mundakata,Gahnapur,1
+Mayurbhanj,Bangiriposi,Kumbhara mundakata,Kumbhara mundakata,103
 Mayurbhanj,Bangiriposi,Kumbhara Mundakata,Kumbhara Mundakata,101
 Mayurbhanj,Bangiriposi,Kumbhara Mundakata,KumbharaMundakata,1
 Mayurbhanj,Bangiriposi,Kumbharmundhakata,Gamhapur,28
@@ -7938,8 +7911,7 @@ Mayurbhanj,Bangripsoi,Sorishapal,Amdapani,18
 Mayurbhanj,Baripada,Badajod,Badajod,6
 Mayurbhanj,Baripada,Badjod,Badjod,122
 Mayurbhanj,Baripada,Bankisole,Badabila,32
-Mayurbhanj,Baripada,Bankisole,"Badabrahman
-mara",15
+Mayurbhanj,Baripada,Bankisole,Badabrahman mara,15
 Mayurbhanj,Baripada,Bankisole,Bankisole,64
 Mayurbhanj,Baripada,Bankisole,Sanbrahmanmara,23
 Mayurbhanj,Baripada,Bankisole,Tentulisole,50
@@ -7950,11 +7922,8 @@ Mayurbhanj,Baripada,Bhagabatachandra,Urachandabila,8
 Mayurbhanj,Baripada,Bhagabatch.pur,Jaganathpur,7
 Mayurbhanj,Baripada,Bhagabatchandrapur,Dhansole,27
 Mayurbhanj,Baripada,Bhagabatchpur,Bhagabat Ch.pur,49
-Mayurbhanj,Baripada,"Budhikha
-mari","Ahari ""କ""",11
-Mayurbhanj,Baripada,"Budhikha
-mari","Naya Purusot
-tampur",13
+Mayurbhanj,Baripada,Budhikha mari,"Ahari ""କ""",11
+Mayurbhanj,Baripada,Budhikha mari,Naya Purusot tampur,13
 Mayurbhanj,Baripada,Budhikhamari,Ahari,21
 Mayurbhanj,Baripada,Budhikhamari,Budhikhamari,35
 Mayurbhanj,Baripada,Budhikhamari,Kailashchandrapur,37
@@ -8023,13 +7992,9 @@ Mayurbhanj,Betnoti,Ambagadia,Ambagadia,16
 Mayurbhanj,Betnoti,Ambagadia,Bamada,17
 Mayurbhanj,Betnoti,Ambagadia,Mantridahi,8
 Mayurbhanj,Betnoti,Ambagadia,Purunapani,1
-Mayurbhanj,Betnoti,Ambagadia,"Purunapani
-Samil Kakharu
-Kunta",37
-Mayurbhanj,Betnoti,Ambagadia,"Samil Kakharu
-Kunta",1
-Mayurbhanj,Betnoti,Ambagadia,"Samil Kakharu G
-Kunta",1
+Mayurbhanj,Betnoti,Ambagadia,Purunapani Samil Kakharu Kunta,37
+Mayurbhanj,Betnoti,Ambagadia,Samil Kakharu Kunta,1
+Mayurbhanj,Betnoti,Ambagadia,Samil Kakharu G Kunta,1
 Mayurbhanj,Betnoti,Ambagodia,Ambagodia,23
 Mayurbhanj,Betnoti,Ambagodia,Purunapani,6
 Mayurbhanj,Betnoti,Baishnga,Padmapur,12
@@ -8216,8 +8181,7 @@ Mayurbhanj,Bisoi,Asana,Talak Budi,31
 Mayurbhanj,Bisoi,Asana,Talakbudi,3
 Mayurbhanj,Bisoi,Asana,Tolakbadi,12
 Mayurbhanj,Bisoi,Asana,arjunbila,1
-Mayurbhanj,Bisoi,"Asana
-Asana",Arjunbila,2
+Mayurbhanj,Bisoi,Asana Asana,Arjunbila,2
 Mayurbhanj,Bisoi,BAUTIBEDA,OSHADALA,23
 Mayurbhanj,Bisoi,Bad Manada,Alhapani,12
 Mayurbhanj,Bisoi,Bad Manada,Andharjhari,10
@@ -8262,8 +8226,7 @@ Mayurbhanj,Bisoi,Bautibeda,Patijhari,8
 Mayurbhanj,Bisoi,Bautibeda,Purna balichua,1
 Mayurbhanj,Bisoi,Bautibeda,Puruna balichua,44
 Mayurbhanj,Bisoi,Bautibeda,puruna balichua,3
-Mayurbhanj,Bisoi,"Bautibeda
-Bautibeda",Puruna balichua,2
+Mayurbhanj,Bisoi,Bautibeda Bautibeda,Puruna balichua,2
 Mayurbhanj,Bisoi,Bisoi,Asansikhar,24
 Mayurbhanj,Bisoi,Bisoi,Bisoi Hil,31
 Mayurbhanj,Bisoi,Bisoi,Ektali,26
@@ -8302,8 +8265,7 @@ Mayurbhanj,Bisoi,Khadambeda,argalbindha,1
 Mayurbhanj,Bisoi,Khadambeda,keshargadia,10
 Mayurbhanj,Bisoi,Khadambeda,kitabeda,28
 Mayurbhanj,Bisoi,Khadambeda,pundida,36
-Mayurbhanj,Bisoi,"Khadambeda
-Khadambeda",Chuakankar,8
+Mayurbhanj,Bisoi,Khadambeda Khadambeda,Chuakankar,8
 Mayurbhanj,Bisoi,Luhakani,Fhuljhara,1
 Mayurbhanj,Bisoi,Luhakani,Fulhjara,5
 Mayurbhanj,Bisoi,Luhakani,Fuljhara,14
@@ -8316,10 +8278,8 @@ Mayurbhanj,Bisoi,Luhakani,Kundra,14
 Mayurbhanj,Bisoi,Luhakani,Laxmiposi,8
 Mayurbhanj,Bisoi,Luhakani,Luhamalia,23
 Mayurbhanj,Bisoi,Luhakani,Manicha,3
-Mayurbhanj,Bisoi,"Luhakani
-Luhakani",Gargadi,2
-Mayurbhanj,Bisoi,"Luhakani
-Luhakani",Laxmiposi,4
+Mayurbhanj,Bisoi,Luhakani Luhakani,Gargadi,2
+Mayurbhanj,Bisoi,Luhakani Luhakani,Laxmiposi,4
 Mayurbhanj,Bisoi,Manada,Radhanagar,15
 Mayurbhanj,Bisoi,Nuagan,Tambalbandh,7
 Mayurbhanj,Bisoi,Nuagaon,Badanalua,5
@@ -8348,61 +8308,20 @@ Mayurbhanj,Bisoi,Sanpurunapani,Alhapani,6
 Mayurbhanj,Bisoi,Sanpurunapani,Brahamanposi,16
 Mayurbhanj,Bisoi,khadambeda,Argalbindha,1
 Mayurbhanj,Block,Gram Panchayat,Vilage,16
-Mayurbhanj,"Block
--do-","Gram Panchayat
--do-","Vilage
--do-",85
-Mayurbhanj,"Block
-Bijatala","Gram Panchayat
-Badjharan","Vilage
-Gopinathpur",2
-Mayurbhanj,"Block
-Bijatala","Gram Panchayat
-Khanta","Vilage
-Champauda",2
-Mayurbhanj,"Block
-Bijatala","Gram Panchayat
-Khanta","Vilage
-Nushadihi",2
-Mayurbhanj,"Block
-Bijatala","Gram Panchayat
-Khanta","Vilage
-Pithakutuni",2
-Mayurbhanj,"Block
-Bijatala","Gram Panchayat
-Raihari","Vilage
-Tulsibani",2
-Mayurbhanj,"Block
-Bisoi","Gram Panchayat
-Bad Manada","Vilage
-Hatichad",2
-Mayurbhanj,"Block
-Bisoi","Gram Panchayat
-Khadambeda","Vilage
-Khadambeda",2
-Mayurbhanj,"Block
-Do","Gram Panchayat
-Do",Asanbani,6
-Mayurbhanj,"Block
-Do","Gram Panchayat
-Do","Vilage
-Asanbani",2
-Mayurbhanj,"Block
-Do","Gram Panchayat
-Do","Vilage
-Badnai",2
-Mayurbhanj,"Block
-Karanjia","Gram Panchayat
-Kuliposi","Vilage
-Cheliaposi",2
-Mayurbhanj,"Block
-Kuliana","Gram Panchayat
-Gendapokhari","Vilage
-Baidikotha",1
-Mayurbhanj,"Block
-RAIRANGPUR","Gram Panchayat
-GUHALDUNGURI","Vilage
-KALARABANI",2
+Mayurbhanj,Block -do-,Gram Panchayat -do-,Vilage -do-,85
+Mayurbhanj,Block Bijatala,Gram Panchayat Badjharan,Vilage Gopinathpur,2
+Mayurbhanj,Block Bijatala,Gram Panchayat Khanta,Vilage Champauda,2
+Mayurbhanj,Block Bijatala,Gram Panchayat Khanta,Vilage Nushadihi,2
+Mayurbhanj,Block Bijatala,Gram Panchayat Khanta,Vilage Pithakutuni,2
+Mayurbhanj,Block Bijatala,Gram Panchayat Raihari,Vilage Tulsibani,2
+Mayurbhanj,Block Bisoi,Gram Panchayat Bad Manada,Vilage Hatichad,2
+Mayurbhanj,Block Bisoi,Gram Panchayat Khadambeda,Vilage Khadambeda,2
+Mayurbhanj,Block Do,Gram Panchayat Do,Asanbani,6
+Mayurbhanj,Block Do,Gram Panchayat Do,Vilage Asanbani,2
+Mayurbhanj,Block Do,Gram Panchayat Do,Vilage Badnai,2
+Mayurbhanj,Block Karanjia,Gram Panchayat Kuliposi,Vilage Cheliaposi,2
+Mayurbhanj,Block Kuliana,Gram Panchayat Gendapokhari,Vilage Baidikotha,1
+Mayurbhanj,Block RAIRANGPUR,Gram Panchayat GUHALDUNGURI,Vilage KALARABANI,2
 Mayurbhanj,Bosoi,Asana,Raikadkacha,4
 Mayurbhanj,Bosoi,Baneikala,Gunduria,2
 Mayurbhanj,G.B Nagar,Bhandagan,Anantasahi,30
@@ -9006,8 +8925,7 @@ Mayurbhanj,Khunta,Dukura,Angarakundia,4
 Mayurbhanj,Khunta,Dukura,Dukura,2
 Mayurbhanj,Khunta,Dukura,Kandalia,19
 Mayurbhanj,Khunta,Dukura,Nuagan,9
-Mayurbhanj,Khunta,Gadigan,"Anandapur
-(Bankigadi)",25
+Mayurbhanj,Khunta,Gadigan,Anandapur (Bankigadi),25
 Mayurbhanj,Khunta,Gadigan,Debela,8
 Mayurbhanj,Khunta,Gadigan,Gadigan,19
 Mayurbhanj,Khunta,Gadigan,Kanheibandh,4
@@ -9054,8 +8972,7 @@ Mayurbhanj,Kuliana,Gangraj,Dahigaon,4
 Mayurbhanj,Kuliana,Gangraj,Gangraj,1
 Mayurbhanj,Kuliana,Gangraj,Salugadia,4
 Mayurbhanj,Kuliana,Gangraj,Tumuda,3
-Mayurbhanj,Kuliana,"Genda
-pokhari",Mundhabani,4
+Mayurbhanj,Kuliana,Genda pokhari,Mundhabani,4
 Mayurbhanj,Kuliana,Genda Pokhari,Tiringdihi,10
 Mayurbhanj,Kuliana,Gendapokhari,Baidikotha,21
 Mayurbhanj,Kuliana,Gendapokhari,Gendapokhari,63
@@ -9254,55 +9171,14 @@ Mayurbhanj,Kusumi,joypur,ghungupahadi,11
 Mayurbhanj,Kusumi,joypur,shyamsundar,27
 Mayurbhanj,Kusumi,mayurdara,Keshoregodia,20
 Mayurbhanj,Kusumi,mayurdara,Ukam,10
-Mayurbhanj,"Kusumi
-Kusumi
-Kusumi
-Kusumi","Kusumi
-Kusumi
-Kusumi
-Kusumi","Kusumi
-Kusumi
-Kusumi
-Kusumi",1
-Mayurbhanj,"Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi","Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi","Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi
-Kusumi",1
+Mayurbhanj,Kusumi Kusumi Kusumi Kusumi,Kusumi Kusumi Kusumi Kusumi,Kusumi Kusumi Kusumi Kusumi,1
+Mayurbhanj,Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi,Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi,Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi Kusumi,1
 Mayurbhanj,Kusumi (Jashipur,Badahatinabeda,Badahatinabeda,1
 Mayurbhanj,Kusumi (Jashipur,Badahatinabeda,Basaghutu,1
 Mayurbhanj,Morada,Barkand,Baligadia,4
-Mayurbhanj,Morada,Barkand,"Guhaladiha Samil
-Poda Khunta",4
+Mayurbhanj,Morada,Barkand,Guhaladiha Samil Poda Khunta,4
 Mayurbhanj,Morada,Barkand,Tiansi,20
-Mayurbhanj,Morada,Bhaliadiha,"Dakoi
-Amalanama",28
+Mayurbhanj,Morada,Bhaliadiha,Dakoi Amalanama,28
 Mayurbhanj,Morada,Bhaliadiha,Gandigadha,27
 Mayurbhanj,Morada,Bhaliadiha,Jhiliribani,34
 Mayurbhanj,Morada,Bhaliadiha,Kendu chatia,36
@@ -9368,10 +9244,8 @@ Mayurbhanj,Morada,Jualibhanga,Angaria,4
 Mayurbhanj,Morada,Jualibhanga,Bhaurangi,4
 Mayurbhanj,Morada,Jualibhanga,Kalianala,4
 Mayurbhanj,Morada,Jualibhanga,Makunda,36
-Mayurbhanj,Morada,Jualibhanga,"Purna
-chandrapur",76
-Mayurbhanj,Morada,Jualibhanga,"Purnna
-chandrapur",2
+Mayurbhanj,Morada,Jualibhanga,Purna chandrapur,76
+Mayurbhanj,Morada,Jualibhanga,Purnna chandrapur,2
 Mayurbhanj,Morada,Kohi,Badabhila,6
 Mayurbhanj,Morada,Kohi,Badafera,106
 Mayurbhanj,Morada,Kohi,Badfera,3
@@ -9386,18 +9260,14 @@ Mayurbhanj,Morada,Nuagoan,Ajan,23
 Mayurbhanj,Morada,Nuagoan,Ghagara,6
 Mayurbhanj,Morada,Nuhajhalia,Badasole,7
 Mayurbhanj,Morada,Nuhajhalia,Badasule,44
-Mayurbhanj,Morada,Nuhajhalia,"Brahmana
-mara",23
+Mayurbhanj,Morada,Nuhajhalia,Brahmana mara,23
 Mayurbhanj,Morada,Nuhajhalia,Dhireidihi,7
-Mayurbhanj,Morada,Nuhajhalia,"Dhireidihi samil
-Hatidahara",34
+Mayurbhanj,Morada,Nuhajhalia,Dhireidihi samil Hatidahara,34
 Mayurbhanj,Morada,Palasamundali,Harekrushnapur,10
 Mayurbhanj,Morada,Palasamundali,Khuruntia,35
 Mayurbhanj,Morada,Palasamundali,Palasamundali,3
-Mayurbhanj,Morada,"Sanamundha
-bani",Pariakuli,14
-Mayurbhanj,Morada,"Sanamundha
-bani",Sarasole,46
+Mayurbhanj,Morada,Sanamundha bani,Pariakuli,14
+Mayurbhanj,Morada,Sanamundha bani,Sarasole,46
 Mayurbhanj,Morada,Sanmundabani,Baghajharana,46
 Mayurbhanj,Morada,Sanmundhabani,Khuntapal,14
 Mayurbhanj,Morada,Sanmundhabani,Paramananda,2
@@ -9425,10 +9295,8 @@ Mayurbhanj,Moroda,Sureidihi,Chakundapada,28
 Mayurbhanj,Moroda,Sureidihi,Gandigadha,21
 Mayurbhanj,Moroda,Sureidihi,Jhinkiriasole,13
 Mayurbhanj,Moroda,Sureidihi,Kachimbila,35
-Mayurbhanj,Name of the Block,Name of the G.P.,"Name of the Revenue
-vilage",1
-Mayurbhanj,Name of the Block,Name of the G.P.,Name of the Revenue Vilage,1
 Mayurbhanj,Name of the Block,Name of the G.P.,Name of the Revenue vilage,1
+Mayurbhanj,Name of the Block,Name of the G.P.,Name of the Revenue Vilage,1
 Mayurbhanj,R.G. Pur,Deosole,Musamari,6
 Mayurbhanj,R.G. Pur,Deosole,Ram Ch. Pur,2
 Mayurbhanj,R.G. Pur,Khunta,Kamardiha,1
@@ -9495,14 +9363,8 @@ Mayurbhanj,RAIRANGPUR,SUDARSHANPUR,DUDHICHUA,6
 Mayurbhanj,RAIRANGPUR,SUDARSHANPUR,GHAGARADHIPA,12
 Mayurbhanj,RAIRANGPUR,SUDARSHANPUR,SANJARI,8
 Mayurbhanj,RAIRANGPUR,SUDARSHANPUR,UDAYPUR,12
-Mayurbhanj,"RAIRANGPUR
-RAIRANGPUR","BHALUBASA
-BHALUBASA","BHALUBASA
-NAUJODA",1
-Mayurbhanj,"RAIRANGPUR
-RAIRANGPUR","KULEISILA
-KULEISILA","GARUDAPANI
-GARUDAPANI",1
+Mayurbhanj,RAIRANGPUR RAIRANGPUR,BHALUBASA BHALUBASA,BHALUBASA NAUJODA,1
+Mayurbhanj,RAIRANGPUR RAIRANGPUR,KULEISILA KULEISILA,GARUDAPANI GARUDAPANI,1
 Mayurbhanj,RARUAIN,Ghagarbeda,Ghagarbeda,13
 Mayurbhanj,RARUAIN,Ghagarbeda,Maricha,6
 Mayurbhanj,RARUAIN,Panapataria,Maricha,1
@@ -9638,57 +9500,34 @@ Mayurbhanj,Raruan,Raruan,Khuntapada,76
 Mayurbhanj,Raruan,Raruan,Tilusahi,19
 Mayurbhanj,Raruan,Tilakuti,Papada,6
 Mayurbhanj,Rasagovindpur,Dabasul,Musamari,1
-Mayurbhanj,"Rasgobin
-dapur",Kamardiha,Majanadiha,2
-Mayurbhanj,"Rasgobin
-dapur",Nalagaja,Bahagodia,35
-Mayurbhanj,"Rasgobin
-dapur",Raghabpur,Raghabpur,2
-Mayurbhanj,"Rasgobin
-dapur",Raghabpur,Shrinathapur,3
+Mayurbhanj,Rasgobin dapur,Kamardiha,Majanadiha,2
+Mayurbhanj,Rasgobin dapur,Nalagaja,Bahagodia,35
+Mayurbhanj,Rasgobin dapur,Raghabpur,Raghabpur,2
+Mayurbhanj,Rasgobin dapur,Raghabpur,Shrinathapur,3
 Mayurbhanj,Rasgobind pur,Nakichua,Andharia,19
 Mayurbhanj,Rasgobind pur,Nakichua,Betnasia,19
 Mayurbhanj,Rasgobind pur,Nakichua,Raisole,8
 Mayurbhanj,Rasgobinda,Nalagaja,Nahyashole,1
 Mayurbhanj,Rasgobinda,Nalagaja,Sunakania,1
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Denganalia,18
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Ghasamari,2
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Kaptipada,3
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Mirdhapur,14
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Tikpada,8
-Mayurbhanj,"Rasgobinda
-pur",Jhatiada,Tipura,16
-Mayurbhanj,"Rasgobinda
-pur",Kamaradiha,Dhansole,1
-Mayurbhanj,"Rasgobinda
-pur",Kamardiha,Jharia,49
-Mayurbhanj,"Rasgobinda
-pur",Kamardiha,Panchamania,1
-Mayurbhanj,"Rasgobinda
-pur",Khuntapal,Udalipal,1
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Bhakasole,10
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Bhakasole P,1
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Kulipal,9
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Nahyashole,4
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Sabanadiha,9
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Sukhilakhali,8
-Mayurbhanj,"Rasgobinda
-pur",Nalagaja,Sunakania,18
-Mayurbhanj,"Rasgobinda
-pur",Nalaganja,Mahulia,6
-Mayurbhanj,"Rasgobinda
-pur",Nalaganja,Nalaganja,17
+Mayurbhanj,Rasgobinda pur,Jhatiada,Denganalia,18
+Mayurbhanj,Rasgobinda pur,Jhatiada,Ghasamari,2
+Mayurbhanj,Rasgobinda pur,Jhatiada,Kaptipada,3
+Mayurbhanj,Rasgobinda pur,Jhatiada,Mirdhapur,14
+Mayurbhanj,Rasgobinda pur,Jhatiada,Tikpada,8
+Mayurbhanj,Rasgobinda pur,Jhatiada,Tipura,16
+Mayurbhanj,Rasgobinda pur,Kamaradiha,Dhansole,1
+Mayurbhanj,Rasgobinda pur,Kamardiha,Jharia,49
+Mayurbhanj,Rasgobinda pur,Kamardiha,Panchamania,1
+Mayurbhanj,Rasgobinda pur,Khuntapal,Udalipal,1
+Mayurbhanj,Rasgobinda pur,Nalagaja,Bhakasole,10
+Mayurbhanj,Rasgobinda pur,Nalagaja,Bhakasole P,1
+Mayurbhanj,Rasgobinda pur,Nalagaja,Kulipal,9
+Mayurbhanj,Rasgobinda pur,Nalagaja,Nahyashole,4
+Mayurbhanj,Rasgobinda pur,Nalagaja,Sabanadiha,9
+Mayurbhanj,Rasgobinda pur,Nalagaja,Sukhilakhali,8
+Mayurbhanj,Rasgobinda pur,Nalagaja,Sunakania,18
+Mayurbhanj,Rasgobinda pur,Nalaganja,Mahulia,6
+Mayurbhanj,Rasgobinda pur,Nalaganja,Nalaganja,17
 Mayurbhanj,Rasgobindapur,Badampur,Badampur,42
 Mayurbhanj,Rasgobindapur,Badampur,Badhi,6
 Mayurbhanj,Rasgobindapur,Badampur,Benashol,14
@@ -9701,8 +9540,7 @@ Mayurbhanj,Rasgobindapur,Chatna,Jahari,4
 Mayurbhanj,Rasgobindapur,Chatna,Palasabadha,35
 Mayurbhanj,Rasgobindapur,Chhatna,Jahari,1
 Mayurbhanj,Rasgobindapur,Chhatna,Palasabadha,1
-Mayurbhanj,Rasgobindapur,Debsole,"Ramchandra
-pur",4
+Mayurbhanj,Rasgobindapur,Debsole,Ramchandra pur,4
 Mayurbhanj,Rasgobindapur,Jhatiada,Harinasole,36
 Mayurbhanj,Rasgobindapur,Jhatiada,Kiakhali,14
 Mayurbhanj,Rasgobindapur,Khuntapal,Biripal,2
@@ -9713,8 +9551,7 @@ Mayurbhanj,Rasgobindapur,Nakichua,Ambdiha,16
 Mayurbhanj,Rasgobindapur,Nakichua,Bhaliapada,8
 Mayurbhanj,Rasgobindapur,Nakichua,Kanhupur,20
 Mayurbhanj,Rasgobindapur,Nakichua,Nakichua,19
-Mayurbhanj,Rasgobindapur,Nakichua,"Shyamananda
-pur",15
+Mayurbhanj,Rasgobindapur,Nakichua,Shyamananda pur,15
 Mayurbhanj,Rasgobindapur,Nalagaja,Jhirani,37
 Mayurbhanj,Rasgobindapur,Saramula,Baghasahi,15
 Mayurbhanj,Rasgobindapur,Saramula,Dhanasole,6
@@ -9871,8 +9708,7 @@ Mayurbhanj,Saraskana,Rajaloka,Belbaria,12
 Mayurbhanj,Saraskana,Rajaloka,Krushna Chandrapur,68
 Mayurbhanj,Saraskana,Rajaloka,Rajaloka,6
 Mayurbhanj,Saraskana,Rajaloka,Saragada,14
-Mayurbhanj,Saraskana,Sankhabhanga,"Bhadua Samil
-bachuribandha",11
+Mayurbhanj,Saraskana,Sankhabhanga,Bhadua Samil bachuribandha,11
 Mayurbhanj,Saraskana,Sankhabhanga,Ghuma,22
 Mayurbhanj,Saraskana,Sankhabhanga,Jarki,8
 Mayurbhanj,Saraskana,Sankhabhanga,Jodajam,85
@@ -9935,8 +9771,7 @@ Mayurbhanj,Shamakhunta,Kalapathara,Fbani Ho,1
 Mayurbhanj,Shamakhunta,Kalapathara,Hinjalagodia,119
 Mayurbhanj,Shamakhunta,Kalapathara,Jhiliribani,88
 Mayurbhanj,Shamakhunta,Kendua,Kendujhari,57
-Mayurbhanj,Shamakhunta,Kendua,"Saratchandra
-pur",47
+Mayurbhanj,Shamakhunta,Kendua,Saratchandra pur,47
 Mayurbhanj,Shamakhunta,Khandia,Goudaduma,6
 Mayurbhanj,Shamakhunta,Khandia,Goudruhma,27
 Mayurbhanj,Shamakhunta,Khandia,Inkidapal,4
@@ -9944,8 +9779,7 @@ Mayurbhanj,Shamakhunta,Khandia,Sankochiamara,20
 Mayurbhanj,Shamakhunta,Khandia,Shankhadar,10
 Mayurbhanj,Shamakhunta,Kochilaghati,Jangal Block,61
 Mayurbhanj,Shamakhunta,Kochilaghati,Kochilaghati,42
-Mayurbhanj,Shamakhunta,Kochilaghati,"Krushna
-chandrapur",2
+Mayurbhanj,Shamakhunta,Kochilaghati,Krushna chandrapur,2
 Mayurbhanj,Shamakhunta,Kochilaghaty,Tarajodi,11
 Mayurbhanj,Shamakhunta,Kuchilaghati,Pithabata,19
 Mayurbhanj,Shamakhunta,Mahulia,Itamundia,32
@@ -10271,9 +10105,7 @@ Mayurbhanj,Udala,Nuagan,(Phulbadia),6
 Mayurbhanj,Udala,Nuagan,Jamudiha,246
 Mayurbhanj,Udala,Nuagan,Nuagan,10
 Mayurbhanj,Udala,Patsanipur,Ambikadeipur,82
-Mayurbhanj,Udala,Patsanipur,"Ambikadeipur
-(Baniadhar)",11
-Mayurbhanj,Udala,Patsanipur,Ambikadeipur (Baniadhar),32
+Mayurbhanj,Udala,Patsanipur,Ambikadeipur (Baniadhar),11
 Mayurbhanj,Udala,Patsanipur,Ambikadeipur (Hatikut),83
 Mayurbhanj,Udala,Patsanipur,Barahmpur,15
 Mayurbhanj,Udala,Patsanipur,Chandrapur,105
@@ -10305,7 +10137,6 @@ Mayurbhanj,karanjia,Rasamatala,Kadambeda,7
 Mayurbhanj,karanjia,Rasamatala,Kuduma,17
 Mayurbhanj,pur,Nalagaja,Bhakasole,1
 Mayurbhanj,pur,Nalagaja,Sunakania,1
-Nayagarh,BLOCK,GRAM PANCHAYAT,VILLAGE,190
 Nayagarh,DASPALLA,BANIGOCHHA,BANIBIRI,19
 Nayagarh,DASPALLA,BANIGOCHHA,BANIGOCHHA,16
 Nayagarh,DASPALLA,BANIGOCHHA,BANIGOCHHA KHESARA,12
@@ -10547,7 +10378,6 @@ Nayagarh,RANAPUR,BONDHAMUNDA,BRAMHANKUMEI.,12
 Nayagarh,RANAPUR,BONDHAMUNDA,NATHPUR,12
 Nayagarh,RANAPUR,PATIA,KADAMJHOLA,32
 Nayagarh,RANAPUR,RAIPADA,RANIGADIA,10
-Nuapada,BLOCK,GRAM PANCHAYAT,VILLAGE,108
 Nuapada,BODEN,BABEBIR,BABEBIR,7
 Nuapada,BODEN,BHAINSADANI,BHAINSADANI,23
 Nuapada,BODEN,BHAINSADANI,DHOBEI,25
@@ -12612,7 +12442,6 @@ Subarnapur,BIRMAHARAJPUR,DURJANTAILA,MASINAPALI,17
 Subarnapur,BIRMAHARAJPUR,DURJANTAILA,MASINAPALI J,3
 Subarnapur,BIRMAHARAJPUR,PITAMAHUL,DURDURA,15
 Subarnapur,BIRMAHARAJPUR,PITAMAHUL,THAKURPUR,7
-Subarnapur,BLOCK,GRAM PANCHAYAT,VILLAGE,9
 Subarnapur,DUNGURIPALI,LINGMARNI,LUDKIBEDA,2
 Subarnapur,SONEPUR,CHAHATAKHOL,CHAHATAKHOL,1
 Subarnapur,SONEPUR,CHHAHATAKHOL,CHHAHATAKHOL,3
