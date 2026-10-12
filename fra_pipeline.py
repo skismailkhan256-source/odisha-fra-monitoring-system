@@ -1,7 +1,7 @@
-# ============================================================
+
 # ODISHA FRA MONITORING SYSTEM
 # AUTOMATIC DATA CLEANING + DISTRICT MERGING PIPELINE
-# ============================================================
+
 
 import os
 import re
@@ -9,9 +9,9 @@ import pdfplumber
 import pandas as pd
 
 
-# ============================================================
+
 # 1. PATHS
-# ============================================================
+
 
 RAW_DATA_PATH = "data/raw"
 CLEANED_DATA_PATH = "data/Cleaned"
@@ -19,9 +19,8 @@ CLEANED_DATA_PATH = "data/Cleaned"
 os.makedirs(CLEANED_DATA_PATH, exist_ok=True)
 
 
-# ============================================================
 # 2. STANDARD COLUMNS
-# ============================================================
+
 
 RAW_COLUMNS = [
     "Sl. No.",
@@ -40,9 +39,9 @@ SUMMARY_COLUMNS = [
 ]
 
 
-# ============================================================
+
 # 3. BASIC TEXT CLEANING
-# ============================================================
+
 
 def clean_text(value):
 
@@ -62,9 +61,9 @@ def clean_text(value):
     return value.strip()
 
 
-# ============================================================
+
 # 4. SAFE OCR DOUBLE CHARACTER FIX
-# ============================================================
+
 
 def fix_doubled_text(value):
 
@@ -94,9 +93,9 @@ def fix_doubled_text(value):
     return value
 
 
-# ============================================================
+
 # 5. CHECK -DO- VALUE
-# ============================================================
+
 
 def is_do_value(value):
 
@@ -117,9 +116,9 @@ def is_do_value(value):
     return normalized == "do"
 
 
-# ============================================================
+
 # 6. REMOVE OBVIOUS HEADER ARTIFACTS
-# ============================================================
+
 
 def remove_header_artifacts(df):
 
@@ -148,7 +147,7 @@ def remove_header_artifacts(df):
 
     # Case 2:
     # GRAM PANCHAYAT | VILLAGE
-    #
+    
     # Some PDFs have a damaged/missing Block header.
 
     mask_2 = (
@@ -180,9 +179,9 @@ def remove_header_artifacts(df):
     ].copy()
 
 
-# ============================================================
+
 # 7. EXTRACT ALL TABLES FROM A PDF
-# ============================================================
+
 
 def extract_pdf_tables(pdf_path):
 
@@ -266,9 +265,9 @@ def extract_pdf_tables(pdf_path):
     return df
 
 
-# ============================================================
+
 # 8. CLEAN RAW BENEFICIARY DATA
-# ============================================================
+
 
 def clean_fra_data(
     df,
@@ -289,9 +288,9 @@ def clean_fra_data(
 
     df.columns = RAW_COLUMNS
 
-    # --------------------------------------------------------
+
     # Basic text cleaning
-    # --------------------------------------------------------
+  
 
     for column in RAW_COLUMNS:
 
@@ -300,9 +299,9 @@ def clean_fra_data(
             .apply(clean_text)
         )
 
-    # --------------------------------------------------------
+
     # Remove repeated headers
-    # --------------------------------------------------------
+   
 
     df = df[
         ~df["Sl. No."]
@@ -313,9 +312,8 @@ def clean_fra_data(
         )
     ].copy()
 
-    # --------------------------------------------------------
     # Remove 1 2 3 4 5 numbering row
-    # --------------------------------------------------------
+ 
 
     numbering_mask = (
         df["Sl. No."].eq("1")
@@ -335,9 +333,9 @@ def clean_fra_data(
         ~numbering_mask
     ].copy()
 
-    # --------------------------------------------------------
+    
     # Convert -do- to blank
-    # --------------------------------------------------------
+   
 
     location_columns = [
         "Block",
@@ -354,9 +352,9 @@ def clean_fra_data(
             else x
         )
 
-    # --------------------------------------------------------
+  
     # Forward fill locations
-    # --------------------------------------------------------
+    
 
     df[location_columns] = (
         df[location_columns]
@@ -365,9 +363,9 @@ def clean_fra_data(
         .fillna("")
     )
 
-    # --------------------------------------------------------
+    
     # Fix OCR duplication in locations
-    # --------------------------------------------------------
+  
 
     for column in location_columns:
 
@@ -376,9 +374,8 @@ def clean_fra_data(
             .apply(fix_doubled_text)
         )
 
-    # --------------------------------------------------------
     # Clean again
-    # --------------------------------------------------------
+    
 
     for column in location_columns:
 
@@ -387,9 +384,9 @@ def clean_fra_data(
             .apply(clean_text)
         )
 
-    # --------------------------------------------------------
+    
     # Remove rows without beneficiary
-    # --------------------------------------------------------
+    
 
     beneficiary_column = (
         "Name of the FRA beneficiary"
@@ -408,9 +405,9 @@ def clean_fra_data(
         .ne("")
     ].copy()
 
-    # --------------------------------------------------------
+    
     # Remove obvious numeric garbage rows
-    # --------------------------------------------------------
+    
 
     numeric_location_mask = (
         df["Block"]
@@ -439,21 +436,21 @@ def clean_fra_data(
         ~numeric_location_mask
     ].copy()
 
-    # --------------------------------------------------------
+    
     # Add District
-    # --------------------------------------------------------
+    
 
     df["District"] = district_name
 
-    # --------------------------------------------------------
+    
     # Remove obvious header artifacts
-    # --------------------------------------------------------
+    
 
     df = remove_header_artifacts(df)
 
-    # --------------------------------------------------------
+    
     # Return cleaned beneficiary data
-    # --------------------------------------------------------
+    
 
     final_columns = [
         "District",
@@ -472,9 +469,9 @@ def clean_fra_data(
     return df
 
 
-# ============================================================
+
 # 9. CREATE VILLAGE SUMMARY
-# ============================================================
+
 
 def create_village_summary(clean_df):
 
@@ -507,9 +504,9 @@ def create_village_summary(clean_df):
     return summary
 
 
-# ============================================================
+
 # 10. CLEAN AN EXISTING DISTRICT SUMMARY
-# ============================================================
+
 
 def clean_existing_summary(
     summary,
@@ -604,9 +601,9 @@ def clean_existing_summary(
     return summary
 
 
-# ============================================================
+
 # 11. PROCESS ONE DISTRICT
-# ============================================================
+
 
 def process_district(district):
 
@@ -630,9 +627,9 @@ def process_district(district):
         f"{district}_Village_Summary.csv"
     )
 
-    # --------------------------------------------------------
+    
     # EXISTING SUMMARY
-    # --------------------------------------------------------
+    
 
     if os.path.exists(summary_path):
 
@@ -678,9 +675,9 @@ def process_district(district):
                 "Reprocessing PDFs..."
             )
 
-    # --------------------------------------------------------
+    
     # FIND PDFs
-    # --------------------------------------------------------
+    
 
     if not os.path.isdir(
         raw_district_path
@@ -714,9 +711,9 @@ def process_district(district):
 
         return None
 
-    # --------------------------------------------------------
+    
     # PROCESS ALL PDFS
-    # --------------------------------------------------------
+    
 
     cleaned_parts = []
 
@@ -763,9 +760,9 @@ def process_district(district):
                 clean_df
             )
 
-    # --------------------------------------------------------
+    
     # COMBINE ALL PDFs OF DISTRICT
-    # --------------------------------------------------------
+    
 
     if not cleaned_parts:
 
@@ -785,17 +782,17 @@ def process_district(district):
         f"rows = {len(combined_df)}"
     )
 
-    # --------------------------------------------------------
+    
     # CREATE VILLAGE SUMMARY
-    # --------------------------------------------------------
+    
 
     summary = create_village_summary(
         combined_df
     )
 
-    # --------------------------------------------------------
+    
     # SAVE DISTRICT SUMMARY
-    # --------------------------------------------------------
+    
 
     summary.to_csv(
         summary_path,
@@ -814,9 +811,9 @@ def process_district(district):
     return summary
 
 
-# ============================================================
+
 # 12. MAIN PIPELINE
-# ============================================================
+
 
 def main():
 
@@ -832,9 +829,9 @@ def main():
         "================================================"
     )
 
-    # --------------------------------------------------------
+    
     # Find district folders
-    # --------------------------------------------------------
+    
 
     if not os.path.isdir(
         RAW_DATA_PATH
@@ -874,9 +871,9 @@ def main():
 
     failed = []
 
-    # --------------------------------------------------------
+    
     # Process districts
-    # --------------------------------------------------------
+    
 
     for district in districts:
 
@@ -926,9 +923,9 @@ def main():
                 district
             )
 
-    # --------------------------------------------------------
+    
     # CREATE MASTER DATASET
-    # --------------------------------------------------------
+    
 
     print(
         "\n================================================"
@@ -955,17 +952,17 @@ def main():
         ignore_index=True
     )
 
-    # --------------------------------------------------------
+    
     # Final header-artifact removal
-    # --------------------------------------------------------
+    
 
     master_df = remove_header_artifacts(
         master_df
     )
 
-    # --------------------------------------------------------
+    
     # Remove exact duplicate village keys
-    # --------------------------------------------------------
+    
 
     master_df = (
         master_df
@@ -982,9 +979,9 @@ def main():
         )
     )
 
-    # --------------------------------------------------------
+    
     # Remove invalid counts
-    # --------------------------------------------------------
+    
 
     master_df["Beneficiary_Count"] = pd.to_numeric(
         master_df["Beneficiary_Count"],
@@ -1005,9 +1002,9 @@ def main():
         .astype(int)
     )
 
-    # --------------------------------------------------------
+    
     # Save master
-    # --------------------------------------------------------
+    
 
     master_path = os.path.join(
         CLEANED_DATA_PATH,
@@ -1019,9 +1016,9 @@ def main():
         index=False
     )
 
-    # --------------------------------------------------------
+    
     # VALIDATION
-    # --------------------------------------------------------
+    
 
     print(
         "\n================================================"
@@ -1122,9 +1119,9 @@ def main():
     )
 
 
-# ============================================================
+
 # START PROGRAM
-# ============================================================
+
 
 if __name__ == "__main__":
     main()

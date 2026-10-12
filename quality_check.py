@@ -13,9 +13,9 @@ print("\n========== BEFORE CLEANING ==========")
 print("Total rows:", len(df))
 
 
-# ============================================================
+
 # REMOVE OBVIOUS PDF HEADER ARTIFACTS
-# ============================================================
+
 
 header_mask = (
     df["Block"].astype(str).str.strip().str.upper().eq("BLOCK")
