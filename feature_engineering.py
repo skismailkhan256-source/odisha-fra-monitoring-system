@@ -1,7 +1,6 @@
 import pandas as pd
 
 
-# Load the cleaned FRA dataset
 input_file = "data/Cleaned/Odisha_FRA_Village_Master_Cleaned.csv"
 output_file = "data/Cleaned/Odisha_FRA_Featured_Master.csv"
 
@@ -22,8 +21,7 @@ df["Beneficiary_Count"] = pd.to_numeric(
 df["GP_Total_Beneficiaries"] = (
     df.groupby(
         ["District", "Block", "Gram Panchayat"]
-    )["Beneficiary_Count"]
-    .transform("sum")
+    )["Beneficiary_Count"].transform("sum")
 )
 
 
@@ -31,8 +29,7 @@ df["GP_Total_Beneficiaries"] = (
 df["Block_Total_Beneficiaries"] = (
     df.groupby(
         ["District", "Block"]
-    )["Beneficiary_Count"]
-    .transform("sum")
+    )["Beneficiary_Count"].transform("sum")
 )
 
 
@@ -40,8 +37,7 @@ df["Block_Total_Beneficiaries"] = (
 df["District_Total_Beneficiaries"] = (
     df.groupby(
         ["District"]
-    )["Beneficiary_Count"]
-    .transform("sum")
+    )["Beneficiary_Count"].transform("sum")
 )
 
 
@@ -49,8 +45,7 @@ df["District_Total_Beneficiaries"] = (
 df["GP_Village_Count"] = (
     df.groupby(
         ["District", "Block", "Gram Panchayat"]
-    )["Village"]
-    .transform("nunique")
+    )["Village"].transform("nunique")
 )
 
 
@@ -58,8 +53,7 @@ df["GP_Village_Count"] = (
 df["Block_Village_Count"] = (
     df.groupby(
         ["District", "Block"]
-    )["Village"]
-    .transform("nunique")
+    )["Village"].transform("nunique")
 )
 
 
@@ -67,8 +61,7 @@ df["Block_Village_Count"] = (
 df["District_Village_Count"] = (
     df.groupby(
         ["District"]
-    )["Village"]
-    .transform("nunique")
+    )["Village"].transform("nunique")
 )
 
 
@@ -93,7 +86,7 @@ df["Village_Share_in_District"] = (
 )
 
 
-# Create a simple beneficiary category
+# Beneficiary category
 def beneficiary_category(value):
     if value <= 10:
         return "Low"
@@ -106,6 +99,22 @@ def beneficiary_category(value):
 df["Beneficiary_Category"] = (
     df["Beneficiary_Count"]
     .apply(beneficiary_category)
+)
+
+
+# Village monitoring priority
+def village_priority(value):
+    if value > 50:
+        return "High"
+    elif value > 10:
+        return "Medium"
+    else:
+        return "Low"
+
+
+df["Village_Monitoring_Priority"] = (
+    df["Beneficiary_Count"]
+    .apply(village_priority)
 )
 
 
@@ -132,6 +141,10 @@ print("Village_Share_in_GP")
 print("Village_Share_in_Block")
 print("Village_Share_in_District")
 print("Beneficiary_Category")
+print("Village_Monitoring_Priority")
+
+print("\nVillage priority:")
+print(df["Village_Monitoring_Priority"].value_counts())
 
 print("\nFeatured dataset saved at:")
 print(output_file)

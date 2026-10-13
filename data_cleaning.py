@@ -161,18 +161,23 @@ suspicious_words = [
     "GRAND TOTAL",
     "SL. NO.",
     "VILLAGE",
-    "NAME OF"
+    "NAME OF",
+    "REJECTED"
 ]
 
-suspicious = df[
+suspicious_mask = (
     df["Village"]
     .astype(str)
     .str.strip()
     .str.upper()
     .isin(suspicious_words)
-]
+)
 
-print("Suspicious village records:", len(suspicious))
+print("Suspicious village records found:", suspicious_mask.sum())
+
+df = df[~suspicious_mask].copy()
+
+print("Suspicious village records removed:", suspicious_mask.sum())
 
 
 # Check remaining encoding problems

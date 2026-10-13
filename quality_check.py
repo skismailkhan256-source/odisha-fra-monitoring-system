@@ -2,6 +2,8 @@
 import pandas as pd
 from pathlib import Path
 
+import feature_engineering
+
 
 # Load the cleaned FRA dataset
 file_path = Path("data/Cleaned/Odisha_FRA_Village_Master_Cleaned.csv")
