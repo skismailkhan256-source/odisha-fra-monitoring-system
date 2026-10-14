@@ -28,6 +28,7 @@ def district_key(name):
         "CUTTACKK": "CUTTACK",
         "DEOGARH": "DEBAGARH",
         "JAGATSINGHPUR": "JAGATSINGHAPUR",
+        "JAGATSINGPUR": "JAGATSINGHAPUR",
         "JAJPUR": "JAJAPUR",
         "JHARUGUDA": "JHARSUGUDA",
         "KENDRAPADA": "KENDRAPARA",
