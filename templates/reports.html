@@ -1,0 +1,251 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header mb-4">
+    <h2>Reports & Data Export</h2>
+    <p class="text-muted">
+        Generate and download Forest Rights Act monitoring reports for Odisha.
+    </p>
+</div>
+
+
+<!-- Report Overview -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Available Reports</h6>
+            <h2>4</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Village Records</h6>
+            <h2>{{ "{:,}".format(total_villages) }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>District Records</h6>
+            <h2>{{ total_districts }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Report Categories -->
+<div class="content-card mb-4">
+
+    <h4>Available Reports</h4>
+
+    <p class="text-muted">
+        Select a report category to download the corresponding dataset.
+    </p>
+
+    <div class="row g-4 mt-1">
+
+        <!-- District Report -->
+        <div class="col-lg-6">
+
+            <div class="report-card h-100">
+
+                <div class="report-icon">
+                    <i class="bi bi-bar-chart-line"></i>
+                </div>
+
+                <h5>District Monitoring Report</h5>
+
+                <p class="text-muted">
+                    District-wise FRA implementation statistics,
+                    claims filed, approved claims, rejected claims
+                    and titles distributed.
+                </p>
+
+                <div class="report-meta">
+                    <span>District Records</span>
+                    <span>CSV Format</span>
+                </div>
+
+                <a href="{{ url_for('download_report', report_type='district') }}"
+                   class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-download"></i>
+                    Download District Report
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Village Report -->
+        <div class="col-lg-6">
+
+            <div class="report-card h-100">
+
+                <div class="report-icon">
+                    <i class="bi bi-houses"></i>
+                </div>
+
+                <h5>Village Master Report</h5>
+
+                <p class="text-muted">
+                    Village-level beneficiary records with District,
+                    Block, Gram Panchayat, beneficiary categories
+                    and monitoring priorities.
+                </p>
+
+                <div class="report-meta">
+                    <span>Village Records</span>
+                    <span>CSV Format</span>
+                </div>
+
+                <a href="{{ url_for('download_report', report_type='village') }}"
+                   class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-download"></i>
+                    Download Village Report
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- KMeans Report -->
+        <div class="col-lg-6">
+
+            <div class="report-card h-100">
+
+                <div class="report-icon">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+
+                <h5>K-Means Clustering Report</h5>
+
+                <p class="text-muted">
+                    Village-level clustering results generated
+                    using the K-Means machine learning algorithm.
+                </p>
+
+                <div class="report-meta">
+                    <span>5 Clusters</span>
+                    <span>CSV Format</span>
+                </div>
+
+                <a href="{{ url_for('download_report', report_type='kmeans') }}"
+                   class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-download"></i>
+                    Download K-Means Report
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hierarchical Report -->
+        <div class="col-lg-6">
+
+            <div class="report-card h-100">
+
+                <div class="report-icon">
+                    <i class="bi bi-diagram-2"></i>
+                </div>
+
+                <h5>Hierarchical Clustering Report</h5>
+
+                <p class="text-muted">
+                    Village-level results generated using
+                    Hierarchical Clustering with six clusters.
+                </p>
+
+                <div class="report-meta">
+                    <span>6 Clusters</span>
+                    <span>CSV Format</span>
+                </div>
+
+                <a href="{{ url_for('download_report', report_type='hierarchical') }}"
+                   class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-download"></i>
+                    Download Hierarchical Report
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Report Information -->
+<div class="content-card mb-4">
+
+    <h4>Report Information</h4>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered align-middle">
+
+            <thead>
+                <tr>
+                    <th>Report</th>
+                    <th>Data Included</th>
+                    <th>Format</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>District Monitoring</td>
+                    <td>Claims, approvals, rejections and titles</td>
+                    <td>CSV</td>
+                </tr>
+
+                <tr>
+                    <td>Village Master</td>
+                    <td>Village location and beneficiary information</td>
+                    <td>CSV</td>
+                </tr>
+
+                <tr>
+                    <td>K-Means Clustering</td>
+                    <td>Village records and K-Means cluster labels</td>
+                    <td>CSV</td>
+                </tr>
+
+                <tr>
+                    <td>Hierarchical Clustering</td>
+                    <td>Village records and hierarchical cluster labels</td>
+                    <td>CSV</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- Disclaimer -->
+<div class="alert alert-info">
+
+    <strong>Note:</strong>
+
+    These reports are generated from the datasets available
+    in the project. Machine learning cluster labels are
+    analytical classifications and are not official government
+    FRA implementation priority labels.
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,450 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header mb-4">
+    <h2>ML Priority Analysis</h2>
+    <p class="text-muted">
+        Machine Learning based village clustering and monitoring analysis for Odisha FRA.
+    </p>
+</div>
+
+
+<!-- ================================================== -->
+<!-- 1. OVERVIEW CARDS -->
+<!-- ================================================== -->
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Total Villages Analysed</h6>
+            <h2>{{ total_villages }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>K-Means Clusters</h6>
+            <h2>{{ total_kmeans_clusters }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Hierarchical Clusters</h6>
+            <h2>{{ total_hierarchical_clusters }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 2. MODEL EVALUATION -->
+<!-- ================================================== -->
+
+<div class="content-card mb-4">
+
+    <h4>Clustering Model Evaluation</h4>
+
+    <p class="text-muted">
+        Comparison of K-Means and Hierarchical Clustering using three evaluation metrics.
+    </p>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>Evaluation Metric</th>
+                    <th>K-Means</th>
+                    <th>Hierarchical</th>
+                    <th>Better Result</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Silhouette Score</td>
+                    <td>{{ "%.4f"|format(model_metrics.kmeans.silhouette) }}</td>
+                    <td>{{ "%.4f"|format(model_metrics.hierarchical.silhouette) }}</td>
+                    <td><span class="badge bg-success">K-Means</span></td>
+                </tr>
+
+                <tr>
+                    <td>Davies-Bouldin Index</td>
+                    <td>{{ "%.4f"|format(model_metrics.kmeans.davies_bouldin) }}</td>
+                    <td>{{ "%.4f"|format(model_metrics.hierarchical.davies_bouldin) }}</td>
+                    <td><span class="badge bg-success">Hierarchical</span></td>
+                </tr>
+
+                <tr>
+                    <td>Calinski-Harabasz Score</td>
+                    <td>{{ "%.2f"|format(model_metrics.kmeans.calinski_harabasz) }}</td>
+                    <td>{{ "%.2f"|format(model_metrics.hierarchical.calinski_harabasz) }}</td>
+                    <td><span class="badge bg-success">K-Means</span></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <p class="small text-muted mb-0">
+        Higher Silhouette and Calinski-Harabasz scores are better.
+        Lower Davies-Bouldin scores are better.
+    </p>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 3. CLUSTER DISTRIBUTION CHARTS -->
+<!-- ================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="content-card">
+
+            <h4>K-Means Cluster Distribution</h4>
+
+            <p class="text-muted small">
+                Distribution of villages across five K-Means clusters.
+            </p>
+
+            <div id="kmeansChart"></div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="content-card">
+
+            <h4>Hierarchical Cluster Distribution</h4>
+
+            <p class="text-muted small">
+                Distribution of villages across six Hierarchical clusters.
+            </p>
+
+            <div id="hierarchicalChart"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 4. NEW CLUSTER-WISE SUMMARY -->
+<!-- ================================================== -->
+
+<div class="content-card mb-4">
+
+    <h4>Cluster-wise Village Summary</h4>
+
+    <p class="text-muted">
+        Detailed analysis of villages and beneficiaries across K-Means clusters.
+    </p>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>Cluster</th>
+                    <th>Villages</th>
+                    <th>Total Beneficiaries</th>
+                    <th>Average Beneficiaries</th>
+                    <th>Top District</th>
+                    <th>High</th>
+                    <th>Medium</th>
+                    <th>Low</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in cluster_summary %}
+
+                <tr>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            Cluster {{ item.cluster }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ "{:,}".format(item.village_count) }}
+                    </td>
+
+                    <td>
+                        {{ "{:,}".format(item.total_beneficiaries) }}
+                    </td>
+
+                    <td>
+                        {{ "{:,.2f}".format(item.average_beneficiaries) }}
+                    </td>
+
+                    <td>
+                        {{ item.top_district }}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            {{ item.high }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            {{ item.medium }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            {{ item.low }}
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="8" class="text-center text-muted">
+                        No cluster summary data available.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="alert alert-info mb-0">
+
+        <strong>Note:</strong>
+        Cluster numbers are analytical group identifiers.
+        High, Medium and Low represent the existing
+        Village Monitoring Priority values, not official
+        government FRA implementation classifications.
+
+    </div>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 5. PCA ANALYSIS -->
+<!-- ================================================== -->
+
+<div class="content-card mb-4">
+
+    <h4>PCA Analysis</h4>
+
+    <p class="text-muted">
+        Principal Component Analysis (PCA) reduces the feature dimensions
+        while preserving important information for visualization.
+    </p>
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h6>Principal Component 1</h6>
+                <h3>{{ pca_results.pc1 }}%</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h6>Principal Component 2</h6>
+                <h3>{{ pca_results.pc2 }}%</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h6>Total Explained Variance</h6>
+                <h3>{{ pca_results.total_variance }}%</h3>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 6. METHODOLOGY -->
+<!-- ================================================== -->
+
+<div class="content-card">
+
+    <h4>Methodology</h4>
+
+    <ul>
+
+        <li>
+            Selected four village-level numerical features:
+            Beneficiary Count, Village Share in GP,
+            Village Share in Block and Village Share in District.
+        </li>
+
+        <li>
+            Applied StandardScaler for feature scaling.
+        </li>
+
+        <li>
+            Applied K-Means clustering with 5 clusters.
+        </li>
+
+        <li>
+            Applied Hierarchical clustering with 6 clusters.
+        </li>
+
+        <li>
+            Evaluated both clustering models using Silhouette Score,
+            Davies-Bouldin Index and Calinski-Harabasz Score.
+        </li>
+
+        <li>
+            Used PCA to reduce feature dimensions for visualization.
+        </li>
+
+    </ul>
+
+    <div class="alert alert-info mb-0">
+
+        <strong>Note:</strong>
+
+        Cluster labels represent analytical groups based on
+        village-level features. They should not be interpreted
+        directly as official government FRA implementation priorities.
+
+    </div>
+
+</div>
+
+
+<!-- ================================================== -->
+<!-- 7. PLOTLY CHARTS -->
+<!-- ================================================== -->
+
+<script>
+
+// K-Means cluster data
+
+const kmeansLabels = {{ kmeans_labels | tojson }};
+const kmeansValues = {{ kmeans_values | tojson }};
+
+
+// Hierarchical cluster data
+
+const hierarchicalLabels = {{ hierarchical_labels | tojson }};
+const hierarchicalValues = {{ hierarchical_values | tojson }};
+
+
+// K-Means Pie Chart
+
+Plotly.newPlot(
+
+    "kmeansChart",
+
+    [{
+        labels: kmeansLabels,
+        values: kmeansValues,
+        type: "pie",
+        hole: 0.45,
+        textinfo: "label+percent",
+        hovertemplate:
+            "<b>%{label}</b><br>" +
+            "Villages: %{value}<br>" +
+            "Percentage: %{percent}<extra></extra>"
+    }],
+
+    {
+        margin: {
+            t: 20,
+            b: 20,
+            l: 20,
+            r: 20
+        },
+
+        showlegend: true,
+
+        legend: {
+            orientation: "h",
+            y: -0.1
+        }
+    },
+
+    {
+        responsive: true,
+        displayModeBar: false
+    }
+
+);
+
+
+// Hierarchical Pie Chart
+
+Plotly.newPlot(
+
+    "hierarchicalChart",
+
+    [{
+        labels: hierarchicalLabels,
+        values: hierarchicalValues,
+        type: "pie",
+        hole: 0.45,
+        textinfo: "label+percent",
+        hovertemplate:
+            "<b>%{label}</b><br>" +
+            "Villages: %{value}<br>" +
+            "Percentage: %{percent}<extra></extra>"
+    }],
+
+    {
+        margin: {
+            t: 20,
+            b: 20,
+            l: 20,
+            r: 20
+        },
+
+        showlegend: true,
+
+        legend: {
+            orientation: "h",
+            y: -0.1
+        }
+    },
+
+    {
+        responsive: true,
+        displayModeBar: false
+    }
+
+);
+
+</script>
+
+{% endblock %}

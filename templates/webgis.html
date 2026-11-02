@@ -1,0 +1,819 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ======================================
+     PAGE HEADER
+====================================== -->
+
+<div class="page-header mb-4">
+
+    <h2>WebGIS – FRA Monitoring Map</h2>
+
+    <p class="text-muted">
+        Explore geographical information and FRA implementation
+        across districts of Odisha.
+    </p>
+
+</div>
+
+
+<!-- ======================================
+     OVERVIEW CARDS
+====================================== -->
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>State</h6>
+            <h2>Odisha</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Districts in Dataset</h6>
+            <h2>30</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Village Records</h6>
+            <h2>12,424</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     INTERACTIVE DISTRICT MONITORING
+====================================== -->
+
+<div class="content-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+        <div>
+            <h4>
+                <i class="bi bi-bar-chart-line text-success"></i>
+                District-wise FRA Monitoring
+            </h4>
+
+            <p class="text-muted mb-0">
+                Select a district to view its FRA beneficiary,
+                village and block statistics.
+            </p>
+        </div>
+
+        <span class="badge bg-success">
+            <i class="bi bi-check-circle"></i>
+            Live API Data
+        </span>
+
+    </div>
+
+
+    <!-- DISTRICT SELECTOR -->
+
+    <div class="row align-items-end g-3 mb-4">
+
+        <div class="col-md-6 col-lg-5">
+
+            <label for="districtSelect" class="form-label fw-semibold">
+
+                <i class="bi bi-geo-alt-fill text-success"></i>
+                Select District
+
+            </label>
+
+            <select
+                class="form-select"
+                id="districtSelect">
+
+                <option value="MAYURBHANJ" selected>
+                    Mayurbhanj
+                </option>
+
+                <option value="ANGUL">Angul</option>
+                <option value="BALASORE">Balasore</option>
+                <option value="BARGARH">Bargarh</option>
+                <option value="BHADRAKH">Bhadrak</option>
+                <option value="BOLANGIR">Bolangir</option>
+                <option value="BOUDH">Boudh</option>
+                <option value="CUTTACK">Cuttack</option>
+                <option value="DEOGARH">Deogarh</option>
+                <option value="DHENKANAL">Dhenkanal</option>
+                <option value="GANJAM">Ganjam</option>
+                <option value="JAGATSINGPUR">Jagatsingpur</option>
+                <option value="JAJPUR">Jajpur</option>
+                <option value="JHARUGUDA">Jharsuguda</option>
+                <option value="KALAHANDI">Kalahandi</option>
+                <option value="KENDRAPADA">Kendrapada</option>
+                <option value="KEONJHAR">Keonjhar</option>
+                <option value="KHURDA">Khurda</option>
+                <option value="KORAPUT">Koraput</option>
+                <option value="MALKANGIRI">Malkangiri</option>
+                <option value="NAYAGARH">Nayagarh</option>
+                <option value="NUAPADA">Nuapada</option>
+                <option value="RAYAGADA">Rayagada</option>
+                <option value="SAMBALPUR">Sambalpur</option>
+                <option value="SUBARNAPUR">Subarnapur</option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-6 col-lg-7">
+
+            <div
+                id="districtLoading"
+                class="text-success small"
+                style="display:none;">
+
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Loading district statistics...
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DISTRICT STATISTIC CARDS -->
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+
+            <div class="stat-card h-100">
+
+                <div class="d-flex justify-content-between">
+
+                    <h6>Total Beneficiaries</h6>
+
+                    <i class="bi bi-people-fill text-success fs-4"></i>
+
+                </div>
+
+                <h2 id="districtBeneficiaries">--</h2>
+
+                <small class="text-muted">
+                    Recorded FRA beneficiaries
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="stat-card h-100">
+
+                <div class="d-flex justify-content-between">
+
+                    <h6>Total Villages</h6>
+
+                    <i class="bi bi-houses-fill text-primary fs-4"></i>
+
+                </div>
+
+                <h2 id="districtVillages">--</h2>
+
+                <small class="text-muted">
+                    Unique village records
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="stat-card h-100">
+
+                <div class="d-flex justify-content-between">
+
+                    <h6>Total Blocks</h6>
+
+                    <i class="bi bi-grid-fill text-warning fs-4"></i>
+
+                </div>
+
+                <h2 id="districtBlocks">--</h2>
+
+                <small class="text-muted">
+                    Unique administrative blocks
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- API STATUS -->
+
+    <div
+        id="districtMessage"
+        class="alert alert-info mt-3 mb-0"
+        role="status">
+
+        Select a district to view its FRA statistics.
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     DISTRICT BENEFICIARY CHOROPLETH
+====================================== -->
+
+<div class="content-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+
+        <div>
+            <h4>
+                <i class="bi bi-bar-chart-map text-success"></i>
+                District-wise FRA Beneficiary Distribution
+            </h4>
+
+            <p class="text-muted mb-0">
+                Interactive choropleth showing beneficiary
+                distribution across Odisha districts.
+            </p>
+        </div>
+
+        <span class="badge bg-success">
+            <i class="bi bi-check-circle"></i>
+            GIS Data Integrated
+        </span>
+
+    </div>
+
+
+    <div class="row g-3 mb-3">
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+                <h6>Total Districts</h6>
+                <h3>30</h3>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+                <h6>Districts with FRA Data</h6>
+                <h3>25</h3>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+                <h6>Districts without Data</h6>
+                <h3>5</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PLOTLY CHOROPLETH MAP -->
+
+    <div class="fra-choropleth-container">
+
+        <iframe
+            src="{{ url_for('beneficiary_map') }}"
+            title="Odisha FRA District-wise Beneficiary Map"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+
+    <div class="map-information mt-3">
+
+        <div class="d-flex align-items-start gap-2">
+
+            <i class="bi bi-info-circle-fill text-success mt-1"></i>
+
+            <div>
+
+                <strong>Map Information</strong>
+
+                <p class="text-muted mb-0 small">
+
+                    District colours represent the total number of
+                    beneficiaries recorded in the FRA dataset.
+                    Hover over a district to view its beneficiary,
+                    village and block information.
+
+                    Five districts without available FRA records
+                    are displayed without beneficiary values.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     LEAFLET MAP CONTROLS
+====================================== -->
+
+<div class="content-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+
+            <h4>Explore Odisha Geographical Map</h4>
+
+            <p class="text-muted mb-0">
+                Navigate the geographical base map.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn btn-outline-success"
+            type="button"
+            onclick="resetMapView()">
+
+            <i class="bi bi-crosshair"></i>
+            Reset Map
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     EXISTING LEAFLET MAP
+====================================== -->
+
+<div class="content-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+        <div>
+
+            <h4>Interactive Geographic Map</h4>
+
+            <p class="text-muted mb-0">
+                Geographical exploration of Odisha.
+            </p>
+
+        </div>
+
+        <span class="badge bg-primary">
+            <i class="bi bi-map"></i>
+            Leaflet Map
+        </span>
+
+    </div>
+
+
+    <div id="fraMap"></div>
+
+
+    <div class="map-information mt-3">
+
+        <div class="d-flex align-items-start gap-2">
+
+            <i class="bi bi-info-circle-fill text-success mt-1"></i>
+
+            <div>
+
+                <strong>Map Information</strong>
+
+                <p class="text-muted mb-0 small">
+
+                    This geographical map is maintained separately
+                    from the district-wise beneficiary choropleth.
+                    Village-level coordinates have not yet been
+                    verified and are not displayed.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     MAP LEGEND AND GIS DATA
+====================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="content-card h-100">
+
+            <h4>Beneficiary Map Legend</h4>
+
+            <div class="map-legend-item">
+
+                <span class="legend-dot priority-dot"></span>
+
+                <span>Higher beneficiary count</span>
+
+            </div>
+
+            <div class="map-legend-item">
+
+                <span class="legend-dot village-dot"></span>
+
+                <span>Lower beneficiary count</span>
+
+            </div>
+
+            <div class="map-legend-item">
+
+                <span class="legend-dot district-dot"></span>
+
+                <span>District boundary</span>
+
+            </div>
+
+            <p class="text-muted small mt-3 mb-0">
+
+                Refer to the choropleth colour scale for exact
+                beneficiary values. Districts without data are
+                not assigned zero beneficiaries.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-6">
+
+        <div class="content-card h-100">
+
+            <h4>GIS Data Integration</h4>
+
+            <p class="text-muted">
+
+                Spatial datasets integrated or planned for
+                the monitoring system.
+
+            </p>
+
+            <ul class="mb-0">
+
+                <li>Odisha district boundary GeoJSON</li>
+
+                <li>District-wise FRA beneficiary distribution</li>
+
+                <li>District-level village statistics</li>
+
+                <li>District-level block statistics</li>
+
+                <li>Village-level geographical coordinates (pending verification)</li>
+
+                <li>Gram Panchayat spatial boundaries (future integration)</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     DISCLAIMER
+====================================== -->
+
+<div class="alert alert-info">
+
+    <strong>Note:</strong>
+
+    The district beneficiary choropleth represents records
+    available in the project's FRA dataset. It should not be
+    interpreted as an official government classification or
+    independently verified implementation status.
+
+</div>
+
+
+<!-- ======================================
+     LEAFLET CSS
+====================================== -->
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+
+
+<!-- ======================================
+     LEAFLET JAVASCRIPT
+====================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+</script>
+
+
+<!-- ======================================
+     CUSTOM WEBGIS JAVASCRIPT
+====================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/main.js') }}">
+</script>
+
+
+<!-- ======================================
+     DISTRICT SUMMARY API JAVASCRIPT
+====================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const districtSelect = document.getElementById(
+        "districtSelect"
+    );
+
+    const beneficiariesElement = document.getElementById(
+        "districtBeneficiaries"
+    );
+
+    const villagesElement = document.getElementById(
+        "districtVillages"
+    );
+
+    const blocksElement = document.getElementById(
+        "districtBlocks"
+    );
+
+    const loadingElement = document.getElementById(
+        "districtLoading"
+    );
+
+    const messageElement = document.getElementById(
+        "districtMessage"
+    );
+
+
+    // ======================================
+    // NUMBER FORMATTING
+    // ======================================
+
+    function formatNumber(value) {
+
+        return Number(value).toLocaleString("en-IN");
+
+    }
+
+
+    // ======================================
+    // LOAD DISTRICT SUMMARY
+    // ======================================
+
+    async function loadDistrictSummary() {
+
+        const district = districtSelect.value;
+
+        if (!district) {
+            return;
+        }
+
+
+        // Show loading
+
+        loadingElement.style.display = "block";
+
+        messageElement.style.display = "none";
+
+        beneficiariesElement.textContent = "--";
+
+        villagesElement.textContent = "--";
+
+        blocksElement.textContent = "--";
+
+
+        try {
+
+            const response = await fetch(
+                `/api/district-summary?district=${encodeURIComponent(district)}`
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error || "Unable to load district statistics."
+                );
+
+            }
+
+
+            // Update dashboard cards
+
+            beneficiariesElement.textContent = formatNumber(
+                data.total_beneficiaries
+            );
+
+            villagesElement.textContent = formatNumber(
+                data.total_villages
+            );
+
+            blocksElement.textContent = formatNumber(
+                data.total_blocks
+            );
+
+
+            // Success message
+
+            messageElement.className =
+                "alert alert-success mt-3 mb-0";
+
+            messageElement.innerHTML =
+
+                `<i class="bi bi-check-circle-fill me-2"></i>
+                Showing FRA monitoring statistics for
+                <strong>${data.district}</strong>.`;
+
+            messageElement.style.display = "block";
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "District API Error:",
+                error
+            );
+
+
+            messageElement.className =
+                "alert alert-danger mt-3 mb-0";
+
+            messageElement.textContent =
+                error.message;
+
+            messageElement.style.display = "block";
+
+
+            beneficiariesElement.textContent = "--";
+
+            villagesElement.textContent = "--";
+
+            blocksElement.textContent = "--";
+
+        }
+
+        finally {
+
+            loadingElement.style.display = "none";
+
+        }
+
+    }
+
+
+    // ======================================
+    // DISTRICT CHANGE EVENT
+    // ======================================
+
+    districtSelect.addEventListener(
+        "change",
+        loadDistrictSummary
+    );
+
+
+    // ======================================
+    // INITIAL DISTRICT LOAD
+    // ======================================
+
+    loadDistrictSummary();
+
+
+    console.log(
+        "District monitoring API initialized successfully."
+    );
+
+});
+
+
+</script>
+
+
+<!-- ======================================
+     CHOROPLETH RESPONSIVE CSS
+====================================== -->
+
+<style>
+
+.fra-choropleth-container {
+
+    width: 100%;
+
+    height: 650px;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+}
+
+.fra-choropleth-container iframe {
+
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+
+    display: block;
+
+}
+
+
+#districtSelect {
+
+    min-height: 45px;
+
+    cursor: pointer;
+
+}
+
+
+#districtSelect:focus {
+
+    border-color: #198754;
+
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+
+}
+
+
+#districtMessage {
+
+    font-size: 14px;
+
+}
+
+
+@media (max-width: 768px) {
+
+    .fra-choropleth-container {
+
+        height: 480px;
+
+    }
+
+}
+
+</style>
+
+
+{% endblock %}

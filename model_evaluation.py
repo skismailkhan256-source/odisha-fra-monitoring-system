@@ -1,12 +1,44 @@
+
+import os
+import json
 import pandas as pd
+
 from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.metrics import (
+    silhouette_score,
+    davies_bouldin_score,
+    calinski_harabasz_score
+)
 
-# Load dataset
-df = pd.read_csv("data/Cleaned/Odisha_FRA_KMeans_Clustered.csv")
+# ==========================================
+# FILE PATHS
+# ==========================================
 
-# Features used for clustering
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data", "Cleaned")
+
+KMEANS_FILE = os.path.join(
+    DATA_DIR,
+    "Odisha_FRA_KMeans_Clustered.csv"
+)
+
+HIERARCHICAL_FILE = os.path.join(
+    DATA_DIR,
+    "Odisha_FRA_Hierarchical_Clustered.csv"
+)
+
+OUTPUT_FILE = os.path.join(
+    DATA_DIR,
+    "Odisha_FRA_Model_Evaluation.json"
+)
+
+# ==========================================
+# LOAD EXISTING CLUSTERING RESULTS
+# ==========================================
+
+kmeans_df = pd.read_csv(KMEANS_FILE)
+hierarchical_df = pd.read_csv(HIERARCHICAL_FILE)
+
 features = [
     "Beneficiary_Count",
     "Village_Share_in_GP",
@@ -14,88 +46,159 @@ features = [
     "Village_Share_in_District"
 ]
 
-# Scale features
+required_kmeans = features + ["KMeans_Cluster"]
+required_hierarchical = features + [
+    "KMeans_Cluster",
+    "Hierarchical_Cluster"
+]
+
+for column in required_kmeans:
+    if column not in kmeans_df.columns:
+        raise ValueError(f"Missing column in K-Means CSV: {column}")
+
+for column in required_hierarchical:
+    if column not in hierarchical_df.columns:
+        raise ValueError(
+            f"Missing column in Hierarchical CSV: {column}"
+        )
+
+# ==========================================
+# SCALE FEATURES
+# ==========================================
+
 scaler = StandardScaler()
-X = scaler.fit_transform(df[features])
 
-# K-Means model
-kmeans = KMeans(
-    n_clusters=5,
-    random_state=42,
-    n_init=10
+X_kmeans = scaler.fit_transform(
+    kmeans_df[features]
 )
 
-labels = kmeans.fit_predict(X)
-
-# Evaluation metrics
-silhouette = silhouette_score(
-    X, labels,
-    sample_size=3000,
-    random_state=42
+X_hierarchical = scaler.transform(
+    hierarchical_df[features]
 )
 
-davies_bouldin = davies_bouldin_score(X, labels)
+# ==========================================
+# EVALUATION FUNCTION
+# ==========================================
 
-calinski_harabasz = calinski_harabasz_score(X, labels)
+def evaluate_clustering(X, labels, model_name):
 
-# Display results
-print("---- K-Means Model Evaluation ---- ")
-print("Number of Clusters:", 5)
-print("Silhouette Score:", round(silhouette, 4))
-print("Davies-Bouldin Index:", round(davies_bouldin, 4))
-print("Calinski-Harabasz Score:", round(calinski_harabasz, 2))
+    labels = pd.Series(labels).reset_index(drop=True)
 
-from scipy.cluster.hierarchy import linkage, fcluster
+    unique_clusters = labels.nunique()
 
-# Hierarchical Clustering
-Z = linkage(X, method="ward")
+    if unique_clusters < 2 or unique_clusters >= len(labels):
+        raise ValueError(
+            f"{model_name}: Invalid number of clusters for evaluation."
+        )
 
-# Create 6 clusters
-hierarchical_labels = fcluster(
-    Z,
-    t=6,
-    criterion="maxclust"
+    silhouette = silhouette_score(
+        X,
+        labels,
+        sample_size=min(3000, len(labels)),
+        random_state=42
+    )
+
+    davies_bouldin = davies_bouldin_score(
+        X,
+        labels
+    )
+
+    calinski_harabasz = calinski_harabasz_score(
+        X,
+        labels
+    )
+
+    return {
+        "clusters": int(unique_clusters),
+        "silhouette": round(float(silhouette), 4),
+        "davies_bouldin": round(float(davies_bouldin), 4),
+        "calinski_harabasz": round(float(calinski_harabasz), 2)
+    }
+
+
+# ==========================================
+# K-MEANS EVALUATION
+# ==========================================
+
+kmeans_metrics = evaluate_clustering(
+    X_kmeans,
+    kmeans_df["KMeans_Cluster"],
+    "K-Means"
 )
 
-# Evaluation metrics
-hierarchical_silhouette = silhouette_score(
-    X,
-    hierarchical_labels,
-    sample_size=3000,
-    random_state=42
+# ==========================================
+# HIERARCHICAL EVALUATION
+# ==========================================
+
+hierarchical_metrics = evaluate_clustering(
+    X_hierarchical,
+    hierarchical_df["Hierarchical_Cluster"],
+    "Hierarchical"
 )
 
-hierarchical_davies_bouldin = davies_bouldin_score(
-    X,
-    hierarchical_labels
-)
+# ==========================================
+# PCA RESULTS
+# ==========================================
 
-hierarchical_calinski_harabasz = calinski_harabasz_score(
-    X,
-    hierarchical_labels
-)
+from sklearn.decomposition import PCA
 
-# Display results
-print("\n===== Hierarchical Clustering Evaluation =====")
-print("Number of Clusters:", 6)
-print("Silhouette Score:", round(hierarchical_silhouette, 4))
-print("Davies-Bouldin Index:", round(hierarchical_davies_bouldin, 4))
-print(
-    "Calinski-Harabasz Score:",
-    round(hierarchical_calinski_harabasz, 2)
-)
+pca = PCA(n_components=2)
+pca.fit(X_hierarchical)
 
-# Final Model Comparison
+pc1 = float(pca.explained_variance_ratio_[0] * 100)
+pc2 = float(pca.explained_variance_ratio_[1] * 100)
 
-comparison = pd.DataFrame({
-    "Model": ["K-Means", "Hierarchical"],
-    "Silhouette Score": [silhouette, hierarchical_silhouette],
-    "Davies-Bouldin Index": [davies_bouldin, hierarchical_davies_bouldin],
-    "Calinski-Harabasz Score": [
-        calinski_harabasz,
-        hierarchical_calinski_harabasz
-    ]
-})
+pca_results = {
+    "pc1": round(pc1, 2),
+    "pc2": round(pc2, 2),
+    "total_variance": round(pc1 + pc2, 2)
+}
 
-print("\n===== Final Model Comparison =====")
+# ==========================================
+# FINAL RESULTS
+# ==========================================
+
+results = {
+    "total_villages": int(len(kmeans_df)),
+    "kmeans": kmeans_metrics,
+    "hierarchical": hierarchical_metrics,
+    "pca": pca_results
+}
+
+# ==========================================
+# SAVE JSON
+# ==========================================
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
+    json.dump(results, file, indent=4)
+
+# ==========================================
+# DISPLAY RESULTS
+# ==========================================
+
+print("\n===== K-MEANS EVALUATION =====")
+print(kmeans_metrics)
+
+print("\n===== HIERARCHICAL EVALUATION =====")
+print(hierarchical_metrics)
+
+print("\n===== PCA ANALYSIS =====")
+print(pca_results)
+
+print("\n===== FINAL MODEL COMPARISON =====")
+
+comparison = pd.DataFrame([
+    {
+        "Model": "K-Means",
+        **kmeans_metrics
+    },
+    {
+        "Model": "Hierarchical",
+        **hierarchical_metrics
+    }
+])
+
 print(comparison.to_string(index=False))
+
+print("\nEvaluation results saved successfully:")
+print(OUTPUT_FILE)
