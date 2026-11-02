@@ -22,6 +22,20 @@ app = Flask(__name__)
 
 
 # ==================================================
+# HEALTH CHECK - FOR DEPLOYMENT MONITORING
+# ==================================================
+
+@app.route("/health", methods=["GET"])
+def health():
+    """Lightweight endpoint for deployment health checks."""
+
+    return jsonify({
+        "status": "healthy",
+        "application": "Odisha FRA Monitoring System"
+    }), 200
+
+
+# ==================================================
 # 1. DATASET PATHS
 # ==================================================
 
