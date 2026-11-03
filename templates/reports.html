@@ -5,13 +5,15 @@
 
 <style>
 /* =========================================
-   REPORTS PAGE - PROFESSIONAL UI
+   REPORTS PAGE - GLOBAL THEME INTEGRATION
 ========================================= */
 
 .reports-page {
     padding-bottom: 25px;
-    color: var(--text-color, inherit);
+    color: var(--text);
 }
+
+/* Page Header */
 
 .reports-header {
     display: flex;
@@ -26,13 +28,13 @@
     font-size: 27px;
     font-weight: 750;
     margin-bottom: 7px;
-    color: var(--heading-color, inherit);
+    color: var(--text);
 }
 
 .reports-header p {
     margin-bottom: 0;
     font-size: 14px;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
 }
 
 .reports-header-badge {
@@ -41,8 +43,8 @@
     gap: 8px;
     padding: 9px 15px;
     border-radius: 30px;
-    background: rgba(25, 135, 84, 0.10);
-    color: #198754;
+    background: var(--primary-light);
+    color: var(--primary);
     font-size: 12px;
     font-weight: 700;
 }
@@ -54,16 +56,16 @@
     height: 100%;
     padding: 22px;
     border-radius: 15px;
-    background: var(--card-bg, #ffffff);
-    border: 1px solid var(--border-color, #e5e7eb);
-    box-shadow: 0 3px 12px rgba(0,0,0,0.035);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
     overflow: hidden;
 }
 
 .report-stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    border-color: var(--primary);
 }
 
 .report-stat-top {
@@ -81,27 +83,21 @@
     justify-content: center;
     border-radius: 12px;
     font-size: 20px;
+    background: var(--primary-light);
+    color: var(--primary);
 }
 
-.icon-green {
-    background: rgba(25, 135, 84, 0.12);
-    color: #198754;
-}
-
-.icon-blue {
-    background: rgba(13, 110, 253, 0.12);
-    color: #0d6efd;
-}
-
+.icon-green,
+.icon-blue,
 .icon-orange {
-    background: rgba(255, 159, 67, 0.15);
-    color: #e58a20;
+    background: var(--primary-light);
+    color: var(--primary);
 }
 
 .report-stat-label {
     font-size: 13px;
     font-weight: 600;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
     margin-bottom: 6px;
 }
 
@@ -109,17 +105,17 @@
     font-size: 29px;
     font-weight: 750;
     line-height: 1.2;
-    color: var(--heading-color, inherit);
+    color: var(--text);
 }
 
-/* Section Cards */
+/* Main Sections */
 
 .report-section {
-    background: var(--card-bg, #ffffff);
-    border: 1px solid var(--border-color, #e5e7eb);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 25px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.035);
+    box-shadow: var(--shadow);
 }
 
 .report-section-header {
@@ -135,32 +131,33 @@
     font-size: 19px;
     font-weight: 750;
     margin: 0;
-    color: var(--heading-color, inherit);
+    color: var(--text);
 }
 
 .report-section-description {
     font-size: 13px;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
     margin-bottom: 22px;
 }
 
-/* Individual Report Cards */
+/* Report Cards */
 
 .report-card {
     height: 100%;
     padding: 23px;
     border-radius: 14px;
-    background: var(--inner-card-bg, var(--card-bg, #fff));
-    border: 1px solid var(--border-color, #e5e7eb);
+    background: var(--surface);
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
+    color: var(--text);
     transition: all 0.25s ease;
 }
 
 .report-card:hover {
     transform: translateY(-4px);
-    border-color: #198754;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
 }
 
 .report-card-top {
@@ -177,8 +174,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(25, 135, 84, 0.11);
-    color: #198754;
+    background: var(--primary-light);
+    color: var(--primary);
     font-size: 22px;
 }
 
@@ -187,21 +184,21 @@
     font-weight: 750;
     padding: 6px 10px;
     border-radius: 20px;
-    color: #198754;
-    background: rgba(25, 135, 84, 0.10);
+    color: var(--primary);
+    background: var(--primary-light);
 }
 
 .report-card h5 {
     font-size: 16px;
     font-weight: 750;
-    color: var(--heading-color, inherit);
+    color: var(--text);
     margin-bottom: 10px;
 }
 
 .report-card p {
     font-size: 13px;
     line-height: 1.7;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
     margin-bottom: 18px;
     flex-grow: 1;
 }
@@ -213,9 +210,9 @@
     flex-wrap: wrap;
     gap: 8px;
     padding-top: 13px;
-    border-top: 1px solid var(--border-color, #e5e7eb);
+    border-top: 1px solid var(--border);
     font-size: 11px;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
 }
 
 .report-meta span {
@@ -224,23 +221,28 @@
     gap: 5px;
 }
 
+/* Download Button */
+
 .report-download-btn {
+    display: block;
+    width: 100%;
     margin-top: 18px;
     padding: 11px 14px;
     border-radius: 9px;
     font-size: 13px;
     font-weight: 650;
-    background: #198754;
-    border: 1px solid #198754;
-    color: #fff !important;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: #ffffff !important;
     text-decoration: none;
     text-align: center;
     transition: all 0.2s ease;
 }
 
 .report-download-btn:hover {
-    background: #146c43;
-    border-color: #146c43;
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: #ffffff !important;
     transform: translateY(-1px);
 }
 
@@ -252,17 +254,20 @@
 
 .report-table {
     margin-bottom: 0;
-    color: var(--text-color, inherit);
-    border-color: var(--border-color, #e5e7eb);
+    color: var(--text);
+    border-color: var(--border);
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
 }
 
 .report-table thead th {
     padding: 14px;
     font-size: 12px;
     font-weight: 750;
-    color: var(--heading-color, inherit);
-    background: var(--table-head-bg, rgba(25,135,84,0.08));
-    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    color: var(--primary);
+    background: var(--surface-secondary);
+    border-color: var(--border);
     white-space: nowrap;
 }
 
@@ -270,17 +275,18 @@
     padding: 14px;
     font-size: 13px;
     vertical-align: middle;
-    color: var(--text-color, inherit);
-    background: transparent;
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--border);
 }
 
 .report-table tbody tr:hover td {
-    background: rgba(25,135,84,0.045);
+    background: var(--surface-secondary);
 }
 
 .report-name {
     font-weight: 650;
-    color: var(--heading-color, inherit);
+    color: var(--text);
 }
 
 .csv-tag {
@@ -289,8 +295,8 @@
     border-radius: 6px;
     font-size: 11px;
     font-weight: 700;
-    background: rgba(25,135,84,0.10);
-    color: #198754;
+    background: var(--primary-light);
+    color: var(--primary);
 }
 
 /* Disclaimer */
@@ -300,15 +306,15 @@
     align-items: flex-start;
     gap: 13px;
     padding: 17px 19px;
-    border: 1px solid rgba(13,110,253,0.22);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    background: rgba(13,110,253,0.055);
-    color: var(--text-color, inherit);
+    background: var(--surface-secondary);
+    color: var(--text);
 }
 
 .report-disclaimer-icon {
     font-size: 20px;
-    color: #0d6efd;
+    color: var(--primary);
     margin-top: 1px;
 }
 
@@ -316,39 +322,31 @@
     display: block;
     margin-bottom: 5px;
     font-size: 13px;
+    color: var(--text);
 }
 
 .report-disclaimer p {
     margin: 0;
     font-size: 12px;
     line-height: 1.7;
-    color: var(--muted-color, #777);
+    color: var(--text-muted);
 }
 
-/* Dark Mode Compatibility */
+/* Theme Transitions */
 
-[data-theme="dark"] .report-stat-card,
-[data-theme="dark"] .report-section,
-[data-theme="dark"] .report-card {
-    background: var(--card-bg, #1e293b);
-    border-color: var(--border-color, #334155);
-}
-
-[data-theme="dark"] .report-table thead th {
-    background: rgba(25,135,84,0.13);
-}
-
-[data-theme="dark"] .report-table tbody td {
-    background: transparent;
-}
-
-[data-theme="dark"] .report-disclaimer {
-    background: rgba(13,110,253,0.09);
+.reports-page .report-stat-card,
+.reports-page .report-section,
+.reports-page .report-card,
+.reports-page .report-disclaimer {
+    transition: background 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease;
 }
 
 /* Responsive */
 
 @media (max-width: 768px) {
+
     .reports-header h2 {
         font-size: 23px;
     }
@@ -367,6 +365,7 @@
 }
 
 @media (max-width: 480px) {
+
     .reports-header {
         align-items: flex-start;
     }
@@ -379,19 +378,30 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
+    .report-disclaimer {
+        padding: 14px;
+    }
+
+    .report-table thead th,
+    .report-table tbody td {
+        padding: 10px;
+        font-size: 12px;
+    }
 }
 </style>
 
 
 <div class="reports-page">
 
-    <!-- Page Header -->
+    <!-- PAGE HEADER -->
+
     <div class="reports-header">
 
         <div>
             <h2>
                 <i class="bi bi-file-earmark-bar-graph me-2"
-                   style="color:#198754;"></i>
+                   style="color:var(--primary);"></i>
                 Reports & Data Export
             </h2>
 
@@ -408,11 +418,11 @@
     </div>
 
 
-    <!-- Report Overview -->
+    <!-- REPORT OVERVIEW -->
+
     <div class="row g-3 mb-4">
 
         <div class="col-md-4">
-
             <div class="report-stat-card">
 
                 <div class="report-stat-top">
@@ -430,12 +440,10 @@
                 <div class="report-stat-value">4</div>
 
             </div>
-
         </div>
 
 
         <div class="col-md-4">
-
             <div class="report-stat-card">
 
                 <div class="report-stat-top">
@@ -455,12 +463,10 @@
                 </div>
 
             </div>
-
         </div>
 
 
         <div class="col-md-4">
-
             <div class="report-stat-card">
 
                 <div class="report-stat-top">
@@ -480,13 +486,13 @@
                 </div>
 
             </div>
-
         </div>
 
     </div>
 
 
-    <!-- Report Categories -->
+    <!-- AVAILABLE REPORTS -->
+
     <div class="report-section mb-4">
 
         <div class="report-section-header">
@@ -503,10 +509,9 @@
 
         <div class="row g-4">
 
+            <!-- DISTRICT REPORT -->
 
-            <!-- District Report -->
             <div class="col-lg-6">
-
                 <div class="report-card">
 
                     <div class="report-card-top">
@@ -550,13 +555,12 @@
                     </a>
 
                 </div>
-
             </div>
 
 
-            <!-- Village Report -->
-            <div class="col-lg-6">
+            <!-- VILLAGE REPORT -->
 
+            <div class="col-lg-6">
                 <div class="report-card">
 
                     <div class="report-card-top">
@@ -600,13 +604,12 @@
                     </a>
 
                 </div>
-
             </div>
 
 
-            <!-- KMeans Report -->
-            <div class="col-lg-6">
+            <!-- KMEANS REPORT -->
 
+            <div class="col-lg-6">
                 <div class="report-card">
 
                     <div class="report-card-top">
@@ -649,13 +652,12 @@
                     </a>
 
                 </div>
-
             </div>
 
 
-            <!-- Hierarchical Report -->
-            <div class="col-lg-6">
+            <!-- HIERARCHICAL REPORT -->
 
+            <div class="col-lg-6">
                 <div class="report-card">
 
                     <div class="report-card-top">
@@ -698,7 +700,6 @@
                     </a>
 
                 </div>
-
             </div>
 
         </div>
@@ -706,7 +707,8 @@
     </div>
 
 
-    <!-- Report Information -->
+    <!-- REPORT INFORMATION -->
+
     <div class="report-section mb-4">
 
         <div class="report-section-header">
@@ -806,7 +808,8 @@
     </div>
 
 
-    <!-- Disclaimer -->
+    <!-- DISCLAIMER -->
+
     <div class="report-disclaimer mb-4">
 
         <div class="report-disclaimer-icon">
