@@ -3,60 +3,92 @@
 
 {% block content %}
 
-<!-- Page Header -->
-<div class="page-header mb-4">
-    <h2>ML Priority Analysis</h2>
-    <p class="text-muted">
-        Machine Learning based village clustering and monitoring analysis for Odisha FRA.
-    </p>
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="page-header ml-page-header mb-4">
+    <div>
+        <span class="ml-eyebrow">
+            <i class="bi bi-cpu-fill"></i> MACHINE LEARNING & ANALYTICS
+        </span>
+        <h2 class="mt-2">ML Priority Analysis</h2>
+        <p class="text-muted mb-0">
+            Machine Learning based village clustering and monitoring analysis for Odisha FRA.
+        </p>
+    </div>
+
+    <div class="ml-header-icon">
+        <i class="bi bi-graph-up-arrow"></i>
+    </div>
 </div>
 
-
-<!-- ================================================== -->
-<!-- 1. OVERVIEW CARDS -->
-<!-- ================================================== -->
+<!-- ================= OVERVIEW CARDS ================= -->
 
 <div class="row g-3 mb-4">
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Total Villages Analysed</h6>
-            <h2>{{ total_villages }}</h2>
+        <div class="ml-stat-card">
+            <div class="ml-stat-icon green">
+                <i class="bi bi-houses-fill"></i>
+            </div>
+            <div>
+                <p>Total Villages Analysed</p>
+                <h2>{{ "{:,}".format(total_villages) }}</h2>
+                <small>Village records included in analysis</small>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>K-Means Clusters</h6>
-            <h2>{{ total_kmeans_clusters }}</h2>
+        <div class="ml-stat-card">
+            <div class="ml-stat-icon blue">
+                <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <div>
+                <p>K-Means Clusters</p>
+                <h2>{{ total_kmeans_clusters }}</h2>
+                <small>Unsupervised learning groups</small>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Hierarchical Clusters</h6>
-            <h2>{{ total_hierarchical_clusters }}</h2>
+        <div class="ml-stat-card">
+            <div class="ml-stat-icon purple">
+                <i class="bi bi-diagram-2-fill"></i>
+            </div>
+            <div>
+                <p>Hierarchical Clusters</p>
+                <h2>{{ total_hierarchical_clusters }}</h2>
+                <small>Hierarchical grouping results</small>
+            </div>
         </div>
     </div>
 
 </div>
 
+<!-- ================= MODEL EVALUATION ================= -->
 
-<!-- ================================================== -->
-<!-- 2. MODEL EVALUATION -->
-<!-- ================================================== -->
+<div class="content-card mb-4 ml-section-card">
 
-<div class="content-card mb-4">
+    <div class="ml-section-heading">
+        <div>
+            <span class="ml-section-label">MODEL PERFORMANCE</span>
+            <h4>
+                <i class="bi bi-speedometer2"></i>
+                Clustering Model Evaluation
+            </h4>
+            <p class="text-muted mb-0">
+                Comparison of K-Means and Hierarchical Clustering using three evaluation metrics.
+            </p>
+        </div>
 
-    <h4>Clustering Model Evaluation</h4>
+        <span class="ml-section-icon">
+            <i class="bi bi-bar-chart-line-fill"></i>
+        </span>
+    </div>
 
-    <p class="text-muted">
-        Comparison of K-Means and Hierarchical Clustering using three evaluation metrics.
-    </p>
-
-    <div class="table-responsive">
-
-        <table class="table table-bordered table-hover">
+    <div class="table-responsive mt-4">
+        <table class="table ml-table align-middle">
 
             <thead>
                 <tr>
@@ -68,98 +100,166 @@
             </thead>
 
             <tbody>
-
                 <tr>
-                    <td>Silhouette Score</td>
-                    <td>{{ "%.4f"|format(model_metrics.kmeans.silhouette) }}</td>
-                    <td>{{ "%.4f"|format(model_metrics.hierarchical.silhouette) }}</td>
-                    <td><span class="badge bg-success">K-Means</span></td>
+                    <td>
+                        <strong>Silhouette Score</strong>
+                        <small>Higher is better</small>
+                    </td>
+
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.4f"|format(model_metrics.kmeans.silhouette) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.4f"|format(model_metrics.hierarchical.silhouette) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success">K-Means</span>
+                    </td>
                 </tr>
 
                 <tr>
-                    <td>Davies-Bouldin Index</td>
-                    <td>{{ "%.4f"|format(model_metrics.kmeans.davies_bouldin) }}</td>
-                    <td>{{ "%.4f"|format(model_metrics.hierarchical.davies_bouldin) }}</td>
-                    <td><span class="badge bg-success">Hierarchical</span></td>
+                    <td>
+                        <strong>Davies-Bouldin Index</strong>
+                        <small>Lower is better</small>
+                    </td>
+
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.4f"|format(model_metrics.kmeans.davies_bouldin) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.4f"|format(model_metrics.hierarchical.davies_bouldin) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success">Hierarchical</span>
+                    </td>
                 </tr>
 
                 <tr>
-                    <td>Calinski-Harabasz Score</td>
-                    <td>{{ "%.2f"|format(model_metrics.kmeans.calinski_harabasz) }}</td>
-                    <td>{{ "%.2f"|format(model_metrics.hierarchical.calinski_harabasz) }}</td>
-                    <td><span class="badge bg-success">K-Means</span></td>
-                </tr>
+                    <td>
+                        <strong>Calinski-Harabasz Score</strong>
+                        <small>Higher is better</small>
+                    </td>
 
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.2f"|format(model_metrics.kmeans.calinski_harabasz) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="ml-metric-value">
+                            {{ "%.2f"|format(model_metrics.hierarchical.calinski_harabasz) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success">K-Means</span>
+                    </td>
+                </tr>
             </tbody>
 
         </table>
-
     </div>
 
-    <p class="small text-muted mb-0">
-        Higher Silhouette and Calinski-Harabasz scores are better.
-        Lower Davies-Bouldin scores are better.
-    </p>
+    <div class="ml-info-note">
+        <i class="bi bi-info-circle-fill"></i>
+        <div>
+            <strong>How to interpret these metrics?</strong>
+            <p class="mb-0">
+                Higher Silhouette and Calinski-Harabasz scores are better.
+                Lower Davies-Bouldin scores are better.
+            </p>
+        </div>
+    </div>
 
 </div>
 
-
-<!-- ================================================== -->
-<!-- 3. CLUSTER DISTRIBUTION CHARTS -->
-<!-- ================================================== -->
+<!-- ================= CLUSTER DISTRIBUTION ================= -->
 
 <div class="row g-4 mb-4">
 
     <div class="col-lg-6">
+        <div class="content-card ml-chart-card">
 
-        <div class="content-card">
+            <div class="ml-chart-heading">
+                <div>
+                    <span class="ml-section-label">UNSUPERVISED LEARNING</span>
+                    <h4>K-Means Cluster Distribution</h4>
+                    <p class="text-muted small mb-0">
+                        Distribution of villages across five K-Means clusters.
+                    </p>
+                </div>
 
-            <h4>K-Means Cluster Distribution</h4>
+                <span class="ml-chart-icon green">
+                    <i class="bi bi-pie-chart-fill"></i>
+                </span>
+            </div>
 
-            <p class="text-muted small">
-                Distribution of villages across five K-Means clusters.
-            </p>
-
-            <div id="kmeansChart"></div>
+            <div id="kmeansChart" class="ml-chart-container"></div>
 
         </div>
-
     </div>
 
     <div class="col-lg-6">
+        <div class="content-card ml-chart-card">
 
-        <div class="content-card">
+            <div class="ml-chart-heading">
+                <div>
+                    <span class="ml-section-label">HIERARCHICAL LEARNING</span>
+                    <h4>Hierarchical Cluster Distribution</h4>
+                    <p class="text-muted small mb-0">
+                        Distribution of villages across six Hierarchical clusters.
+                    </p>
+                </div>
 
-            <h4>Hierarchical Cluster Distribution</h4>
+                <span class="ml-chart-icon blue">
+                    <i class="bi bi-pie-chart"></i>
+                </span>
+            </div>
 
-            <p class="text-muted small">
-                Distribution of villages across six Hierarchical clusters.
-            </p>
-
-            <div id="hierarchicalChart"></div>
+            <div id="hierarchicalChart" class="ml-chart-container"></div>
 
         </div>
-
     </div>
 
 </div>
 
+<!-- ================= CLUSTER SUMMARY ================= -->
 
-<!-- ================================================== -->
-<!-- 4. NEW CLUSTER-WISE SUMMARY -->
-<!-- ================================================== -->
+<div class="content-card mb-4 ml-section-card">
 
-<div class="content-card mb-4">
+    <div class="ml-section-heading">
+        <div>
+            <span class="ml-section-label">DETAILED CLUSTER INSIGHTS</span>
+            <h4>
+                <i class="bi bi-grid-1x2-fill"></i>
+                Cluster-wise Village Summary
+            </h4>
+            <p class="text-muted mb-0">
+                Detailed analysis of villages and beneficiaries across K-Means clusters.
+            </p>
+        </div>
 
-    <h4>Cluster-wise Village Summary</h4>
+        <span class="ml-section-icon">
+            <i class="bi bi-table"></i>
+        </span>
+    </div>
 
-    <p class="text-muted">
-        Detailed analysis of villages and beneficiaries across K-Means clusters.
-    </p>
+    <div class="table-responsive mt-4">
 
-    <div class="table-responsive">
-
-        <table class="table table-bordered table-hover align-middle">
+        <table class="table ml-table align-middle">
 
             <thead>
                 <tr>
@@ -179,28 +279,25 @@
                 {% for item in cluster_summary %}
 
                 <tr>
-
                     <td>
-                        <span class="badge bg-primary">
+                        <span class="ml-cluster-badge">
                             Cluster {{ item.cluster }}
                         </span>
                     </td>
 
                     <td>
-                        {{ "{:,}".format(item.village_count) }}
+                        <strong>{{ "{:,}".format(item.village_count) }}</strong>
                     </td>
 
                     <td>
-                        {{ "{:,}".format(item.total_beneficiaries) }}
+                        <strong>{{ "{:,}".format(item.total_beneficiaries) }}</strong>
                     </td>
 
                     <td>
                         {{ "{:,.2f}".format(item.average_beneficiaries) }}
                     </td>
 
-                    <td>
-                        {{ item.top_district }}
-                    </td>
+                    <td>{{ item.top_district }}</td>
 
                     <td>
                         <span class="badge bg-danger">
@@ -219,13 +316,13 @@
                             {{ item.low }}
                         </span>
                     </td>
-
                 </tr>
 
                 {% else %}
 
                 <tr>
-                    <td colspan="8" class="text-center text-muted">
+                    <td colspan="8" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox"></i>
                         No cluster summary data available.
                     </td>
                 </tr>
@@ -238,52 +335,77 @@
 
     </div>
 
-    <div class="alert alert-info mb-0">
-
-        <strong>Note:</strong>
-        Cluster numbers are analytical group identifiers.
-        High, Medium and Low represent the existing
-        Village Monitoring Priority values, not official
-        government FRA implementation classifications.
-
+    <div class="ml-info-note mt-3">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <div>
+            <strong>Important Note</strong>
+            <p class="mb-0">
+                Cluster numbers are analytical group identifiers.
+                High, Medium and Low represent the existing Village Monitoring
+                Priority values, not official government FRA implementation classifications.
+            </p>
+        </div>
     </div>
 
 </div>
 
+<!-- ================= PCA ANALYSIS ================= -->
 
-<!-- ================================================== -->
-<!-- 5. PCA ANALYSIS -->
-<!-- ================================================== -->
+<div class="content-card mb-4 ml-section-card">
 
-<div class="content-card mb-4">
+    <div class="ml-section-heading mb-4">
+        <div>
+            <span class="ml-section-label">DIMENSIONALITY REDUCTION</span>
+            <h4>
+                <i class="bi bi-bezier2"></i>
+                PCA Analysis
+            </h4>
+            <p class="text-muted mb-0">
+                Principal Component Analysis reduces feature dimensions while preserving
+                important information for visualization.
+            </p>
+        </div>
 
-    <h4>PCA Analysis</h4>
-
-    <p class="text-muted">
-        Principal Component Analysis (PCA) reduces the feature dimensions
-        while preserving important information for visualization.
-    </p>
+        <span class="ml-section-icon">
+            <i class="bi bi-bullseye"></i>
+        </span>
+    </div>
 
     <div class="row g-3">
 
         <div class="col-md-4">
-            <div class="stat-card">
-                <h6>Principal Component 1</h6>
-                <h3>{{ pca_results.pc1 }}%</h3>
+            <div class="ml-pca-card">
+                <div class="ml-pca-icon">
+                    <i class="bi bi-1-circle-fill"></i>
+                </div>
+
+                <p>Principal Component 1</p>
+                <h2>{{ pca_results.pc1 }}%</h2>
+                <small>Explained variance</small>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="stat-card">
-                <h6>Principal Component 2</h6>
-                <h3>{{ pca_results.pc2 }}%</h3>
+            <div class="ml-pca-card">
+                <div class="ml-pca-icon blue">
+                    <i class="bi bi-2-circle-fill"></i>
+                </div>
+
+                <p>Principal Component 2</p>
+                <h2>{{ pca_results.pc2 }}%</h2>
+                <small>Explained variance</small>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="stat-card">
-                <h6>Total Explained Variance</h6>
-                <h3>{{ pca_results.total_variance }}%</h3>
+            <div class="ml-pca-card total">
+                <div class="ml-pca-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+                <p>Total Explained Variance</p>
+                <h2>{{ pca_results.total_variance }}%</h2>
+                <small>Combined variance of PC1 and PC2</small>
             </div>
         </div>
 
@@ -291,160 +413,883 @@
 
 </div>
 
+<!-- ================= METHODOLOGY ================= -->
 
-<!-- ================================================== -->
-<!-- 6. METHODOLOGY -->
-<!-- ================================================== -->
+<div class="content-card mb-4 ml-section-card">
 
-<div class="content-card">
+    <div class="ml-section-heading mb-4">
+        <div>
+            <span class="ml-section-label">MODEL DEVELOPMENT PROCESS</span>
+            <h4>
+                <i class="bi bi-diagram-3-fill"></i>
+                ML Methodology
+            </h4>
+            <p class="text-muted mb-0">
+                Key steps followed in the clustering and analysis workflow.
+            </p>
+        </div>
 
-    <h4>Methodology</h4>
+        <span class="ml-section-icon">
+            <i class="bi bi-list-check"></i>
+        </span>
+    </div>
 
-    <ul>
+    <div class="ml-methodology-list">
 
-        <li>
-            Selected four village-level numerical features:
-            Beneficiary Count, Village Share in GP,
-            Village Share in Block and Village Share in District.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">01</span>
+            <div>
+                <h6>Feature Selection</h6>
+                <p>
+                    Selected four village-level numerical features:
+                    Beneficiary Count, Village Share in GP,
+                    Village Share in Block and Village Share in District.
+                </p>
+            </div>
+        </div>
 
-        <li>
-            Applied StandardScaler for feature scaling.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">02</span>
+            <div>
+                <h6>Feature Scaling</h6>
+                <p>
+                    Applied StandardScaler for feature scaling.
+                </p>
+            </div>
+        </div>
 
-        <li>
-            Applied K-Means clustering with 5 clusters.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">03</span>
+            <div>
+                <h6>K-Means Clustering</h6>
+                <p>
+                    Applied K-Means clustering with 5 clusters.
+                </p>
+            </div>
+        </div>
 
-        <li>
-            Applied Hierarchical clustering with 6 clusters.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">04</span>
+            <div>
+                <h6>Hierarchical Clustering</h6>
+                <p>
+                    Applied Hierarchical clustering with 6 clusters.
+                </p>
+            </div>
+        </div>
 
-        <li>
-            Evaluated both clustering models using Silhouette Score,
-            Davies-Bouldin Index and Calinski-Harabasz Score.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">05</span>
+            <div>
+                <h6>Model Evaluation</h6>
+                <p>
+                    Evaluated both clustering models using Silhouette Score,
+                    Davies-Bouldin Index and Calinski-Harabasz Score.
+                </p>
+            </div>
+        </div>
 
-        <li>
-            Used PCA to reduce feature dimensions for visualization.
-        </li>
+        <div class="ml-method-item">
+            <span class="ml-step-number">06</span>
+            <div>
+                <h6>Dimensionality Reduction</h6>
+                <p>
+                    Used PCA to reduce feature dimensions for visualization.
+                </p>
+            </div>
+        </div>
 
-    </ul>
+    </div>
 
-    <div class="alert alert-info mb-0">
-
-        <strong>Note:</strong>
-
-        Cluster labels represent analytical groups based on
-        village-level features. They should not be interpreted
-        directly as official government FRA implementation priorities.
-
+    <div class="ml-info-note mt-4">
+        <i class="bi bi-info-circle-fill"></i>
+        <div>
+            <strong>Analytical Interpretation</strong>
+            <p class="mb-0">
+                Cluster labels represent analytical groups based on village-level features.
+                They should not be interpreted directly as official government
+                FRA implementation priorities.
+            </p>
+        </div>
     </div>
 
 </div>
 
-
-<!-- ================================================== -->
-<!-- 7. PLOTLY CHARTS -->
-<!-- ================================================== -->
+<!-- ================= PLOTLY CHARTS ================= -->
 
 <script>
 
-// K-Means cluster data
+// Data from Flask backend
 
 const kmeansLabels = {{ kmeans_labels | tojson }};
 const kmeansValues = {{ kmeans_values | tojson }};
-
-
-// Hierarchical cluster data
 
 const hierarchicalLabels = {{ hierarchical_labels | tojson }};
 const hierarchicalValues = {{ hierarchical_values | tojson }};
 
 
-// K-Means Pie Chart
+// Detect current theme
 
-Plotly.newPlot(
+function getMLChartTheme() {
 
-    "kmeansChart",
+    const darkMode =
+        document.documentElement.getAttribute("data-theme") === "dark" ||
+        document.body.getAttribute("data-theme") === "dark";
 
-    [{
-        labels: kmeansLabels,
-        values: kmeansValues,
-        type: "pie",
-        hole: 0.45,
-        textinfo: "label+percent",
-        hovertemplate:
-            "<b>%{label}</b><br>" +
-            "Villages: %{value}<br>" +
-            "Percentage: %{percent}<extra></extra>"
-    }],
+    return {
+        darkMode: darkMode,
+        background: darkMode ? "#1b2c23" : "#ffffff",
+        text: darkMode ? "#e5f3e9" : "#334155",
+        muted: darkMode ? "#a9bdb0" : "#64748b"
+    };
+}
 
-    {
+
+// Common chart configuration
+
+function getMLChartLayout() {
+
+    const theme = getMLChartTheme();
+
+    return {
+        paper_bgcolor: theme.background,
+        plot_bgcolor: theme.background,
+        font: {
+            family: "Inter, Arial, sans-serif",
+            color: theme.text,
+            size: 12
+        },
         margin: {
-            t: 20,
-            b: 20,
+            t: 25,
+            b: 35,
             l: 20,
             r: 20
         },
-
         showlegend: true,
-
         legend: {
             orientation: "h",
-            y: -0.1
+            y: -0.12,
+            font: {
+                color: theme.muted
+            }
+        },
+        autosize: true
+    };
+}
+
+
+// K-Means Pie Chart
+
+const kmeansData = [{
+    labels: kmeansLabels,
+    values: kmeansValues,
+    type: "pie",
+    hole: 0.48,
+    textinfo: "label+percent",
+    textposition: "inside",
+    hovertemplate:
+        "<b>%{label}</b><br>" +
+        "Villages: %{value}<br>" +
+        "Percentage: %{percent}<extra></extra>",
+    marker: {
+        line: {
+            color: "#ffffff",
+            width: 2
         }
-    },
-
-    {
-        responsive: true,
-        displayModeBar: false
     }
-
-);
+}];
 
 
 // Hierarchical Pie Chart
 
-Plotly.newPlot(
-
-    "hierarchicalChart",
-
-    [{
-        labels: hierarchicalLabels,
-        values: hierarchicalValues,
-        type: "pie",
-        hole: 0.45,
-        textinfo: "label+percent",
-        hovertemplate:
-            "<b>%{label}</b><br>" +
-            "Villages: %{value}<br>" +
-            "Percentage: %{percent}<extra></extra>"
-    }],
-
-    {
-        margin: {
-            t: 20,
-            b: 20,
-            l: 20,
-            r: 20
-        },
-
-        showlegend: true,
-
-        legend: {
-            orientation: "h",
-            y: -0.1
+const hierarchicalData = [{
+    labels: hierarchicalLabels,
+    values: hierarchicalValues,
+    type: "pie",
+    hole: 0.48,
+    textinfo: "label+percent",
+    textposition: "inside",
+    hovertemplate:
+        "<b>%{label}</b><br>" +
+        "Villages: %{value}<br>" +
+        "Percentage: %{percent}<extra></extra>",
+    marker: {
+        line: {
+            color: "#ffffff",
+            width: 2
         }
-    },
+    }
+}];
 
-    {
+
+// Render charts
+
+function renderMLCharts() {
+
+    const layout = getMLChartLayout();
+
+    const config = {
         responsive: true,
         displayModeBar: false
+    };
+
+    Plotly.newPlot(
+        "kmeansChart",
+        kmeansData,
+        layout,
+        config
+    );
+
+    Plotly.newPlot(
+        "hierarchicalChart",
+        hierarchicalData,
+        layout,
+        config
+    );
+}
+
+
+// Initial rendering
+
+if (typeof Plotly !== "undefined") {
+    renderMLCharts();
+}
+
+
+// Re-render charts when theme changes
+
+const mlThemeObserver = new MutationObserver(function () {
+
+    if (typeof Plotly !== "undefined") {
+
+        const layout = getMLChartLayout();
+
+        Plotly.relayout("kmeansChart", {
+            paper_bgcolor: layout.paper_bgcolor,
+            plot_bgcolor: layout.plot_bgcolor,
+            "font.color": layout.font.color,
+            "legend.font.color": layout.font.color
+        });
+
+        Plotly.relayout("hierarchicalChart", {
+            paper_bgcolor: layout.paper_bgcolor,
+            plot_bgcolor: layout.plot_bgcolor,
+            "font.color": layout.font.color,
+            "legend.font.color": layout.font.color
+        });
+
     }
 
-);
+});
+
+mlThemeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"]
+});
+
+mlThemeObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["data-theme"]
+});
 
 </script>
+
+
+<!-- ================= ML ANALYSIS STYLING ================= -->
+
+<style>
+
+/* PAGE HEADER */
+
+.ml-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.ml-eyebrow {
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 1.3px;
+    color: #198754;
+}
+
+.ml-page-header h2 {
+    color: #173e30;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+.ml-header-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 17px;
+    background: #e8f5ed;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 29px;
+}
+
+/* OVERVIEW CARDS */
+
+.ml-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px;
+    height: 100%;
+    border-radius: 15px;
+    background: #ffffff;
+    border: 1px solid #e0ebe3;
+    transition: all .25s ease;
+}
+
+.ml-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(20, 70, 45, .08);
+}
+
+.ml-stat-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.ml-stat-icon.green {
+    background: #e8f5ed;
+    color: #198754;
+}
+
+.ml-stat-icon.blue {
+    background: #eaf2ff;
+    color: #2874d0;
+}
+
+.ml-stat-icon.purple {
+    background: #f1ebff;
+    color: #7652c8;
+}
+
+.ml-stat-card p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.ml-stat-card h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #164b36;
+    margin-bottom: 3px;
+}
+
+.ml-stat-card small {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* SECTION HEADINGS */
+
+.ml-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.ml-section-heading h4 {
+    font-size: 22px;
+    font-weight: 750;
+    color: #173e30;
+    margin: 7px 0;
+}
+
+.ml-section-heading h4 i {
+    color: #198754;
+    margin-right: 5px;
+}
+
+.ml-section-heading p {
+    font-size: 13px;
+}
+
+.ml-section-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: #198754;
+}
+
+.ml-section-icon {
+    height: 48px;
+    width: 48px;
+    min-width: 48px;
+    border-radius: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eaf5ee;
+    color: #198754;
+    font-size: 20px;
+}
+
+/* MODEL EVALUATION TABLE */
+
+.ml-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #e1ebe4;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.ml-table thead th {
+    padding: 17px 19px;
+    background: #eaf5ee;
+    color: #164b36;
+    border-bottom: 1px solid #d6e7dc;
+    font-size: 13px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.ml-table tbody td {
+    padding: 17px 19px;
+    border-bottom: 1px solid #edf1ee;
+    color: #475569;
+    font-size: 13px;
+}
+
+.ml-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ml-table tbody tr:hover {
+    background: #f3faf5;
+}
+
+.ml-table tbody td:first-child strong {
+    display: block;
+    color: #315640;
+    font-weight: 700;
+}
+
+.ml-table tbody td:first-child small {
+    display: block;
+    color: #94a3b8;
+    margin-top: 4px;
+    font-size: 11px;
+}
+
+.ml-metric-value {
+    font-weight: 750;
+    color: #16834e;
+    font-size: 15px;
+}
+
+.ml-table .badge {
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* INFORMATION NOTE */
+
+.ml-info-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 17px 19px;
+    border-radius: 11px;
+    background: #edf7f0;
+    border: 1px solid #d6eadd;
+    color: #315c40;
+    font-size: 13px;
+}
+
+.ml-info-note > i {
+    font-size: 19px;
+    color: #198754;
+    margin-top: 2px;
+}
+
+.ml-info-note strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ml-info-note p {
+    line-height: 1.6;
+}
+
+/* CHART CARDS */
+
+.ml-chart-card {
+    height: 100%;
+    border-radius: 15px;
+    padding: 24px;
+}
+
+.ml-chart-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.ml-chart-heading h4 {
+    font-size: 18px;
+    font-weight: 750;
+    color: #173e30;
+    margin: 7px 0;
+}
+
+.ml-chart-icon {
+    height: 43px;
+    width: 43px;
+    min-width: 43px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19px;
+}
+
+.ml-chart-icon.green {
+    background: #e8f5ed;
+    color: #198754;
+}
+
+.ml-chart-icon.blue {
+    background: #eaf2ff;
+    color: #2874d0;
+}
+
+.ml-chart-container {
+    width: 100%;
+    min-height: 340px;
+    margin-top: 15px;
+}
+
+/* CLUSTER SUMMARY */
+
+.ml-cluster-badge {
+    display: inline-block;
+    background: #eaf2ff;
+    color: #2464b4;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+/* PCA CARDS */
+
+.ml-pca-card {
+    padding: 25px;
+    border-radius: 15px;
+    background: #f1f8f3;
+    border: 1px solid #dcebe1;
+    height: 100%;
+    transition: all .25s ease;
+}
+
+.ml-pca-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(20, 70, 45, .08);
+}
+
+.ml-pca-card.total {
+    background: linear-gradient(135deg, #e7f5eb, #f4fbf5);
+    border-color: #b9dec5;
+}
+
+.ml-pca-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dcefe2;
+    color: #198754;
+    font-size: 19px;
+    margin-bottom: 17px;
+}
+
+.ml-pca-icon.blue {
+    background: #e1edff;
+    color: #2874d0;
+}
+
+.ml-pca-card p {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.ml-pca-card h2 {
+    color: #164b36;
+    font-weight: 800;
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+.ml-pca-card small {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* METHODOLOGY */
+
+.ml-methodology-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.ml-method-item {
+    display: flex;
+    gap: 17px;
+    padding: 17px 0;
+    border-bottom: 1px solid #e9efeb;
+}
+
+.ml-method-item:last-child {
+    border-bottom: none;
+}
+
+.ml-step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    background: #e8f5ed;
+    color: #198754;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.ml-method-item h6 {
+    color: #244b39;
+    font-size: 15px;
+    font-weight: 750;
+    margin: 2px 0 6px;
+}
+
+.ml-method-item p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* DARK MODE */
+
+[data-theme="dark"] .ml-page-header h2,
+[data-theme="dark"] .ml-section-heading h4,
+[data-theme="dark"] .ml-chart-heading h4,
+[data-theme="dark"] .ml-stat-card h2,
+[data-theme="dark"] .ml-pca-card h2 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .ml-stat-card,
+[data-theme="dark"] .ml-chart-card,
+[data-theme="dark"] .ml-pca-card {
+    background: #1b2c23 !important;
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .ml-pca-card.total {
+    background: #203d2d !important;
+}
+
+[data-theme="dark"] .ml-stat-card p,
+[data-theme="dark"] .ml-stat-card small,
+[data-theme="dark"] .ml-pca-card p,
+[data-theme="dark"] .ml-pca-card small,
+[data-theme="dark"] .ml-section-heading p,
+[data-theme="dark"] .ml-chart-heading p {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .ml-table {
+    border-color: #3a5142 !important;
+    --bs-table-bg: #1b2c23;
+    --bs-table-color: #dce9e0;
+    --bs-table-border-color: #3a5142;
+    --bs-table-hover-bg: #263d2f;
+    --bs-table-hover-color: #f0f7f2;
+}
+
+[data-theme="dark"] .ml-table thead th {
+    background: #263d2f !important;
+    color: #e5f3e9 !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .ml-table tbody td {
+    color: #c8d9ce !important;
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .ml-table tbody td:first-child strong {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .ml-table tbody td:first-child small {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .ml-table tbody tr:hover {
+    background: #263d2f !important;
+}
+
+[data-theme="dark"] .ml-metric-value {
+    color: #72d49a !important;
+}
+
+[data-theme="dark"] .ml-info-note {
+    background: #203d2d !important;
+    border-color: #3c6249 !important;
+    color: #cce4d3 !important;
+}
+
+[data-theme="dark"] .ml-info-note > i {
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .ml-method-item {
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .ml-method-item h6 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .ml-method-item p {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .ml-step-number {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .ml-section-icon,
+[data-theme="dark"] .ml-chart-icon.green,
+[data-theme="dark"] .ml-stat-icon.green {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .ml-stat-icon.blue,
+[data-theme="dark"] .ml-chart-icon.blue {
+    background: #203c5c !important;
+    color: #8bbcff !important;
+}
+
+[data-theme="dark"] .ml-stat-icon.purple {
+    background: #382b55 !important;
+    color: #c5a9ff !important;
+}
+
+[data-theme="dark"] .ml-pca-icon {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .ml-pca-icon.blue {
+    background: #203c5c !important;
+    color: #8bbcff !important;
+}
+
+[data-theme="dark"] .ml-cluster-badge {
+    background: #203c5c !important;
+    color: #a6caff !important;
+}
+
+[data-theme="dark"] .ml-header-icon {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .ml-page-header {
+        align-items: flex-start;
+    }
+
+    .ml-page-header h2 {
+        font-size: 24px;
+    }
+
+    .ml-header-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 22px;
+    }
+
+    .ml-stat-card {
+        padding: 18px;
+    }
+
+    .ml-stat-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 21px;
+    }
+
+    .ml-stat-card h2 {
+        font-size: 25px;
+    }
+
+    .ml-section-heading h4 {
+        font-size: 19px;
+    }
+
+    .ml-section-icon {
+        display: none;
+    }
+
+    .ml-chart-card {
+        padding: 18px;
+    }
+
+    .ml-chart-container {
+        min-height: 290px;
+    }
+
+    .ml-table thead th,
+    .ml-table tbody td {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .ml-pca-card {
+        padding: 20px;
+    }
+
+}
+
+</style>
 
 {% endblock %}

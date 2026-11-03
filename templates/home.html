@@ -1,0 +1,1112 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | Odisha FRA Monitoring System{% endblock %}
+
+{% block content %}
+
+<style>
+/* ==========================================
+   ODISHA FRA - PROFESSIONAL HOMEPAGE
+========================================== */
+
+.fra-home {
+    width: 100%;
+    color: var(--text-primary, #24352c);
+}
+
+/* ==========================================
+   HERO BANNER
+========================================== */
+
+.fra-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    padding: 45px 55px;
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3, 43, 25, 0.97) 0%,
+            rgba(5, 60, 35, 0.88) 38%,
+            rgba(5, 60, 35, 0.30) 72%,
+            rgba(5, 45, 25, 0.08) 100%
+        ),
+        url("{{ url_for('static', filename='images/hero-forest.jpg') }}");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: white;
+    margin-bottom: 16px;
+}
+
+.fra-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.fra-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.17);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 19px;
+}
+
+.fra-hero h1 {
+    font-size: clamp(29px, 3.5vw, 43px);
+    font-weight: 800;
+    line-height: 1.18;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.fra-hero h1 span {
+    color: #c7f49b;
+}
+
+.fra-hero p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.94);
+    max-width: 570px;
+    margin-bottom: 0;
+}
+
+.fra-hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 23px;
+}
+
+.fra-btn-primary,
+.fra-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 20px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 750;
+    transition: 0.25s ease;
+}
+
+.fra-btn-primary {
+    background: #ffffff;
+    color: #15583a;
+}
+
+.fra-btn-primary:hover {
+    background: #dff2df;
+    color: #10442b;
+    transform: translateY(-3px);
+}
+
+.fra-btn-outline {
+    border: 1px solid rgba(255,255,255,0.75);
+    color: #ffffff;
+    background: rgba(0,0,0,0.12);
+}
+
+.fra-btn-outline:hover {
+    background: rgba(255,255,255,0.18);
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* ==========================================
+   STATISTICS SECTION
+========================================== */
+
+.fra-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 12px 10px;
+    background: #e8f5e2;
+    border: 1px solid #d7e9d0;
+    border-radius: 15px;
+    margin-bottom: 28px;
+}
+
+.fra-stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    padding: 7px 15px;
+    border-right: 1px solid #b8d8ad;
+}
+
+.fra-stat-card:last-child {
+    border-right: none;
+}
+
+.fra-stat-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: #d3edc6;
+    color: #12613a;
+    font-size: 23px;
+}
+
+.fra-stat-info small {
+    display: block;
+    color: #47634c;
+    font-size: 11px;
+    font-weight: 650;
+    margin-bottom: 2px;
+}
+
+.fra-stat-info h3 {
+    color: #124d2e;
+    font-size: 25px;
+    font-weight: 850;
+    margin: 0;
+    line-height: 1.1;
+}
+
+/* ==========================================
+   SECTION HEADINGS
+========================================== */
+
+.fra-section {
+    margin-bottom: 28px;
+}
+
+.fra-section-heading {
+    margin-bottom: 15px;
+    padding-left: 12px;
+    border-left: 5px solid #26954f;
+}
+
+.fra-section-heading h2 {
+    font-size: 23px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.fra-section-heading p {
+    color: var(--text-secondary, #718078);
+    font-size: 12px;
+    margin: 0;
+}
+
+/* ==========================================
+   PLATFORM MODULE CARDS
+========================================== */
+
+.fra-feature-card {
+    height: 100%;
+    padding: 19px;
+    border-radius: 14px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5ebe6);
+    transition: 0.25s ease;
+}
+
+.fra-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(20,60,40,0.10);
+    border-color: #80b99a;
+}
+
+.fra-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e8f5e9;
+    color: #176344;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.fra-feature-card h5 {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.fra-feature-card p {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--text-secondary, #718078);
+    margin-bottom: 12px;
+    min-height: 55px;
+}
+
+.fra-card-link {
+    color: #23734d;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.fra-card-link:hover {
+    color: #12472e;
+}
+
+/* ==========================================
+   ABOUT + WORKFLOW LAYOUT
+========================================== */
+
+.fra-lower-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.fra-overview,
+.fra-workflow {
+    padding: 22px;
+    border-radius: 15px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5ebe6);
+    height: 100%;
+}
+
+.fra-overview h3,
+.fra-workflow h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.fra-overview p,
+.fra-workflow > p {
+    color: var(--text-secondary, #718078);
+    line-height: 1.7;
+    font-size: 12px;
+}
+
+.fra-overview-heading,
+.fra-workflow-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.fra-overview-heading i,
+.fra-workflow-heading i {
+    font-size: 21px;
+    color: #27834b;
+}
+
+.fra-highlight {
+    padding: 13px;
+    border-left: 4px solid #32845d;
+    border-radius: 8px;
+    background: var(--surface-bg, #f0f7f0);
+    margin-top: 13px;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* ==========================================
+   OVERVIEW TREE ILLUSTRATION
+========================================== */
+
+.fra-tree-illustration {
+    font-size: 95px;
+    color: #32845d;
+    text-align: center;
+}
+
+.fra-overview-side h5 {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.fra-overview-side p {
+    font-size: 11px;
+}
+
+/* ==========================================
+   WORKFLOW STEPS
+========================================== */
+
+.fra-workflow-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.fra-workflow-card {
+    position: relative;
+    padding: 13px 11px;
+    height: 100%;
+    border-radius: 12px;
+    background: var(--surface-bg, #f8fbf8);
+    border: 1px solid var(--border-color, #e5ebe6);
+}
+
+.fra-step-number {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #176344;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.fra-workflow-card h6 {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.fra-workflow-card p {
+    font-size: 10px;
+    color: var(--text-secondary, #718078);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   BOTTOM FOREST BANNER
+========================================== */
+
+.fra-bottom-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 27px 20px;
+    border-radius: 17px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4,55,29,0.94),
+            rgba(13,105,54,0.88)
+        ),
+        url("{{ url_for('static', filename='images/hero-forest.jpg') }}");
+
+    background-size: cover;
+    background-position: center 75%;
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.fra-bottom-banner h3 {
+    font-size: 22px;
+    font-weight: 850;
+    color: white;
+    margin-bottom: 7px;
+}
+
+.fra-bottom-banner p {
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.fra-bottom-banner a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e9f7d9;
+    color: #14502e;
+    padding: 10px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 800;
+    transition: 0.25s;
+}
+
+.fra-bottom-banner a:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   DARK MODE
+========================================== */
+
+[data-theme="dark"] .fra-feature-card,
+[data-theme="dark"] .fra-workflow-card,
+[data-theme="dark"] .fra-overview,
+[data-theme="dark"] .fra-workflow {
+    background: var(--card-bg, #1d2922);
+    border-color: var(--border-color, #35453a);
+}
+
+[data-theme="dark"] .fra-stat-card {
+    border-color: #46634b;
+}
+
+[data-theme="dark"] .fra-stats {
+    background: #203c2a;
+    border-color: #35563b;
+}
+
+[data-theme="dark"] .fra-stat-info small {
+    color: #c1d8c4;
+}
+
+[data-theme="dark"] .fra-stat-info h3 {
+    color: #b9e5c8;
+}
+
+[data-theme="dark"] .fra-stat-icon {
+    background: #34563b;
+    color: #c6f0ce;
+}
+
+[data-theme="dark"] .fra-icon {
+    background: #294333;
+    color: #a8dfb8;
+}
+
+[data-theme="dark"] .fra-highlight {
+    background: #24372b;
+}
+
+[data-theme="dark"] .fra-card-link {
+    color: #8ed5a5;
+}
+
+[data-theme="dark"] .fra-workflow-card {
+    background: #202e25;
+}
+
+[data-theme="dark"] .fra-tree-illustration {
+    color: #7ecb93;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media(max-width: 992px) {
+
+    .fra-lower-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fra-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .fra-stat-card:nth-child(2) {
+        border-right: none;
+    }
+
+    .fra-stat-card:nth-child(1),
+    .fra-stat-card:nth-child(2) {
+        border-bottom: 1px solid #b8d8ad;
+    }
+}
+
+@media(max-width: 768px) {
+
+    .fra-hero {
+        min-height: 360px;
+        padding: 35px 23px;
+        background-position: 65% center;
+    }
+
+    .fra-hero h1 {
+        font-size: 29px;
+    }
+
+    .fra-hero p {
+        font-size: 13px;
+    }
+
+    .fra-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .fra-stat-card {
+        justify-content: flex-start;
+        padding: 12px 7px;
+        gap: 9px;
+    }
+
+    .fra-stat-info h3 {
+        font-size: 20px;
+    }
+
+    .fra-stat-icon {
+        width: 39px;
+        height: 39px;
+        min-width: 39px;
+        font-size: 18px;
+    }
+
+    .fra-section-heading h2 {
+        font-size: 20px;
+    }
+
+    .fra-workflow-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .fra-overview,
+    .fra-workflow {
+        padding: 17px;
+    }
+
+    .fra-bottom-banner h3 {
+        font-size: 19px;
+    }
+}
+
+@media(max-width: 420px) {
+
+    .fra-hero {
+        padding: 28px 18px;
+    }
+
+    .fra-hero-actions {
+        gap: 8px;
+    }
+
+    .fra-btn-primary,
+    .fra-btn-outline {
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+
+    .fra-stat-info h3 {
+        font-size: 17px;
+    }
+
+    .fra-stat-info small {
+        font-size: 9px;
+    }
+
+    .fra-feature-card {
+        padding: 16px;
+    }
+}
+
+</style>
+
+
+<div class="fra-home">
+
+    <!-- ======================================
+         HERO BANNER
+    ======================================= -->
+
+    <section class="fra-hero">
+
+        <div class="fra-hero-content">
+
+            <div class="fra-eyebrow">
+                <i class="bi bi-tree-fill"></i>
+                ODISHA FOREST RIGHTS ACT MONITORING
+            </div>
+
+            <h1>
+                Empowering Forest Rights
+                Through <span>Data-Driven Monitoring</span>
+            </h1>
+
+            <p>
+                An AI and WebGIS-based monitoring platform
+                designed to analyze Forest Rights Act
+                implementation across Odisha through
+                data analytics, machine learning and
+                geographical visualization.
+            </p>
+
+            <div class="fra-hero-actions">
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="fra-btn-primary">
+
+                    <i class="bi bi-speedometer2"></i>
+                    Explore Dashboard
+
+                </a>
+
+                <a href="{{ url_for('webgis') }}"
+                   class="fra-btn-outline">
+
+                    <i class="bi bi-geo-alt"></i>
+                    Explore WebGIS
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         PROJECT STATISTICS
+    ======================================= -->
+
+    <section class="fra-stats">
+
+        <div class="fra-stat-card">
+
+            <div class="fra-stat-icon">
+                <i class="bi bi-bank"></i>
+            </div>
+
+            <div class="fra-stat-info">
+                <small>Total Districts</small>
+                <h3>30</h3>
+            </div>
+
+        </div>
+
+
+        <div class="fra-stat-card">
+
+            <div class="fra-stat-icon">
+                <i class="bi bi-house-fill"></i>
+            </div>
+
+            <div class="fra-stat-info">
+                <small>Total Villages</small>
+                <h3>12,424</h3>
+            </div>
+
+        </div>
+
+
+        <div class="fra-stat-card">
+
+            <div class="fra-stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div class="fra-stat-info">
+                <small>Total Beneficiaries</small>
+                <h3>271,328</h3>
+            </div>
+
+        </div>
+
+
+        <div class="fra-stat-card">
+
+            <div class="fra-stat-icon">
+                <i class="bi bi-stack"></i>
+            </div>
+
+            <div class="fra-stat-info">
+                <small>ML Clusters (K-Means)</small>
+                <h3>5</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         PLATFORM MODULES
+    ======================================= -->
+
+    <section class="fra-section">
+
+        <div class="fra-section-heading">
+
+            <h2>Explore Platform Modules</h2>
+
+            <p>
+                Access different analytical and monitoring
+                components of the FRA platform.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+            <!-- DASHBOARD -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+
+                    <h5>Monitoring Dashboard</h5>
+
+                    <p>
+                        Get an overview of FRA implementation
+                        indicators, claims, beneficiaries and
+                        district-level performance.
+                    </p>
+
+                    <a href="{{ url_for('dashboard') }}"
+                       class="fra-card-link">
+                        Explore Dashboard →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- DISTRICT ANALYTICS -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <h5>District Analytics</h5>
+
+                    <p>
+                        Analyze district-wise claims,
+                        approvals, rejections and
+                        implementation indicators.
+                    </p>
+
+                    <a href="{{ url_for('district') }}"
+                       class="fra-card-link">
+                        View District Analytics →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- VILLAGE EXPLORER -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-house-door"></i>
+                    </div>
+
+                    <h5>Village Explorer</h5>
+
+                    <p>
+                        Search villages and explore
+                        beneficiary information through
+                        district, block and GP filters.
+                    </p>
+
+                    <a href="{{ url_for('village') }}"
+                       class="fra-card-link">
+                        Explore Villages →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- MACHINE LEARNING -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <h5>Machine Learning Analysis</h5>
+
+                    <p>
+                        Explore K-Means and Hierarchical
+                        Clustering results for analytical
+                        assessment of FRA implementation.
+                    </p>
+
+                    <a href="{{ url_for('ml_analysis') }}"
+                       class="fra-card-link">
+                        Explore ML Analysis →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- WEBGIS -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-map"></i>
+                    </div>
+
+                    <h5>WebGIS Visualization</h5>
+
+                    <p>
+                        Visualize district-level beneficiary
+                        distribution through interactive
+                        geographical maps.
+                    </p>
+
+                    <a href="{{ url_for('webgis') }}"
+                       class="fra-card-link">
+                        Open WebGIS →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORTS -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="fra-feature-card">
+
+                    <div class="fra-icon">
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                    </div>
+
+                    <h5>Reports & Downloads</h5>
+
+                    <p>
+                        Access analytical datasets and
+                        download available district,
+                        village and clustering reports.
+                    </p>
+
+                    <a href="{{ url_for('reports') }}"
+                       class="fra-card-link">
+                        View Reports →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         ABOUT + PLATFORM WORKFLOW
+    ======================================= -->
+
+    <section class="fra-lower-grid">
+
+        <!-- ABOUT PROJECT -->
+
+        <div class="fra-overview">
+
+            <div class="fra-overview-heading">
+
+                <i class="bi bi-leaf-fill"></i>
+
+                <h3>About the FRA Monitoring System</h3>
+
+            </div>
+
+            <p>
+                The Forest Rights Act (FRA), 2006 recognizes
+                the rights of forest-dwelling Scheduled Tribes
+                and other traditional forest dwellers over
+                forest land and resources.
+            </p>
+
+            <p>
+                This platform brings together data processing,
+                exploratory data analysis, machine learning
+                clustering and WebGIS visualization to support
+                analytical monitoring of FRA implementation
+                across Odisha.
+            </p>
+
+            <div class="fra-highlight">
+
+                <strong>
+                    <i class="bi bi-bullseye me-1"></i>
+                    Platform Objective:
+                </strong>
+
+                To transform FRA-related data into meaningful
+                analytical insights that can help identify
+                geographical patterns, beneficiary distribution
+                and areas requiring further monitoring.
+
+            </div>
+
+            <div class="fra-overview-side text-center mt-3">
+
+                <div class="fra-tree-illustration">
+                    <i class="bi bi-tree-fill"></i>
+                </div>
+
+                <h5>
+                    Forest Rights & Community Development
+                </h5>
+
+                <p>
+                    Data-driven insights for informed
+                    monitoring and analysis.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLATFORM WORKFLOW -->
+
+        <div class="fra-workflow">
+
+            <div class="fra-workflow-heading">
+
+                <i class="bi bi-layers-fill"></i>
+
+                <h3>Platform Workflow</h3>
+
+            </div>
+
+            <p>
+                An integrated process for transforming
+                FRA data into useful analytical insights.
+            </p>
+
+
+            <div class="fra-workflow-steps">
+
+                <div class="fra-workflow-card">
+
+                    <div class="fra-step-number">
+                        01
+                    </div>
+
+                    <h6>Data Collection</h6>
+
+                    <p>
+                        Collect and organize FRA-related
+                        district and village datasets.
+                    </p>
+
+                </div>
+
+
+                <div class="fra-workflow-card">
+
+                    <div class="fra-step-number">
+                        02
+                    </div>
+
+                    <h6>Data Processing</h6>
+
+                    <p>
+                        Clean, preprocess and prepare
+                        datasets for further analysis.
+                    </p>
+
+                </div>
+
+
+                <div class="fra-workflow-card">
+
+                    <div class="fra-step-number">
+                        03
+                    </div>
+
+                    <h6>ML & Analytics</h6>
+
+                    <p>
+                        Apply clustering and analytical
+                        methods to identify data patterns.
+                    </p>
+
+                </div>
+
+
+                <div class="fra-workflow-card">
+
+                    <div class="fra-step-number">
+                        04
+                    </div>
+
+                    <h6>Visualization</h6>
+
+                    <p>
+                        Present insights through dashboards,
+                        reports and interactive maps.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         FINAL FOREST BANNER
+    ======================================= -->
+
+    <section class="fra-bottom-banner">
+
+        <h3>
+            Explore FRA Data Through Interactive Analytics
+        </h3>
+
+        <p>
+            Navigate through district analytics,
+            village-level information and geographical
+            visualizations.
+        </p>
+
+        <a href="{{ url_for('dashboard') }}">
+
+            Get Started
+
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
+
+    </section>
+
+</div>
+
+{% endblock %}

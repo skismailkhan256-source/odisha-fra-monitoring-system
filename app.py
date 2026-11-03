@@ -174,10 +174,20 @@ def village_label(row):
 
 
 # ==================================================
-# 4. MAIN DASHBOARD
+# 4. LANDING HOMEPAGE
 # ==================================================
 
 @app.route("/")
+def home():
+
+    return render_template("home.html")
+
+
+# ==================================================
+# 5. MAIN DASHBOARD
+# ==================================================
+
+@app.route("/dashboard")
 def dashboard():
 
     try:
@@ -264,7 +274,7 @@ def dashboard():
 
 
 # ==================================================
-# 5. DISTRICT ANALYTICS
+# 6. DISTRICT ANALYTICS
 # ==================================================
 
 @app.route("/district")
@@ -317,7 +327,7 @@ def district():
 
 
 # ==================================================
-# 6. ML PRIORITY ANALYSIS
+# 7. ML PRIORITY ANALYSIS
 # ==================================================
 
 @app.route("/ml-analysis")
@@ -512,7 +522,7 @@ def ml_analysis():
 
 
 # ==================================================
-# 7. VILLAGE SEARCH API
+# 8. VILLAGE SEARCH API
 # ==================================================
 
 @app.route("/api/villages")
@@ -571,7 +581,7 @@ def village_search_api():
 
 
 # ==================================================
-# 8. DISTRICT-DEPENDENT BLOCK API
+# 9. DISTRICT-DEPENDENT BLOCK API
 # ==================================================
 
 @app.route("/api/blocks")
@@ -612,7 +622,7 @@ def blocks_api():
 
 
 # ==================================================
-# 9. BLOCK-DEPENDENT GRAM PANCHAYAT API
+# 10. BLOCK-DEPENDENT GRAM PANCHAYAT API
 # ==================================================
 
 @app.route("/api/gram-panchayats")
@@ -658,7 +668,7 @@ def gram_panchayats_api():
 
 
 # ==================================================
-# 10. DISTRICT-WISE FRA SUMMARY API
+# 11. DISTRICT-WISE FRA SUMMARY API
 # ==================================================
 
 @app.route("/api/district-summary")
@@ -756,7 +766,7 @@ def district_summary_api():
 
 
 # ==================================================
-# 11. VILLAGE EXPLORER
+# 12. VILLAGE EXPLORER
 # ==================================================
 
 @app.route("/village")
@@ -926,7 +936,7 @@ def village():
 
 
 # ==================================================
-# 12. WEBGIS MAP
+# 13. WEBGIS MAP
 # ==================================================
 
 @app.route("/webgis")
@@ -936,7 +946,7 @@ def webgis():
 
 
 # ==================================================
-# 13. WEBGIS BENEFICIARY CHOROPLETH MAP
+# 14. WEBGIS BENEFICIARY CHOROPLETH MAP
 # ==================================================
 
 @app.route("/webgis/beneficiary-map")
@@ -1288,7 +1298,7 @@ def beneficiary_map():
 
 
 # ==================================================
-# 14. REPORTS PAGE
+# 15. REPORTS PAGE
 # ==================================================
 
 @app.route("/reports")
@@ -1319,7 +1329,7 @@ def reports():
 
 
 # ==================================================
-# 15. DOWNLOAD REPORTS
+# 16. DOWNLOAD REPORTS
 # ==================================================
 
 @app.route("/reports/download/<report_type>")
@@ -1384,7 +1394,7 @@ def download_report(report_type):
 
 
 # ==================================================
-# 16. ABOUT PROJECT
+# 17. ABOUT PROJECT
 # ==================================================
 
 @app.route("/about")
@@ -1394,7 +1404,7 @@ def about():
 
 
 # ==================================================
-# 17. RUN FLASK APPLICATION
+# 18. RUN FLASK APPLICATION
 # ==================================================
 
 if __name__ == "__main__":

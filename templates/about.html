@@ -1,555 +1,715 @@
 
 {% extends "base.html" %}
 
+{% block title %}About | Odisha FRA Monitoring System{% endblock %}
+
+{% block extra_head %}
+<style>
+/* =========================================
+   ABOUT PAGE - SCOPED DESIGN
+========================================= */
+
+.about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+    color: var(--about-text);
+}
+
+html[data-theme="light"] {
+    --about-text: #183b2c;
+    --about-muted: #61766a;
+    --about-card: #ffffff;
+    --about-border: #dce8df;
+    --about-soft: #edf6ef;
+    --about-accent: #198754;
+}
+
+html[data-theme="dark"] {
+    --about-text: #e8f2eb;
+    --about-muted: #b7c9bd;
+    --about-card: #1b2b22;
+    --about-border: #385343;
+    --about-soft: #243b2d;
+    --about-accent: #49bd82;
+}
+
+.about-page .about-header {
+    margin-bottom: 25px;
+}
+
+.about-page .about-header h2 {
+    font-size: 29px;
+    font-weight: 800;
+    color: var(--about-text);
+    margin-bottom: 8px;
+}
+
+.about-page .about-header p {
+    color: var(--about-muted);
+    margin: 0;
+    font-size: 14px;
+}
+
+.about-page .about-card {
+    background: var(--about-card);
+    border: 1px solid var(--about-border);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.035);
+}
+
+.about-page .about-card h3 {
+    font-size: 19px;
+    font-weight: 750;
+    color: var(--about-text);
+    margin-bottom: 17px;
+}
+
+.about-page .about-card h5 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--about-text);
+    margin-bottom: 12px;
+}
+
+.about-page p,
+.about-page li {
+    color: var(--about-muted);
+    font-size: 13.5px;
+    line-height: 1.8;
+}
+
+.about-page .about-intro {
+    background: linear-gradient(120deg, #10432e, #237a50);
+    color: #ffffff;
+    border: none;
+    padding: 35px;
+    overflow: hidden;
+    position: relative;
+}
+
+.about-page .about-intro h3,
+.about-page .about-intro p {
+    color: #ffffff;
+}
+
+.about-page .about-intro p {
+    opacity: 0.9;
+}
+
+.about-page .intro-icon {
+    font-size: 65px;
+    color: #a9e8be;
+}
+
+.about-page .intro-label {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #ffffff;
+    padding: 6px 13px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.about-page .about-stat {
+    background: var(--about-soft);
+    border: 1px solid var(--about-border);
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.about-page .about-stat:hover {
+    transform: translateY(-3px);
+}
+
+.about-page .about-stat .number {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--about-accent);
+}
+
+.about-page .about-stat h5 {
+    margin-bottom: 9px;
+}
+
+.about-page .feature-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--about-soft);
+    color: var(--about-accent);
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+.about-page .about-table {
+    color: var(--about-text);
+    border-color: var(--about-border);
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.about-page .about-table th {
+    background: var(--about-soft);
+    color: var(--about-accent);
+    font-weight: 700;
+    padding: 13px;
+}
+
+.about-page .about-table td {
+    background: var(--about-card);
+    color: var(--about-muted);
+    padding: 13px;
+    vertical-align: middle;
+}
+
+.about-page .about-table strong {
+    color: var(--about-text);
+}
+
+.about-page .technology-item {
+    background: var(--about-soft);
+    border: 1px solid var(--about-border);
+    border-radius: 11px;
+    padding: 18px;
+    height: 100%;
+}
+
+.about-page .technology-item ul {
+    padding-left: 19px;
+    margin-bottom: 0;
+}
+
+.about-page .technology-item li {
+    margin-bottom: 4px;
+}
+
+.about-page .method-step {
+    background: var(--about-soft);
+    border: 1px solid var(--about-border);
+    border-radius: 11px;
+    padding: 18px;
+    height: 100%;
+}
+
+.about-page .method-step .step {
+    font-size: 11px;
+    color: var(--about-accent);
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.about-page .about-note {
+    background: var(--about-soft);
+    border-left: 4px solid var(--about-accent);
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--about-muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.about-page .about-final {
+    text-align: center;
+    background: linear-gradient(120deg, #10432e, #237a50);
+    color: #ffffff;
+    border: none;
+    padding: 30px;
+}
+
+.about-page .about-final h3,
+.about-page .about-final p {
+    color: #ffffff;
+}
+
+.about-page .about-final .final-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .about-page .about-card {
+        padding: 18px;
+    }
+
+    .about-page .about-intro {
+        padding: 24px;
+    }
+
+    .about-page .about-header h2 {
+        font-size: 23px;
+    }
+}
+</style>
+{% endblock %}
+
+
 {% block content %}
 
-<!-- ======================================
-     PAGE HEADER
-====================================== -->
+<div class="about-page">
 
-<div class="page-header mb-4">
-
-    <h2>About Odisha FRA Monitoring System</h2>
-
-    <p class="text-muted">
-        A data-driven platform for monitoring and analysing
-        Forest Rights Act implementation across Odisha.
-    </p>
-
-</div>
+    <!-- PAGE HEADER -->
+    <div class="about-header">
+        <h2>About Odisha FRA Monitoring System</h2>
+        <p>
+            A data-driven platform for monitoring and analysing
+            Forest Rights Act implementation across Odisha.
+        </p>
+    </div>
 
 
-<!-- ======================================
-     PROJECT INTRODUCTION
-====================================== -->
+    <!-- PROJECT INTRODUCTION -->
+    <div class="about-card about-intro">
+        <div class="row align-items-center g-4">
 
-<div class="content-card mb-4">
+            <div class="col-lg-9">
 
-    <div class="row align-items-center g-4">
+                <span class="intro-label">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    Academic Project
+                </span>
 
-        <div class="col-lg-8">
+                <h3 class="display-6 fw-bold">
+                    Project Overview
+                </h3>
 
-            <span class="badge bg-success mb-3">
-                Academic Project
-            </span>
+                <p>
+                    The Odisha FRA Monitoring System is a data-driven
+                    monitoring and analytical platform designed to
+                    organize, explore and analyse Forest Rights Act
+                    (FRA) implementation-related information across Odisha.
+                </p>
 
-            <h3>Project Overview</h3>
+                <p class="mb-0">
+                    The system combines data processing, data visualization
+                    and machine learning techniques to provide insights
+                    into district-level implementation statistics and
+                    village-level beneficiary distribution.
+                </p>
 
-            <p class="text-muted">
-                The Odisha FRA Monitoring System is a data-driven
-                monitoring and analytical platform designed to
-                organize, explore and analyse Forest Rights Act
-                (FRA) implementation-related information across Odisha.
-            </p>
+            </div>
 
-            <p class="text-muted mb-0">
-                The system combines data processing, data visualization
-                and machine learning techniques to provide insights
-                into district-level implementation statistics and
-                village-level beneficiary distribution.
-            </p>
+            <div class="col-lg-3 text-center">
+                <div class="intro-icon">🌳</div>
+                <h5 class="text-white fw-bold mt-2">
+                    Forest Rights Act
+                </h5>
+                <p class="text-white mb-0">FRA, 2006</p>
+            </div>
 
         </div>
+    </div>
 
-        <div class="col-lg-4">
 
-            <div class="stat-card text-center">
+    <!-- PROJECT STATEMENT -->
+    <div class="about-card">
 
-                <div style="font-size: 55px;">
-                    🌳
+        <h3>
+            <i class="bi bi-exclamation-circle text-success"></i>
+            Problem Statement
+        </h3>
+
+        <p>
+            Forest Rights Act implementation data is available
+            across different records and administrative sources.
+            Analysing this information can be challenging without
+            a centralized platform.
+        </p>
+
+        <p class="mb-0">
+            This project aims to organize the available data into
+            a structured system that supports district monitoring,
+            village-level exploration, analytical classification
+            and geographical visualization.
+        </p>
+
+    </div>
+
+
+    <!-- PROJECT OBJECTIVES -->
+    <div class="about-card">
+
+        <h3>
+            <i class="bi bi-bullseye text-success"></i>
+            Project Objectives
+        </h3>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">01</div>
+                    <h5>Data Integration</h5>
+                    <p class="mb-0">
+                        Organize and combine available FRA-related
+                        district and village-level datasets.
+                    </p>
                 </div>
-
-                <h4>Forest Rights Act</h4>
-
-                <p class="text-muted mb-0">
-                    FRA, 2006
-                </p>
-
             </div>
 
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">02</div>
+                    <h5>Data Analysis</h5>
+                    <p class="mb-0">
+                        Analyse beneficiary distribution and
+                        district-level implementation statistics.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">03</div>
+                    <h5>Machine Learning</h5>
+                    <p class="mb-0">
+                        Apply clustering algorithms to identify
+                        analytical groups among village records.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">04</div>
+                    <h5>Geographical Visualization</h5>
+                    <p class="mb-0">
+                        Provide geographical visualization of
+                        district-level beneficiary distribution.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">05</div>
+                    <h5>Reporting</h5>
+                    <p class="mb-0">
+                        Allow users to explore and download
+                        available monitoring and analytical datasets.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-stat">
+                    <div class="feature-number">06</div>
+                    <h5>Monitoring Support</h5>
+                    <p class="mb-0">
+                        Present structured information to support
+                        data exploration and analytical understanding.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- KEY FEATURES -->
+    <div class="about-card">
+
+        <h3>
+            <i class="bi bi-grid-1x2 text-success"></i>
+            Key Features
+        </h3>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered about-table">
+
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td><strong>Dashboard</strong></td>
+                        <td>
+                            Displays overall district and village
+                            statistics through cards, charts and tables.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>District Analytics</strong></td>
+                        <td>
+                            Provides district-wise FRA implementation
+                            statistics and monitoring information.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>ML Priority Analysis</strong></td>
+                        <td>
+                            Presents K-Means and Hierarchical
+                            clustering results with model evaluation.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>WebGIS Map</strong></td>
+                        <td>
+                            Provides district-wise beneficiary
+                            visualization and an interactive geographical
+                            base map using Leaflet and OpenStreetMap.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Village Explorer</strong></td>
+                        <td>
+                            Allows users to search and explore
+                            village-level beneficiary information.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Reports</strong></td>
+                        <td>
+                            Provides downloadable district,
+                            village and clustering datasets.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+
+    <!-- TECHNOLOGY STACK -->
+    <div class="about-card">
+
+        <h3>
+            <i class="bi bi-code-slash text-success"></i>
+            Technology Stack
+        </h3>
+
+        <p>
+            Technologies and tools used in the development
+            of this project.
+        </p>
+
+        <div class="row g-3">
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-window text-success"></i> Frontend</h5>
+                    <ul>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>Bootstrap 5</li>
+                        <li>JavaScript</li>
+                        <li>Plotly.js</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-server text-success"></i> Backend</h5>
+                    <ul>
+                        <li>Python</li>
+                        <li>Flask</li>
+                        <li>Pandas</li>
+                        <li>NumPy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-cpu text-success"></i> Machine Learning</h5>
+                    <ul>
+                        <li>Scikit-learn</li>
+                        <li>K-Means Clustering</li>
+                        <li>Hierarchical Clustering</li>
+                        <li>StandardScaler</li>
+                        <li>PCA</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-geo-alt text-success"></i> Geographical Tools</h5>
+                    <ul>
+                        <li>Leaflet.js</li>
+                        <li>OpenStreetMap</li>
+                        <li>GeoJSON</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-bar-chart text-success"></i> Data Visualization</h5>
+                    <ul>
+                        <li>Plotly</li>
+                        <li>Matplotlib</li>
+                        <li>Seaborn</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="technology-item">
+                    <h5><i class="bi bi-tools text-success"></i> Development Tools</h5>
+                    <ul>
+                        <li>Visual Studio Code</li>
+                        <li>Jupyter Notebook</li>
+                        <li>Git</li>
+                        <li>GitHub</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- MACHINE LEARNING METHODOLOGY -->
+    <div class="about-card">
+
+        <h3>
+            <i class="bi bi-diagram-3 text-success"></i>
+            Machine Learning Methodology
+        </h3>
+
+        <p>
+            Clustering techniques are applied to village-level
+            numerical features to identify analytical groups.
+        </p>
+
+        <div class="row g-3">
+
+            <div class="col-md-3 col-6">
+                <div class="method-step">
+                    <div class="step">STEP 01</div>
+                    <h5>Data Preparation</h5>
+                    <p class="mb-0">
+                        Data preparation and feature engineering.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="method-step">
+                    <div class="step">STEP 02</div>
+                    <h5>Feature Scaling</h5>
+                    <p class="mb-0">
+                        Feature scaling using StandardScaler.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="method-step">
+                    <div class="step">STEP 03</div>
+                    <h5>Clustering</h5>
+                    <p class="mb-0">
+                        K-Means and Hierarchical clustering.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="method-step">
+                    <div class="step">STEP 04</div>
+                    <h5>Model Evaluation</h5>
+                    <p class="mb-0">
+                        Model evaluation and PCA analysis.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="about-note mt-4">
+            <strong>Important:</strong>
+            Machine learning cluster labels and village monitoring
+            categories are analytical classifications. They are not
+            official government FRA implementation priority labels.
         </div>
 
     </div>
 
-</div>
 
+    <!-- DATA LIMITATIONS -->
+    <div class="about-card">
 
-<!-- ======================================
-     PROBLEM STATEMENT
-====================================== -->
+        <h3>
+            <i class="bi bi-info-circle text-success"></i>
+            Data Scope and Limitations
+        </h3>
 
-<div class="content-card mb-4">
+        <ul class="mb-0">
 
-    <h3>Problem Statement</h3>
+            <li>
+                The system uses the available project datasets
+                for district and village-level analysis.
+            </li>
 
-    <p class="text-muted">
-        Forest Rights Act implementation data is available
-        across different records and administrative sources.
-        Analysing this information can be challenging without
-        a centralized platform.
-    </p>
+            <li>
+                Village beneficiary counts should not be interpreted
+                as verified village-level approved, rejected or pending claims.
+            </li>
 
-    <p class="text-muted mb-0">
-        This project aims to organize the available data into
-        a structured system that supports district monitoring,
-        village-level exploration, analytical classification
-        and geographical visualization.
-    </p>
+            <li>
+                Machine learning clusters represent analytical
+                groupings based on selected numerical features.
+            </li>
 
-</div>
+            <li>
+                District-level beneficiary visualization is available
+                through the integrated WebGIS choropleth. Verified
+                village coordinates and Gram Panchayat spatial boundaries
+                are not currently represented as complete GIS layers.
+            </li>
 
+            <li>
+                Analytical monitoring indicators should not be
+                treated as official government records.
+            </li>
 
-<!-- ======================================
-     PROJECT OBJECTIVES
-====================================== -->
-
-<div class="content-card mb-4">
-
-    <h3>Project Objectives</h3>
-
-    <div class="row g-3 mt-2">
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>01. Data Integration</h5>
-
-                <p class="text-muted mb-0">
-                    Organize and combine available FRA-related
-                    district and village-level datasets.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>02. Data Analysis</h5>
-
-                <p class="text-muted mb-0">
-                    Analyse beneficiary distribution and
-                    district-level implementation statistics.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>03. Machine Learning</h5>
-
-                <p class="text-muted mb-0">
-                    Apply clustering algorithms to identify
-                    analytical groups among village records.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>04. Geographical Visualization</h5>
-
-                <p class="text-muted mb-0">
-                    Provide a geographical interface for
-                    exploring Odisha and future GIS data layers.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>05. Reporting</h5>
-
-                <p class="text-muted mb-0">
-                    Allow users to explore and download
-                    available monitoring and analytical datasets.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <div class="stat-card h-100">
-
-                <h5>06. Monitoring Support</h5>
-
-                <p class="text-muted mb-0">
-                    Present structured information to support
-                    data exploration and analytical understanding.
-                </p>
-
-            </div>
-
-        </div>
+        </ul>
 
     </div>
 
-</div>
 
+    <!-- FINAL PROJECT SECTION -->
+    <div class="about-card about-final">
 
-<!-- ======================================
-     KEY FEATURES
-====================================== -->
+        <div class="final-icon">🌳</div>
 
-<div class="content-card mb-4">
+        <h3>Odisha FRA Monitoring System</h3>
 
-    <h3>Key Features</h3>
+        <p>
+            Data Analysis | Machine Learning | Geographical Visualization
+        </p>
 
-    <div class="table-responsive mt-3">
-
-        <table class="table table-bordered table-hover align-middle">
-
-            <thead>
-                <tr>
-                    <th>Module</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td><strong>Dashboard</strong></td>
-                    <td>
-                        Displays overall district and village
-                        statistics through cards, charts and tables.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><strong>District Analytics</strong></td>
-                    <td>
-                        Provides district-wise FRA implementation
-                        statistics and monitoring information.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><strong>ML Priority Analysis</strong></td>
-                    <td>
-                        Presents K-Means and Hierarchical
-                        clustering results with model evaluation.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><strong>WebGIS Map</strong></td>
-                    <td>
-                        Provides an interactive geographical
-                        base map using Leaflet and OpenStreetMap.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><strong>Village Explorer</strong></td>
-                    <td>
-                        Allows users to search and explore
-                        village-level beneficiary information.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><strong>Reports</strong></td>
-                    <td>
-                        Provides downloadable district,
-                        village and clustering datasets.
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
+        <p class="small mb-0">
+            Academic Project | Forest Rights Act, 2006 | Odisha, India
+        </p>
 
     </div>
-
-</div>
-
-
-<!-- ======================================
-     TECHNOLOGY STACK
-====================================== -->
-
-<div class="content-card mb-4">
-
-    <h3>Technology Stack</h3>
-
-    <p class="text-muted">
-        Technologies and tools used in the development
-        of this project.
-    </p>
-
-    <div class="row g-3 mt-2">
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Frontend</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>HTML5</li>
-                    <li>CSS3</li>
-                    <li>Bootstrap 5</li>
-                    <li>JavaScript</li>
-                    <li>Plotly.js</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Backend</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>Python</li>
-                    <li>Flask</li>
-                    <li>Pandas</li>
-                    <li>NumPy</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Machine Learning</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>Scikit-learn</li>
-                    <li>K-Means Clustering</li>
-                    <li>Hierarchical Clustering</li>
-                    <li>StandardScaler</li>
-                    <li>PCA</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Geographical Tools</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>Leaflet.js</li>
-                    <li>OpenStreetMap</li>
-                    <li>GeoJSON (planned integration)</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Data Visualization</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>Plotly</li>
-                    <li>Matplotlib</li>
-                    <li>Seaborn</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="stat-card h-100">
-
-                <h5>Development Tools</h5>
-
-                <ul class="mb-0 text-muted">
-                    <li>Visual Studio Code</li>
-                    <li>Jupyter Notebook</li>
-                    <li>Git</li>
-                    <li>GitHub</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================
-     MACHINE LEARNING METHODOLOGY
-====================================== -->
-
-<div class="content-card mb-4">
-
-    <h3>Machine Learning Methodology</h3>
-
-    <p class="text-muted">
-        Clustering techniques are applied to village-level
-        numerical features to identify analytical groups.
-    </p>
-
-    <div class="row g-3 mt-2">
-
-        <div class="col-md-3">
-
-            <div class="stat-card h-100">
-
-                <h5>Step 01</h5>
-
-                <p class="text-muted mb-0">
-                    Data preparation and feature engineering.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="stat-card h-100">
-
-                <h5>Step 02</h5>
-
-                <p class="text-muted mb-0">
-                    Feature scaling using StandardScaler.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="stat-card h-100">
-
-                <h5>Step 03</h5>
-
-                <p class="text-muted mb-0">
-                    K-Means and Hierarchical clustering.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="stat-card h-100">
-
-                <h5>Step 04</h5>
-
-                <p class="text-muted mb-0">
-                    Model evaluation and PCA analysis.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="alert alert-info mt-4 mb-0">
-
-        <strong>Important:</strong>
-
-        Machine learning cluster labels and village monitoring
-        categories are analytical classifications. They are not
-        official government FRA implementation priority labels.
-
-    </div>
-
-</div>
-
-
-<!-- ======================================
-     DATA LIMITATIONS
-====================================== -->
-
-<div class="content-card mb-4">
-
-    <h3>Data Scope and Limitations</h3>
-
-    <ul class="text-muted">
-
-        <li>
-            The system uses the available project datasets
-            for district and village-level analysis.
-        </li>
-
-        <li>
-            Village beneficiary counts should not be interpreted
-            as verified village-level approved, rejected or pending claims.
-        </li>
-
-        <li>
-            Machine learning clusters represent analytical
-            groupings based on selected numerical features.
-        </li>
-
-        <li>
-            The current WebGIS page displays a geographical
-            base map. Verified FRA village coordinates and
-            district boundary layers are pending integration.
-        </li>
-
-        <li>
-            Analytical monitoring indicators should not be
-            treated as official government records.
-        </li>
-
-    </ul>
-
-</div>
-
-
-<!-- ======================================
-     PROJECT FOOTER
-====================================== -->
-
-<div class="content-card text-center">
-
-    <div style="font-size: 42px;">
-        🌳
-    </div>
-
-    <h3>Odisha FRA Monitoring System</h3>
-
-    <p class="text-muted">
-        Data Analysis | Machine Learning | Geographical Visualization
-    </p>
-
-    <p class="small text-muted mb-0">
-        Academic Project | Forest Rights Act, 2006 | Odisha, India
-    </p>
 
 </div>
 

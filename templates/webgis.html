@@ -3,101 +3,104 @@
 
 {% block content %}
 
-<!-- ======================================
-     PAGE HEADER
-====================================== -->
-
-<div class="page-header mb-4">
-
-    <h2>WebGIS – FRA Monitoring Map</h2>
-
-    <p class="text-muted">
-        Explore geographical information and FRA implementation
-        across districts of Odisha.
-    </p>
-
+<!-- PAGE HEADER -->
+<div class="page-header mb-4 webgis-page-header">
+    <div>
+        <span class="webgis-eyebrow">
+            <i class="bi bi-globe-asia-australia"></i>
+            GEOGRAPHIC INFORMATION SYSTEM
+        </span>
+        <h2 class="mt-2">WebGIS – FRA Monitoring Map</h2>
+        <p class="text-muted mb-0">
+            Explore geographical information and FRA implementation
+            across districts of Odisha.
+        </p>
+    </div>
+    <div class="webgis-header-icon">
+        <i class="bi bi-map-fill"></i>
+    </div>
 </div>
 
-
-<!-- ======================================
-     OVERVIEW CARDS
-====================================== -->
-
+<!-- OVERVIEW CARDS -->
 <div class="row g-3 mb-4">
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>State</h6>
-            <h2>Odisha</h2>
+        <div class="stat-card webgis-stat-card">
+            <div class="webgis-stat-icon">
+                <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <div>
+                <p>State</p>
+                <h2>Odisha</h2>
+                <small>Forest Rights Act Monitoring</small>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Districts in Dataset</h6>
-            <h2>30</h2>
+        <div class="stat-card webgis-stat-card">
+            <div class="webgis-stat-icon">
+                <i class="bi bi-map-fill"></i>
+            </div>
+            <div>
+                <p>Districts in Dataset</p>
+                <h2>30</h2>
+                <small>Odisha administrative districts</small>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Village Records</h6>
-            <h2>12,424</h2>
+        <div class="stat-card webgis-stat-card">
+            <div class="webgis-stat-icon">
+                <i class="bi bi-houses-fill"></i>
+            </div>
+            <div>
+                <p>Village Records</p>
+                <h2>12,424</h2>
+                <small>Available FRA village records</small>
+            </div>
         </div>
     </div>
 
 </div>
 
-
-<!-- ======================================
-     INTERACTIVE DISTRICT MONITORING
-====================================== -->
-
+<!-- DISTRICT MONITORING -->
 <div class="content-card mb-4">
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-
-        <div>
+        <div class="webgis-section-title">
+            <span class="webgis-eyebrow">DISTRICT MONITORING</span>
             <h4>
-                <i class="bi bi-bar-chart-line text-success"></i>
+                <i class="bi bi-bar-chart-line"></i>
                 District-wise FRA Monitoring
             </h4>
-
             <p class="text-muted mb-0">
                 Select a district to view its FRA beneficiary,
                 village and block statistics.
             </p>
         </div>
 
-        <span class="badge bg-success">
-            <i class="bi bi-check-circle"></i>
+        <span class="webgis-panel-tag">
+            <i class="bi bi-check-circle-fill"></i>
             Live API Data
         </span>
-
     </div>
 
+    <hr>
 
     <!-- DISTRICT SELECTOR -->
-
     <div class="row align-items-end g-3 mb-4">
 
-        <div class="col-md-6 col-lg-5">
-
+        <div class="col-md-6 col-lg-5 webgis-select-wrap">
             <label for="districtSelect" class="form-label fw-semibold">
-
                 <i class="bi bi-geo-alt-fill text-success"></i>
                 Select District
-
             </label>
 
-            <select
-                class="form-select"
-                id="districtSelect">
+            <select class="form-select" id="districtSelect">
 
-                <option value="MAYURBHANJ" selected>
-                    Mayurbhanj
-                </option>
-
+                <option value="MAYURBHANJ" selected>Mayurbhanj</option>
                 <option value="ANGUL">Angul</option>
                 <option value="BALASORE">Balasore</option>
                 <option value="BARGARH">Bargarh</option>
@@ -124,177 +127,127 @@
                 <option value="SUBARNAPUR">Subarnapur</option>
 
             </select>
-
         </div>
 
         <div class="col-md-6 col-lg-7">
-
-            <div
-                id="districtLoading"
-                class="text-success small"
-                style="display:none;">
+            <div id="districtLoading"
+                 class="text-success small"
+                 style="display:none;">
 
                 <span class="spinner-border spinner-border-sm me-2"></span>
                 Loading district statistics...
-
             </div>
-
         </div>
 
     </div>
 
-
     <!-- DISTRICT STATISTIC CARDS -->
-
     <div class="row g-3">
 
         <div class="col-md-4">
-
-            <div class="stat-card h-100">
-
-                <div class="d-flex justify-content-between">
-
-                    <h6>Total Beneficiaries</h6>
-
-                    <i class="bi bi-people-fill text-success fs-4"></i>
-
+            <div class="stat-card webgis-stat-card h-100">
+                <div class="webgis-stat-icon">
+                    <i class="bi bi-people-fill"></i>
                 </div>
-
-                <h2 id="districtBeneficiaries">--</h2>
-
-                <small class="text-muted">
-                    Recorded FRA beneficiaries
-                </small>
-
+                <div>
+                    <p>Total Beneficiaries</p>
+                    <h2 id="districtBeneficiaries">--</h2>
+                    <small>Recorded FRA beneficiaries</small>
+                </div>
             </div>
-
         </div>
 
-
         <div class="col-md-4">
-
-            <div class="stat-card h-100">
-
-                <div class="d-flex justify-content-between">
-
-                    <h6>Total Villages</h6>
-
-                    <i class="bi bi-houses-fill text-primary fs-4"></i>
-
+            <div class="stat-card webgis-stat-card h-100">
+                <div class="webgis-stat-icon blue">
+                    <i class="bi bi-houses-fill"></i>
                 </div>
-
-                <h2 id="districtVillages">--</h2>
-
-                <small class="text-muted">
-                    Unique village records
-                </small>
-
+                <div>
+                    <p>Total Villages</p>
+                    <h2 id="districtVillages">--</h2>
+                    <small>Unique village records</small>
+                </div>
             </div>
-
         </div>
 
-
         <div class="col-md-4">
-
-            <div class="stat-card h-100">
-
-                <div class="d-flex justify-content-between">
-
-                    <h6>Total Blocks</h6>
-
-                    <i class="bi bi-grid-fill text-warning fs-4"></i>
-
+            <div class="stat-card webgis-stat-card h-100">
+                <div class="webgis-stat-icon orange">
+                    <i class="bi bi-grid-fill"></i>
                 </div>
-
-                <h2 id="districtBlocks">--</h2>
-
-                <small class="text-muted">
-                    Unique administrative blocks
-                </small>
-
+                <div>
+                    <p>Total Blocks</p>
+                    <h2 id="districtBlocks">--</h2>
+                    <small>Unique administrative blocks</small>
+                </div>
             </div>
-
         </div>
 
     </div>
 
-
     <!-- API STATUS -->
-
-    <div
-        id="districtMessage"
-        class="alert alert-info mt-3 mb-0"
-        role="status">
-
+    <div id="districtMessage"
+         class="alert alert-info mt-3 mb-0"
+         role="status">
         Select a district to view its FRA statistics.
-
     </div>
 
 </div>
 
-
-<!-- ======================================
-     DISTRICT BENEFICIARY CHOROPLETH
-====================================== -->
-
+<!-- DISTRICT BENEFICIARY CHOROPLETH -->
 <div class="content-card mb-4">
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
 
-        <div>
+        <div class="webgis-section-title">
+            <span class="webgis-eyebrow">SPATIAL DATA VISUALIZATION</span>
             <h4>
-                <i class="bi bi-bar-chart-map text-success"></i>
+                <i class="bi bi-bar-chart-map"></i>
                 District-wise FRA Beneficiary Distribution
             </h4>
-
             <p class="text-muted mb-0">
                 Interactive choropleth showing beneficiary
                 distribution across Odisha districts.
             </p>
         </div>
 
-        <span class="badge bg-success">
-            <i class="bi bi-check-circle"></i>
+        <span class="webgis-panel-tag">
+            <i class="bi bi-check-circle-fill"></i>
             GIS Data Integrated
         </span>
 
     </div>
 
-
+    <!-- GIS SUMMARY -->
     <div class="row g-3 mb-3">
 
         <div class="col-md-4">
-
-            <div class="stat-card">
-                <h6>Total Districts</h6>
+            <div class="webgis-mini-card">
+                <span>Total Districts</span>
                 <h3>30</h3>
+                <small>Odisha districts</small>
             </div>
-
         </div>
 
         <div class="col-md-4">
-
-            <div class="stat-card">
-                <h6>Districts with FRA Data</h6>
+            <div class="webgis-mini-card">
+                <span>Districts with FRA Data</span>
                 <h3>25</h3>
+                <small>Available in project dataset</small>
             </div>
-
         </div>
 
         <div class="col-md-4">
-
-            <div class="stat-card">
-                <h6>Districts without Data</h6>
+            <div class="webgis-mini-card">
+                <span>Districts without Data</span>
                 <h3>5</h3>
+                <small>No available FRA records</small>
             </div>
-
         </div>
 
     </div>
 
-
     <!-- PLOTLY CHOROPLETH MAP -->
-
     <div class="fra-choropleth-container">
 
         <iframe
@@ -306,19 +259,12 @@
 
     </div>
 
-
     <div class="map-information mt-3">
-
         <div class="d-flex align-items-start gap-2">
-
             <i class="bi bi-info-circle-fill text-success mt-1"></i>
-
             <div>
-
                 <strong>Map Information</strong>
-
                 <p class="text-muted mb-0 small">
-
                     District colours represent the total number of
                     beneficiaries recorded in the FRA dataset.
                     Hover over a district to view its beneficiary,
@@ -326,39 +272,30 @@
 
                     Five districts without available FRA records
                     are displayed without beneficiary values.
-
                 </p>
-
             </div>
-
         </div>
-
     </div>
 
 </div>
 
-
-<!-- ======================================
-     LEAFLET MAP CONTROLS
-====================================== -->
-
+<!-- LEAFLET MAP CONTROLS -->
 <div class="content-card mb-4">
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-        <div>
-
-            <h4>Explore Odisha Geographical Map</h4>
-
+        <div class="webgis-section-title">
+            <h4>
+                <i class="bi bi-compass text-success"></i>
+                Explore Odisha Geographical Map
+            </h4>
             <p class="text-muted mb-0">
                 Navigate the geographical base map.
             </p>
-
         </div>
 
-
         <button
-            class="btn btn-outline-success"
+            class="btn btn-outline-success webgis-reset-btn"
             type="button"
             onclick="resetMapView()">
 
@@ -371,169 +308,127 @@
 
 </div>
 
-
-<!-- ======================================
-     EXISTING LEAFLET MAP
-====================================== -->
-
+<!-- EXISTING LEAFLET MAP -->
 <div class="content-card mb-4">
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
 
-        <div>
-
-            <h4>Interactive Geographic Map</h4>
-
+        <div class="webgis-section-title">
+            <span class="webgis-eyebrow">GEOGRAPHICAL EXPLORATION</span>
+            <h4>
+                <i class="bi bi-map-fill"></i>
+                Interactive Geographic Map
+            </h4>
             <p class="text-muted mb-0">
                 Geographical exploration of Odisha.
             </p>
-
         </div>
 
-        <span class="badge bg-primary">
+        <span class="webgis-panel-tag">
             <i class="bi bi-map"></i>
             Leaflet Map
         </span>
 
     </div>
 
-
     <div id="fraMap"></div>
 
-
     <div class="map-information mt-3">
-
         <div class="d-flex align-items-start gap-2">
-
             <i class="bi bi-info-circle-fill text-success mt-1"></i>
-
             <div>
-
                 <strong>Map Information</strong>
-
                 <p class="text-muted mb-0 small">
-
                     This geographical map is maintained separately
                     from the district-wise beneficiary choropleth.
                     Village-level coordinates have not yet been
                     verified and are not displayed.
-
                 </p>
-
             </div>
-
         </div>
-
     </div>
 
 </div>
 
-
-<!-- ======================================
-     MAP LEGEND AND GIS DATA
-====================================== -->
-
+<!-- MAP LEGEND AND GIS DATA -->
 <div class="row g-4 mb-4">
 
     <div class="col-lg-6">
-
         <div class="content-card h-100">
 
-            <h4>Beneficiary Map Legend</h4>
+            <div class="webgis-section-title mb-3">
+                <h4>
+                    <i class="bi bi-palette-fill"></i>
+                    Beneficiary Map Legend
+                </h4>
+                <p class="text-muted mb-0">
+                    Understand the map indicators.
+                </p>
+            </div>
 
             <div class="map-legend-item">
-
                 <span class="legend-dot priority-dot"></span>
-
                 <span>Higher beneficiary count</span>
-
             </div>
 
             <div class="map-legend-item">
-
                 <span class="legend-dot village-dot"></span>
-
                 <span>Lower beneficiary count</span>
-
             </div>
 
             <div class="map-legend-item">
-
                 <span class="legend-dot district-dot"></span>
-
                 <span>District boundary</span>
-
             </div>
 
             <p class="text-muted small mt-3 mb-0">
-
                 Refer to the choropleth colour scale for exact
                 beneficiary values. Districts without data are
                 not assigned zero beneficiaries.
-
             </p>
 
         </div>
-
     </div>
 
-
     <div class="col-lg-6">
-
         <div class="content-card h-100">
 
-            <h4>GIS Data Integration</h4>
+            <div class="webgis-section-title mb-3">
+                <h4>
+                    <i class="bi bi-database-fill-gear"></i>
+                    GIS Data Integration
+                </h4>
+                <p class="text-muted mb-0">
+                    Spatial datasets integrated or planned for
+                    the monitoring system.
+                </p>
+            </div>
 
-            <p class="text-muted">
-
-                Spatial datasets integrated or planned for
-                the monitoring system.
-
-            </p>
-
-            <ul class="mb-0">
-
+            <ul class="webgis-gis-list mb-0">
                 <li>Odisha district boundary GeoJSON</li>
-
                 <li>District-wise FRA beneficiary distribution</li>
-
                 <li>District-level village statistics</li>
-
                 <li>District-level block statistics</li>
-
                 <li>Village-level geographical coordinates (pending verification)</li>
-
                 <li>Gram Panchayat spatial boundaries (future integration)</li>
-
             </ul>
 
         </div>
-
     </div>
 
 </div>
 
-
-<!-- ======================================
-     DISCLAIMER
-====================================== -->
-
-<div class="alert alert-info">
-
+<!-- DISCLAIMER -->
+<div class="alert alert-info webgis-disclaimer">
+    <i class="bi bi-info-circle-fill me-2"></i>
     <strong>Note:</strong>
-
     The district beneficiary choropleth represents records
     available in the project's FRA dataset. It should not be
     interpreted as an official government classification or
     independently verified implementation status.
-
 </div>
 
-
-<!-- ======================================
-     LEAFLET CSS
-====================================== -->
-
+<!-- LEAFLET CSS -->
 <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -541,38 +436,22 @@
     crossorigin=""
 >
 
-
-<!-- ======================================
-     LEAFLET JAVASCRIPT
-====================================== -->
-
+<!-- LEAFLET JAVASCRIPT -->
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin="">
 </script>
 
+<!-- CUSTOM WEBGIS JAVASCRIPT -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-<!-- ======================================
-     CUSTOM WEBGIS JAVASCRIPT
-====================================== -->
-
-<script
-    src="{{ url_for('static', filename='js/main.js') }}">
-</script>
-
-
-<!-- ======================================
-     DISTRICT SUMMARY API JAVASCRIPT
-====================================== -->
-
+<!-- DISTRICT SUMMARY API -->
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const districtSelect = document.getElementById(
-        "districtSelect"
-    );
+    const districtSelect = document.getElementById("districtSelect");
 
     const beneficiariesElement = document.getElementById(
         "districtBeneficiaries"
@@ -594,22 +473,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "districtMessage"
     );
 
-
-    // ======================================
     // NUMBER FORMATTING
-    // ======================================
-
     function formatNumber(value) {
-
         return Number(value).toLocaleString("en-IN");
-
     }
 
-
-    // ======================================
     // LOAD DISTRICT SUMMARY
-    // ======================================
-
     async function loadDistrictSummary() {
 
         const district = districtSelect.value;
@@ -618,19 +487,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
-        // Show loading
-
         loadingElement.style.display = "block";
-
         messageElement.style.display = "none";
 
         beneficiariesElement.textContent = "--";
-
         villagesElement.textContent = "--";
-
         blocksElement.textContent = "--";
-
 
         try {
 
@@ -638,21 +500,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 `/api/district-summary?district=${encodeURIComponent(district)}`
             );
 
-
             const data = await response.json();
 
-
             if (!response.ok) {
-
                 throw new Error(
                     data.error || "Unable to load district statistics."
                 );
-
             }
 
-
-            // Update dashboard cards
-
+            // UPDATE DASHBOARD CARDS
             beneficiariesElement.textContent = formatNumber(
                 data.total_beneficiaries
             );
@@ -665,73 +521,49 @@ document.addEventListener("DOMContentLoaded", function () {
                 data.total_blocks
             );
 
-
-            // Success message
-
+            // SUCCESS MESSAGE
             messageElement.className =
                 "alert alert-success mt-3 mb-0";
 
             messageElement.innerHTML =
-
                 `<i class="bi bi-check-circle-fill me-2"></i>
                 Showing FRA monitoring statistics for
                 <strong>${data.district}</strong>.`;
 
             messageElement.style.display = "block";
 
-
         }
 
         catch (error) {
 
-            console.error(
-                "District API Error:",
-                error
-            );
-
+            console.error("District API Error:", error);
 
             messageElement.className =
                 "alert alert-danger mt-3 mb-0";
 
-            messageElement.textContent =
-                error.message;
-
+            messageElement.textContent = error.message;
             messageElement.style.display = "block";
 
-
             beneficiariesElement.textContent = "--";
-
             villagesElement.textContent = "--";
-
             blocksElement.textContent = "--";
 
         }
 
         finally {
-
             loadingElement.style.display = "none";
-
         }
 
     }
 
-
-    // ======================================
     // DISTRICT CHANGE EVENT
-    // ======================================
-
     districtSelect.addEventListener(
         "change",
         loadDistrictSummary
     );
 
-
-    // ======================================
     // INITIAL DISTRICT LOAD
-    // ======================================
-
     loadDistrictSummary();
-
 
     console.log(
         "District monitoring API initialized successfully."
@@ -739,81 +571,447 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-
 </script>
 
-
-<!-- ======================================
-     CHOROPLETH RESPONSIVE CSS
-====================================== -->
-
+<!-- WEBGIS STYLING -->
 <style>
 
-.fra-choropleth-container {
+/* PAGE HEADER */
 
-    width: 100%;
+.webgis-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+}
 
-    height: 650px;
+.webgis-eyebrow {
+    color: #198754;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
 
-    overflow: hidden;
+.webgis-page-header h2 {
+    color: #173e30;
+    font-weight: 800;
+}
 
-    border: 1px solid #e5e7eb;
+.webgis-header-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f5ed;
+    color: #198754;
+    font-size: 27px;
+}
 
-    border-radius: 12px;
+/* OVERVIEW CARDS */
 
+.webgis-stat-card {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 21px;
+    border-radius: 15px;
     background: #ffffff;
+    border: 1px solid #e0ebe3;
+    transition: .25s ease;
+}
 
+.webgis-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 22px rgba(20,70,45,.08);
+}
+
+.webgis-stat-icon {
+    width: 49px;
+    height: 49px;
+    min-width: 49px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f5ed;
+    color: #198754;
+    font-size: 22px;
+}
+
+.webgis-stat-icon.blue {
+    background: #eaf2ff;
+    color: #2874d0;
+}
+
+.webgis-stat-icon.orange {
+    background: #fff3df;
+    color: #d58a19;
+}
+
+.webgis-stat-card p {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0 0 5px;
+}
+
+.webgis-stat-card h2 {
+    color: #164b36;
+    font-weight: 800;
+    font-size: 27px;
+    margin: 0;
+}
+
+.webgis-stat-card small {
+    color: #94a3b8;
+}
+
+/* SECTION HEADINGS */
+
+.webgis-section-title h4 {
+    color: #173e30;
+    font-size: 21px;
+    font-weight: 750;
+    margin: 0 0 7px;
+}
+
+.webgis-section-title h4 i {
+    color: #198754;
+    margin-right: 6px;
+}
+
+.webgis-section-title p {
+    font-size: 13px;
+}
+
+.webgis-panel-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    border-radius: 30px;
+    background: #eaf5ee;
+    color: #198754;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+/* DISTRICT SELECTOR */
+
+.webgis-select-wrap {
+    max-width: 460px;
+}
+
+#districtSelect {
+    min-height: 46px;
+    border-radius: 9px;
+    border-color: #d8e5dc;
+    font-weight: 600;
+    color: #244b39;
+    cursor: pointer;
+}
+
+#districtSelect:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25,135,84,.12);
+}
+
+#districtLoading {
+    padding: 10px 13px;
+    border-radius: 9px;
+    background: #edf7f0;
+}
+
+#districtMessage {
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+#districtBeneficiaries,
+#districtVillages,
+#districtBlocks {
+    font-size: 29px;
+    font-weight: 800;
+    color: #164b36;
+}
+
+/* GIS MINI CARDS */
+
+.webgis-mini-card {
+    padding: 20px;
+    border: 1px solid #e0ebe3;
+    background: #f8fcf9;
+    border-radius: 13px;
+    height: 100%;
+}
+
+.webgis-mini-card span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.webgis-mini-card h3 {
+    color: #164b36;
+    font-size: 27px;
+    font-weight: 800;
+    margin: 8px 0 4px;
+}
+
+.webgis-mini-card small {
+    color: #94a3b8;
+}
+
+/* CHOROPLETH */
+
+.fra-choropleth-container {
+    width: 100%;
+    height: 650px;
+    overflow: hidden;
+    border: 1px solid #dce8df;
+    border-radius: 14px;
+    background: #ffffff;
 }
 
 .fra-choropleth-container iframe {
-
     width: 100%;
-
     height: 100%;
-
-    border: none;
-
+    border: 0;
     display: block;
-
 }
 
+/* LEAFLET MAP */
 
-#districtSelect {
-
-    min-height: 45px;
-
-    cursor: pointer;
-
+#fraMap {
+    width: 100%;
+    height: 470px;
+    min-height: 360px;
+    border-radius: 13px;
+    border: 1px solid #dce8df;
+    z-index: 1;
+    overflow: hidden;
 }
 
-
-#districtSelect:focus {
-
-    border-color: #198754;
-
-    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
-
+.webgis-reset-btn {
+    border-radius: 9px;
+    font-weight: 600;
 }
 
+/* MAP INFORMATION */
 
-#districtMessage {
-
-    font-size: 14px;
-
+.map-information {
+    padding: 15px 17px;
+    border-radius: 10px;
+    background: #edf7f0;
+    border: 1px solid #d6eadd;
 }
 
+.map-information strong {
+    color: #24543a;
+}
+
+/* MAP LEGEND */
+
+.map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8efea;
+    color: #475569;
+    font-size: 13px;
+}
+
+.map-legend-item:last-of-type {
+    border-bottom: 0;
+}
+
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.priority-dot {
+    background: #198754;
+}
+
+.village-dot {
+    background: #a8d5b5;
+}
+
+.district-dot {
+    background: #64748b;
+}
+
+/* GIS DATA LIST */
+
+.webgis-gis-list {
+    padding-left: 20px;
+}
+
+.webgis-gis-list li {
+    padding: 7px 0;
+    color: #475569;
+    font-size: 13px;
+}
+
+.webgis-disclaimer {
+    border-radius: 11px;
+}
+
+/* DARK MODE */
+
+[data-theme="dark"] .webgis-page-header h2,
+[data-theme="dark"] .webgis-section-title h4,
+[data-theme="dark"] #districtBeneficiaries,
+[data-theme="dark"] #districtVillages,
+[data-theme="dark"] #districtBlocks,
+[data-theme="dark"] .webgis-mini-card h3 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .webgis-stat-card,
+[data-theme="dark"] .webgis-mini-card {
+    background: #1b2c23 !important;
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .webgis-stat-card p,
+[data-theme="dark"] .webgis-stat-card small,
+[data-theme="dark"] .webgis-mini-card span,
+[data-theme="dark"] .webgis-mini-card small,
+[data-theme="dark"] .webgis-section-title p {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .webgis-stat-card h2 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .webgis-stat-icon,
+[data-theme="dark"] .webgis-header-icon {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .webgis-stat-icon.blue {
+    background: #203c5c !important;
+    color: #8bbcff !important;
+}
+
+[data-theme="dark"] .webgis-stat-icon.orange {
+    background: #49391e !important;
+    color: #f2c77e !important;
+}
+
+[data-theme="dark"] .webgis-panel-tag {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] #districtSelect {
+    background-color: #14251c !important;
+    color: #e6f1e9 !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] #districtSelect option {
+    background: #1b2c23;
+    color: #e6f1e9;
+}
+
+[data-theme="dark"] #districtLoading {
+    background: #203d2d !important;
+    color: #9de0b4 !important;
+}
+
+[data-theme="dark"] .map-information {
+    background: #203d2d !important;
+    border-color: #3c6249 !important;
+}
+
+[data-theme="dark"] .map-information strong {
+    color: #d9eee0 !important;
+}
+
+[data-theme="dark"] .map-information .text-muted {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .map-legend-item {
+    border-color: #344d3d !important;
+    color: #c8d9ce !important;
+}
+
+[data-theme="dark"] .webgis-gis-list li {
+    color: #c8d9ce !important;
+}
+
+[data-theme="dark"] .fra-choropleth-container,
+[data-theme="dark"] #fraMap {
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .webgis-disclaimer {
+    background: #203d2d !important;
+    color: #c8e4d1 !important;
+    border-color: #3c6249 !important;
+}
+
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
 
+    .webgis-page-header {
+        align-items: flex-start;
+    }
+
+    .webgis-page-header h2 {
+        font-size: 23px;
+    }
+
+    .webgis-header-icon {
+        width: 47px;
+        height: 47px;
+        min-width: 47px;
+        font-size: 21px;
+    }
+
+    .webgis-stat-card {
+        padding: 17px;
+    }
+
+    .webgis-stat-card h2 {
+        font-size: 23px;
+    }
+
     .fra-choropleth-container {
-
         height: 480px;
+    }
 
+    #fraMap {
+        height: 390px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .fra-choropleth-container {
+        height: 420px;
+    }
+
+    #fraMap {
+        height: 340px;
     }
 
 }
 
 </style>
-
 
 {% endblock %}

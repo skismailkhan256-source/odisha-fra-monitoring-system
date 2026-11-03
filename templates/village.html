@@ -17,11 +17,9 @@
     </div>
 </div>
 
-
 <!-- ================= OVERVIEW CARDS ================= -->
 
 <div class="row g-3 mb-4">
-
     <div class="col-md-6">
         <div class="village-stat-card">
             <div class="village-stat-icon green">
@@ -47,14 +45,11 @@
             </div>
         </div>
     </div>
-
 </div>
-
 
 <!-- ================= SEARCH AND FILTERS ================= -->
 
 <div class="content-card village-search-card mb-4">
-
     <div class="village-section-heading">
         <div>
             <h4>
@@ -87,18 +82,14 @@
         <div class="row g-3 align-items-end">
 
             <!-- Village Search -->
-
             <div class="col-lg-5">
-
                 <label class="form-label fw-semibold">
                     <i class="bi bi-house-door text-success"></i>
                     Village Name
                 </label>
 
                 <div class="village-autocomplete">
-
                     <div class="village-search-input">
-
                         <i class="bi bi-search"></i>
 
                         <input
@@ -116,7 +107,6 @@
                             aria-label="Clear village search">
                             &times;
                         </button>
-
                     </div>
 
                     <div
@@ -125,29 +115,20 @@
                         role="listbox"
                         hidden>
                     </div>
-
                 </div>
 
                 <small class="text-muted">
                     Search suggestions include village, GP, block and district.
                 </small>
-
             </div>
 
-
             <!-- District -->
-
             <div class="col-lg-2">
+                <label class="form-label fw-semibold">District</label>
 
-                <label class="form-label fw-semibold">
-                    District
-                </label>
-
-                <select
-                    name="district"
-                    id="districtFilter"
-                    class="form-select">
-
+                <select name="district"
+                        id="districtFilter"
+                        class="form-select">
                     <option value="">All Districts</option>
 
                     {% for item in districts %}
@@ -156,26 +137,17 @@
                         {{ item }}
                     </option>
                     {% endfor %}
-
                 </select>
-
             </div>
 
-
             <!-- Block -->
-
             <div class="col-lg-2">
+                <label class="form-label fw-semibold">Block</label>
 
-                <label class="form-label fw-semibold">
-                    Block
-                </label>
-
-                <select
-                    name="block"
-                    id="blockFilter"
-                    class="form-select"
-                    {% if not selected_district %}disabled{% endif %}>
-
+                <select name="block"
+                        id="blockFilter"
+                        class="form-select"
+                        {% if not selected_district %}disabled{% endif %}>
                     <option value="">All Blocks</option>
 
                     {% for item in blocks %}
@@ -184,26 +156,17 @@
                         {{ item }}
                     </option>
                     {% endfor %}
-
                 </select>
-
             </div>
 
-
             <!-- Gram Panchayat -->
-
             <div class="col-lg-2">
+                <label class="form-label fw-semibold">Gram Panchayat</label>
 
-                <label class="form-label fw-semibold">
-                    Gram Panchayat
-                </label>
-
-                <select
-                    name="gp"
-                    id="gpFilter"
-                    class="form-select"
-                    {% if not selected_block %}disabled{% endif %}>
-
+                <select name="gp"
+                        id="gpFilter"
+                        class="form-select"
+                        {% if not selected_block %}disabled{% endif %}>
                     <option value="">All Gram Panchayats</option>
 
                     {% for item in gps %}
@@ -212,43 +175,30 @@
                         {{ item }}
                     </option>
                     {% endfor %}
-
                 </select>
-
             </div>
 
-
             <!-- Search Button -->
-
             <div class="col-lg-1">
-
                 <button
                     type="submit"
                     class="btn btn-success w-100"
                     id="villageSubmitButton">
-
                     <i class="bi bi-search"></i>
                     Go
-
                 </button>
-
             </div>
 
         </div>
-
     </form>
-
 </div>
-
 
 <!-- ================= SELECTED VILLAGE DETAILS ================= -->
 
 {% if village_record %}
 
 <div class="content-card mb-4 village-profile-card">
-
     <div class="village-section-heading">
-
         <div>
             <span class="village-eyebrow">VILLAGE PROFILE</span>
 
@@ -270,26 +220,20 @@
                 gp=selected_gp,
                 download='csv') }}"
             class="btn btn-success">
-
             <i class="bi bi-download"></i>
             Download Report
-
         </a>
-
     </div>
 
     <hr>
 
-
     <!-- Administrative Information -->
-
     <h5 class="village-subheading">
         <i class="bi bi-geo-alt-fill text-success"></i>
         Administrative Information
     </h5>
 
     <div class="row g-3 mb-4">
-
         <div class="col-md-6 col-xl-3">
             <div class="village-detail-card">
                 <span>
@@ -329,23 +273,17 @@
                 <h2>{{ "{:,}".format(village_record['Beneficiary_Count']|int) }}</h2>
             </div>
         </div>
-
     </div>
 
-
     <!-- Beneficiary Analysis -->
-
     <h5 class="village-subheading">
         <i class="bi bi-bar-chart-fill text-success"></i>
         Beneficiary Analysis
     </h5>
 
     <div class="row g-3">
-
         <div class="col-md-6">
-
             <div class="village-analysis-card">
-
                 <div>
                     <span>Beneficiary Category</span>
                     <p class="text-muted small mb-0">
@@ -360,16 +298,11 @@
                 {% else %}
                     <span class="badge bg-success">Low</span>
                 {% endif %}
-
             </div>
-
         </div>
 
-
         <div class="col-md-6">
-
             <div class="village-analysis-card">
-
                 <div>
                     <span>Village Monitoring Priority</span>
                     <p class="text-muted small mb-0">
@@ -384,20 +317,14 @@
                 {% else %}
                     <span class="badge bg-success">Low</span>
                 {% endif %}
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
 
 <!-- ================= ANALYTICAL INFORMATION ================= -->
 
 <div class="content-card mb-4 village-analytics-card">
-
     <div class="village-analytics-heading">
         <h4>
             <i class="bi bi-graph-up-arrow text-success"></i>
@@ -410,9 +337,7 @@
     </div>
 
     <div class="table-responsive">
-
         <table class="table village-data-table align-middle">
-
             <thead>
                 <tr>
                     <th>Analytical Metric</th>
@@ -421,7 +346,6 @@
             </thead>
 
             <tbody>
-
                 <tr>
                     <td>
                         <i class="bi bi-people text-success"></i>
@@ -475,25 +399,17 @@
                         {{ "%.2f"|format(village_record['Village_Share_in_District'] * 100) }}%
                     </td>
                 </tr>
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
 
-
 {% elif matching_villages %}
-
 
 <!-- ================= MATCHING VILLAGE RESULTS ================= -->
 
 <div class="content-card mb-4">
-
     <div class="village-section-heading">
-
         <div>
             <h4>
                 <i class="bi bi-list-ul text-success"></i>
@@ -508,15 +424,12 @@
         <span class="badge bg-success">
             {{ matching_villages|length }} Results
         </span>
-
     </div>
 
     <hr>
 
     <div class="table-responsive">
-
         <table class="table table-hover village-data-table align-middle">
-
             <thead>
                 <tr>
                     <th>#</th>
@@ -530,11 +443,8 @@
             </thead>
 
             <tbody>
-
                 {% for row in matching_villages %}
-
                 <tr>
-
                     <td>{{ loop.index }}</td>
 
                     <td>
@@ -542,9 +452,7 @@
                     </td>
 
                     <td>{{ row.district }}</td>
-
                     <td>{{ row.block }}</td>
-
                     <td>{{ row.gp }}</td>
 
                     <td>
@@ -554,7 +462,6 @@
                     </td>
 
                     <td>
-
                         <a
                             class="btn btn-sm btn-outline-success"
                             href="{{ url_for('village',
@@ -562,38 +469,26 @@
                                 district=selected_district,
                                 block=selected_block,
                                 gp=selected_gp) }}">
-
                             <i class="bi bi-eye"></i>
                             View Details
-
                         </a>
-
                     </td>
-
                 </tr>
-
                 {% endfor %}
-
             </tbody>
-
         </table>
-
     </div>
 
     <p class="text-muted small mb-0">
         Showing up to 100 matching records.
     </p>
-
 </div>
 
-
 {% else %}
-
 
 <!-- ================= EMPTY STATE ================= -->
 
 <div class="content-card village-empty-state text-center">
-
     <div class="empty-state-icon">
         <i class="bi bi-search"></i>
     </div>
@@ -604,26 +499,20 @@
         Search for a village or select District, Block and Gram Panchayat
         filters to explore FRA records.
     </p>
-
 </div>
 
 {% endif %}
 
-
 <!-- ================= DISCLAIMER ================= -->
 
 <div class="alert alert-info mt-4">
-
     <i class="bi bi-info-circle-fill"></i>
-
     <strong>Note:</strong>
 
     Beneficiary categories and village monitoring priorities are
     analytical classifications derived from available data.
     They are not official government FRA priority labels.
-
 </div>
-
 
 <!-- ================= API CONFIGURATION ================= -->
 
@@ -635,14 +524,11 @@
 
 <script src="{{ url_for('static', filename='js/village.js') }}"></script>
 
-
 <!-- ================= PAGE STYLING ================= -->
 
 <style>
 
-/* =========================================
-   PAGE HEADER
-========================================= */
+/* PAGE HEADER */
 
 .village-header {
     display: flex;
@@ -657,10 +543,7 @@
     letter-spacing: 1.2px;
 }
 
-
-/* =========================================
-   OVERVIEW CARDS
-========================================= */
+/* OVERVIEW CARDS */
 
 .village-stat-card {
     background: #ffffff;
@@ -717,10 +600,7 @@
     background: #eaf2ff;
 }
 
-
-/* =========================================
-   SECTION HEADINGS
-========================================= */
+/* SECTION HEADINGS */
 
 .village-section-heading {
     display: flex;
@@ -746,10 +626,7 @@
     color: #164b36;
 }
 
-
-/* =========================================
-   SEARCH AND FILTER SECTION
-========================================= */
+/* SEARCH AND FILTER SECTION */
 
 .village-search-card {
     position: relative;
@@ -817,10 +694,7 @@
     box-shadow: 0 0 0 3px rgba(25,135,84,0.12);
 }
 
-
-/* =========================================
-   VILLAGE PROFILE
-========================================= */
+/* VILLAGE PROFILE */
 
 .village-profile-card {
     border-radius: 16px;
@@ -873,10 +747,7 @@
     margin: 8px 0 0;
 }
 
-
-/* =========================================
-   BENEFICIARY ANALYSIS
-========================================= */
+/* BENEFICIARY ANALYSIS */
 
 .village-analysis-card {
     min-height: 125px;
@@ -918,10 +789,7 @@
     text-align: center;
 }
 
-
-/* =========================================
-   ANALYTICAL INFORMATION
-========================================= */
+/* ANALYTICAL INFORMATION */
 
 .village-analytics-card {
     border-radius: 16px;
@@ -989,10 +857,7 @@
     color: #16834e;
 }
 
-
-/* =========================================
-   MATCHING VILLAGE RESULTS
-========================================= */
+/* MATCHING VILLAGE RESULTS */
 
 .beneficiary-count {
     font-weight: 700;
@@ -1003,10 +868,7 @@
     color: #116b3f;
 }
 
-
-/* =========================================
-   EMPTY STATE
-========================================= */
+/* EMPTY STATE */
 
 .village-empty-state {
     padding: 55px 20px;
@@ -1026,13 +888,9 @@
     font-size: 30px;
 }
 
-
-/* =========================================
-   RESPONSIVE DESIGN
-========================================= */
+/* RESPONSIVE DESIGN */
 
 @media(max-width: 768px) {
-
     .village-stat-card {
         padding: 18px;
     }
@@ -1077,7 +935,176 @@
     .village-analytics-heading h4 {
         font-size: 21px;
     }
+}
 
+/* =========================================
+   THEME-AWARE VILLAGE EXPLORER OVERRIDES
+   Keeps all existing search, filter and API behaviour unchanged.
+========================================= */
+
+.village-stat-card,
+.village-detail-card,
+.village-analysis-card,
+.village-suggestions,
+.village-empty-state {
+    color: var(--text-primary, #173e30);
+}
+
+.village-search-card .form-control,
+.village-search-card .form-select {
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.village-suggestions {
+    padding: 5px;
+}
+
+.village-data-table th,
+.village-data-table td {
+    vertical-align: middle;
+}
+
+.village-empty-state h4 {
+    color: var(--text-primary, #173e30);
+}
+
+/* DARK THEME */
+
+[data-theme="dark"] .village-stat-card,
+[data-theme="dark"] .village-detail-card,
+[data-theme="dark"] .village-analysis-card,
+[data-theme="dark"] .village-suggestions,
+[data-theme="dark"] .village-empty-state {
+    background: #1b2c23 !important;
+    border-color: #344d3d !important;
+    color: #e6f1e9 !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .12);
+}
+
+[data-theme="dark"] .village-detail-card.beneficiary-detail {
+    background: linear-gradient(145deg, #1b3829, #203d2d) !important;
+    border-color: #35694a !important;
+}
+
+[data-theme="dark"] .village-stat-card p,
+[data-theme="dark"] .village-stat-card small,
+[data-theme="dark"] .village-detail-card span,
+[data-theme="dark"] .village-analysis-card p,
+[data-theme="dark"] .village-section-heading .text-muted,
+[data-theme="dark"] .village-analytics-heading .text-muted,
+[data-theme="dark"] .village-search-card small {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .village-stat-card h2,
+[data-theme="dark"] .village-section-heading h4,
+[data-theme="dark"] .village-subheading,
+[data-theme="dark"] .village-detail-card h5,
+[data-theme="dark"] .village-detail-card.beneficiary-detail h2,
+[data-theme="dark"] .village-analysis-card span,
+[data-theme="dark"] .village-analytics-heading h4,
+[data-theme="dark"] .village-empty-state h4 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .village-search-card .form-control,
+[data-theme="dark"] .village-search-card .form-select {
+    color: #e6f1e9 !important;
+    background-color: #14251c !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-search-card .form-control::placeholder {
+    color: #91a99a !important;
+}
+
+[data-theme="dark"] .village-search-card .form-select option {
+    color: #e6f1e9;
+    background: #1b2c23;
+}
+
+[data-theme="dark"] .village-suggestions {
+    background: #1b2c23 !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-data-table {
+    border-color: #3a5142 !important;
+    --bs-table-bg: #1b2c23;
+    --bs-table-color: #dce9e0;
+    --bs-table-border-color: #3a5142;
+    --bs-table-hover-bg: #263d2f;
+    --bs-table-hover-color: #f0f7f2;
+}
+
+[data-theme="dark"] .village-data-table thead th {
+    color: #e7f3eb !important;
+    background: #263d2f !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-data-table tbody td,
+[data-theme="dark"] .village-data-table tbody td:first-child {
+    color: #c8d9ce !important;
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .village-data-table tbody td:last-child,
+[data-theme="dark"] .beneficiary-count {
+    color: #72d49a !important;
+}
+
+[data-theme="dark"] .village-data-table tbody tr:hover {
+    background: #263d2f !important;
+}
+
+[data-theme="dark"] .empty-state-icon {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .village-search-input > i,
+[data-theme="dark"] .clear-search-btn {
+    color: #83d5a2;
+}
+
+[data-theme="dark"] .village-search-card hr,
+[data-theme="dark"] .village-profile-card hr {
+    border-color: #405b49;
+    opacity: 1;
+}
+
+/* LIGHT THEME */
+
+[data-theme="light"] .village-stat-card,
+[data-theme="light"] .village-detail-card,
+[data-theme="light"] .village-analysis-card,
+[data-theme="light"] .village-suggestions,
+[data-theme="light"] .village-empty-state {
+    color: #173e30;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 576px) {
+    .village-stat-card {
+        gap: 14px;
+    }
+
+    .village-stat-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 21px;
+    }
+
+    .village-stat-card h2 {
+        font-size: 24px;
+    }
+
+    .village-analysis-card {
+        flex-wrap: wrap;
+    }
 }
 
 </style>

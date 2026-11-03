@@ -3,177 +3,481 @@
 
 {% block content %}
 
-<!-- Page Header -->
-<div class="page-header mb-4">
-    <h2>Reports & Data Export</h2>
-    <p class="text-muted">
-        Generate and download Forest Rights Act monitoring reports for Odisha.
-    </p>
-</div>
+<style>
+/* =========================================
+   REPORTS PAGE - PROFESSIONAL UI
+========================================= */
+
+.reports-page {
+    padding-bottom: 25px;
+    color: var(--text-color, inherit);
+}
+
+.reports-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 26px;
+}
+
+.reports-header h2 {
+    font-size: 27px;
+    font-weight: 750;
+    margin-bottom: 7px;
+    color: var(--heading-color, inherit);
+}
+
+.reports-header p {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: var(--muted-color, #777);
+}
+
+.reports-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border-radius: 30px;
+    background: rgba(25, 135, 84, 0.10);
+    color: #198754;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Overview Cards */
+
+.report-stat-card {
+    position: relative;
+    height: 100%;
+    padding: 22px;
+    border-radius: 15px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.035);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+}
+
+.report-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.report-stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.report-stat-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.icon-green {
+    background: rgba(25, 135, 84, 0.12);
+    color: #198754;
+}
+
+.icon-blue {
+    background: rgba(13, 110, 253, 0.12);
+    color: #0d6efd;
+}
+
+.icon-orange {
+    background: rgba(255, 159, 67, 0.15);
+    color: #e58a20;
+}
+
+.report-stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted-color, #777);
+    margin-bottom: 6px;
+}
+
+.report-stat-value {
+    font-size: 29px;
+    font-weight: 750;
+    line-height: 1.2;
+    color: var(--heading-color, inherit);
+}
+
+/* Section Cards */
+
+.report-section {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.035);
+}
+
+.report-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 7px;
+}
+
+.report-section-header h4 {
+    font-size: 19px;
+    font-weight: 750;
+    margin: 0;
+    color: var(--heading-color, inherit);
+}
+
+.report-section-description {
+    font-size: 13px;
+    color: var(--muted-color, #777);
+    margin-bottom: 22px;
+}
+
+/* Individual Report Cards */
+
+.report-card {
+    height: 100%;
+    padding: 23px;
+    border-radius: 14px;
+    background: var(--inner-card-bg, var(--card-bg, #fff));
+    border: 1px solid var(--border-color, #e5e7eb);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+}
+
+.report-card:hover {
+    transform: translateY(-4px);
+    border-color: #198754;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+}
+
+.report-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.report-icon {
+    width: 49px;
+    height: 49px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(25, 135, 84, 0.11);
+    color: #198754;
+    font-size: 22px;
+}
+
+.report-format {
+    font-size: 11px;
+    font-weight: 750;
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: #198754;
+    background: rgba(25, 135, 84, 0.10);
+}
+
+.report-card h5 {
+    font-size: 16px;
+    font-weight: 750;
+    color: var(--heading-color, inherit);
+    margin-bottom: 10px;
+}
+
+.report-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted-color, #777);
+    margin-bottom: 18px;
+    flex-grow: 1;
+}
+
+.report-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 13px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    font-size: 11px;
+    color: var(--muted-color, #777);
+}
+
+.report-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.report-download-btn {
+    margin-top: 18px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 650;
+    background: #198754;
+    border: 1px solid #198754;
+    color: #fff !important;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.report-download-btn:hover {
+    background: #146c43;
+    border-color: #146c43;
+    transform: translateY(-1px);
+}
+
+.report-download-btn i {
+    margin-right: 6px;
+}
+
+/* Information Table */
+
+.report-table {
+    margin-bottom: 0;
+    color: var(--text-color, inherit);
+    border-color: var(--border-color, #e5e7eb);
+}
+
+.report-table thead th {
+    padding: 14px;
+    font-size: 12px;
+    font-weight: 750;
+    color: var(--heading-color, inherit);
+    background: var(--table-head-bg, rgba(25,135,84,0.08));
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    white-space: nowrap;
+}
+
+.report-table tbody td {
+    padding: 14px;
+    font-size: 13px;
+    vertical-align: middle;
+    color: var(--text-color, inherit);
+    background: transparent;
+}
+
+.report-table tbody tr:hover td {
+    background: rgba(25,135,84,0.045);
+}
+
+.report-name {
+    font-weight: 650;
+    color: var(--heading-color, inherit);
+}
+
+.csv-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(25,135,84,0.10);
+    color: #198754;
+}
+
+/* Disclaimer */
+
+.report-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 17px 19px;
+    border: 1px solid rgba(13,110,253,0.22);
+    border-radius: 12px;
+    background: rgba(13,110,253,0.055);
+    color: var(--text-color, inherit);
+}
+
+.report-disclaimer-icon {
+    font-size: 20px;
+    color: #0d6efd;
+    margin-top: 1px;
+}
+
+.report-disclaimer strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.report-disclaimer p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted-color, #777);
+}
+
+/* Dark Mode Compatibility */
+
+[data-theme="dark"] .report-stat-card,
+[data-theme="dark"] .report-section,
+[data-theme="dark"] .report-card {
+    background: var(--card-bg, #1e293b);
+    border-color: var(--border-color, #334155);
+}
+
+[data-theme="dark"] .report-table thead th {
+    background: rgba(25,135,84,0.13);
+}
+
+[data-theme="dark"] .report-table tbody td {
+    background: transparent;
+}
+
+[data-theme="dark"] .report-disclaimer {
+    background: rgba(13,110,253,0.09);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .reports-header h2 {
+        font-size: 23px;
+    }
+
+    .report-section {
+        padding: 18px;
+    }
+
+    .report-card {
+        padding: 19px;
+    }
+
+    .report-stat-value {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reports-header {
+        align-items: flex-start;
+    }
+
+    .reports-header-badge {
+        font-size: 11px;
+    }
+
+    .report-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
 
 
-<!-- Report Overview -->
-<div class="row g-3 mb-4">
+<div class="reports-page">
 
-    <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Available Reports</h6>
-            <h2>4</h2>
+    <!-- Page Header -->
+    <div class="reports-header">
+
+        <div>
+            <h2>
+                <i class="bi bi-file-earmark-bar-graph me-2"
+                   style="color:#198754;"></i>
+                Reports & Data Export
+            </h2>
+
+            <p>
+                Generate and download Forest Rights Act monitoring reports for Odisha.
+            </p>
         </div>
+
+        <div class="reports-header-badge">
+            <i class="bi bi-shield-check"></i>
+            FRA DATA REPORTING
+        </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="stat-card">
-            <h6>Village Records</h6>
-            <h2>{{ "{:,}".format(total_villages) }}</h2>
-        </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="stat-card">
-            <h6>District Records</h6>
-            <h2>{{ total_districts }}</h2>
-        </div>
-    </div>
+    <!-- Report Overview -->
+    <div class="row g-3 mb-4">
 
-</div>
+        <div class="col-md-4">
 
+            <div class="report-stat-card">
 
-<!-- Report Categories -->
-<div class="content-card mb-4">
+                <div class="report-stat-top">
+                    <div class="report-stat-icon icon-green">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                    </div>
 
-    <h4>Available Reports</h4>
-
-    <p class="text-muted">
-        Select a report category to download the corresponding dataset.
-    </p>
-
-    <div class="row g-4 mt-1">
-
-        <!-- District Report -->
-        <div class="col-lg-6">
-
-            <div class="report-card h-100">
-
-                <div class="report-icon">
-                    <i class="bi bi-bar-chart-line"></i>
+                    <i class="bi bi-arrow-down-circle text-success"></i>
                 </div>
 
-                <h5>District Monitoring Report</h5>
-
-                <p class="text-muted">
-                    District-wise FRA implementation statistics,
-                    claims filed, approved claims, rejected claims
-                    and titles distributed.
-                </p>
-
-                <div class="report-meta">
-                    <span>District Records</span>
-                    <span>CSV Format</span>
+                <div class="report-stat-label">
+                    Available Reports
                 </div>
 
-                <a href="{{ url_for('download_report', report_type='district') }}"
-                   class="btn btn-success w-100 mt-3">
-                    <i class="bi bi-download"></i>
-                    Download District Report
-                </a>
+                <div class="report-stat-value">4</div>
 
             </div>
 
         </div>
 
 
-        <!-- Village Report -->
-        <div class="col-lg-6">
+        <div class="col-md-4">
 
-            <div class="report-card h-100">
+            <div class="report-stat-card">
 
-                <div class="report-icon">
-                    <i class="bi bi-houses"></i>
+                <div class="report-stat-top">
+                    <div class="report-stat-icon icon-blue">
+                        <i class="bi bi-houses"></i>
+                    </div>
+
+                    <i class="bi bi-database text-primary"></i>
                 </div>
 
-                <h5>Village Master Report</h5>
-
-                <p class="text-muted">
-                    Village-level beneficiary records with District,
-                    Block, Gram Panchayat, beneficiary categories
-                    and monitoring priorities.
-                </p>
-
-                <div class="report-meta">
-                    <span>Village Records</span>
-                    <span>CSV Format</span>
+                <div class="report-stat-label">
+                    Village Records
                 </div>
 
-                <a href="{{ url_for('download_report', report_type='village') }}"
-                   class="btn btn-success w-100 mt-3">
-                    <i class="bi bi-download"></i>
-                    Download Village Report
-                </a>
+                <div class="report-stat-value">
+                    {{ "{:,}".format(total_villages) }}
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- KMeans Report -->
-        <div class="col-lg-6">
+        <div class="col-md-4">
 
-            <div class="report-card h-100">
+            <div class="report-stat-card">
 
-                <div class="report-icon">
-                    <i class="bi bi-diagram-3"></i>
+                <div class="report-stat-top">
+                    <div class="report-stat-icon icon-orange">
+                        <i class="bi bi-map"></i>
+                    </div>
+
+                    <i class="bi bi-geo-alt text-warning"></i>
                 </div>
 
-                <h5>K-Means Clustering Report</h5>
-
-                <p class="text-muted">
-                    Village-level clustering results generated
-                    using the K-Means machine learning algorithm.
-                </p>
-
-                <div class="report-meta">
-                    <span>5 Clusters</span>
-                    <span>CSV Format</span>
+                <div class="report-stat-label">
+                    District Records
                 </div>
 
-                <a href="{{ url_for('download_report', report_type='kmeans') }}"
-                   class="btn btn-success w-100 mt-3">
-                    <i class="bi bi-download"></i>
-                    Download K-Means Report
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Hierarchical Report -->
-        <div class="col-lg-6">
-
-            <div class="report-card h-100">
-
-                <div class="report-icon">
-                    <i class="bi bi-diagram-2"></i>
+                <div class="report-stat-value">
+                    {{ total_districts }}
                 </div>
-
-                <h5>Hierarchical Clustering Report</h5>
-
-                <p class="text-muted">
-                    Village-level results generated using
-                    Hierarchical Clustering with six clusters.
-                </p>
-
-                <div class="report-meta">
-                    <span>6 Clusters</span>
-                    <span>CSV Format</span>
-                </div>
-
-                <a href="{{ url_for('download_report', report_type='hierarchical') }}"
-                   class="btn btn-success w-100 mt-3">
-                    <i class="bi bi-download"></i>
-                    Download Hierarchical Report
-                </a>
 
             </div>
 
@@ -181,70 +485,348 @@
 
     </div>
 
-</div>
+
+    <!-- Report Categories -->
+    <div class="report-section mb-4">
+
+        <div class="report-section-header">
+            <h4>
+                <i class="bi bi-download me-2 text-success"></i>
+                Available Reports
+            </h4>
+        </div>
+
+        <p class="report-section-description">
+            Select a report category to download the corresponding dataset.
+        </p>
 
 
-<!-- Report Information -->
-<div class="content-card mb-4">
+        <div class="row g-4">
 
-    <h4>Report Information</h4>
 
-    <div class="table-responsive">
+            <!-- District Report -->
+            <div class="col-lg-6">
 
-        <table class="table table-bordered align-middle">
+                <div class="report-card">
 
-            <thead>
-                <tr>
-                    <th>Report</th>
-                    <th>Data Included</th>
-                    <th>Format</th>
-                </tr>
-            </thead>
+                    <div class="report-card-top">
 
-            <tbody>
+                        <div class="report-icon">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
 
-                <tr>
-                    <td>District Monitoring</td>
-                    <td>Claims, approvals, rejections and titles</td>
-                    <td>CSV</td>
-                </tr>
+                        <span class="report-format">CSV FORMAT</span>
 
-                <tr>
-                    <td>Village Master</td>
-                    <td>Village location and beneficiary information</td>
-                    <td>CSV</td>
-                </tr>
+                    </div>
 
-                <tr>
-                    <td>K-Means Clustering</td>
-                    <td>Village records and K-Means cluster labels</td>
-                    <td>CSV</td>
-                </tr>
+                    <h5>District Monitoring Report</h5>
 
-                <tr>
-                    <td>Hierarchical Clustering</td>
-                    <td>Village records and hierarchical cluster labels</td>
-                    <td>CSV</td>
-                </tr>
+                    <p>
+                        District-wise FRA implementation statistics,
+                        claims filed, approved claims, rejected claims
+                        and titles distributed.
+                    </p>
 
-            </tbody>
+                    <div class="report-meta">
 
-        </table>
+                        <span>
+                            <i class="bi bi-geo-alt"></i>
+                            District Records
+                        </span>
+
+                        <span>
+                            <i class="bi bi-filetype-csv"></i>
+                            CSV Format
+                        </span>
+
+                    </div>
+
+                    <a href="{{ url_for('download_report', report_type='district') }}"
+                       class="report-download-btn">
+
+                        <i class="bi bi-download"></i>
+                        Download District Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Village Report -->
+            <div class="col-lg-6">
+
+                <div class="report-card">
+
+                    <div class="report-card-top">
+
+                        <div class="report-icon">
+                            <i class="bi bi-houses"></i>
+                        </div>
+
+                        <span class="report-format">CSV FORMAT</span>
+
+                    </div>
+
+                    <h5>Village Master Report</h5>
+
+                    <p>
+                        Village-level beneficiary records with District,
+                        Block, Gram Panchayat, beneficiary categories
+                        and monitoring priorities.
+                    </p>
+
+                    <div class="report-meta">
+
+                        <span>
+                            <i class="bi bi-database"></i>
+                            Village Records
+                        </span>
+
+                        <span>
+                            <i class="bi bi-filetype-csv"></i>
+                            CSV Format
+                        </span>
+
+                    </div>
+
+                    <a href="{{ url_for('download_report', report_type='village') }}"
+                       class="report-download-btn">
+
+                        <i class="bi bi-download"></i>
+                        Download Village Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- KMeans Report -->
+            <div class="col-lg-6">
+
+                <div class="report-card">
+
+                    <div class="report-card-top">
+
+                        <div class="report-icon">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+
+                        <span class="report-format">CSV FORMAT</span>
+
+                    </div>
+
+                    <h5>K-Means Clustering Report</h5>
+
+                    <p>
+                        Village-level clustering results generated
+                        using the K-Means machine learning algorithm.
+                    </p>
+
+                    <div class="report-meta">
+
+                        <span>
+                            <i class="bi bi-diagram-3"></i>
+                            5 Clusters
+                        </span>
+
+                        <span>
+                            <i class="bi bi-filetype-csv"></i>
+                            CSV Format
+                        </span>
+
+                    </div>
+
+                    <a href="{{ url_for('download_report', report_type='kmeans') }}"
+                       class="report-download-btn">
+
+                        <i class="bi bi-download"></i>
+                        Download K-Means Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hierarchical Report -->
+            <div class="col-lg-6">
+
+                <div class="report-card">
+
+                    <div class="report-card-top">
+
+                        <div class="report-icon">
+                            <i class="bi bi-diagram-2"></i>
+                        </div>
+
+                        <span class="report-format">CSV FORMAT</span>
+
+                    </div>
+
+                    <h5>Hierarchical Clustering Report</h5>
+
+                    <p>
+                        Village-level results generated using
+                        Hierarchical Clustering with six clusters.
+                    </p>
+
+                    <div class="report-meta">
+
+                        <span>
+                            <i class="bi bi-diagram-2"></i>
+                            6 Clusters
+                        </span>
+
+                        <span>
+                            <i class="bi bi-filetype-csv"></i>
+                            CSV Format
+                        </span>
+
+                    </div>
+
+                    <a href="{{ url_for('download_report', report_type='hierarchical') }}"
+                       class="report-download-btn">
+
+                        <i class="bi bi-download"></i>
+                        Download Hierarchical Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+
+    <!-- Report Information -->
+    <div class="report-section mb-4">
+
+        <div class="report-section-header">
+            <h4>
+                <i class="bi bi-info-circle me-2 text-success"></i>
+                Report Information
+            </h4>
+        </div>
+
+        <p class="report-section-description">
+            Overview of the datasets included in each downloadable report.
+        </p>
+
+        <div class="table-responsive">
+
+            <table class="table report-table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Report</th>
+                        <th>Data Included</th>
+                        <th>Format</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td class="report-name">
+                            <i class="bi bi-bar-chart-line text-success me-2"></i>
+                            District Monitoring
+                        </td>
+
+                        <td>
+                            Claims, approvals, rejections and titles
+                        </td>
+
+                        <td>
+                            <span class="csv-tag">CSV</span>
+                        </td>
+                    </tr>
 
 
-<!-- Disclaimer -->
-<div class="alert alert-info">
+                    <tr>
+                        <td class="report-name">
+                            <i class="bi bi-houses text-success me-2"></i>
+                            Village Master
+                        </td>
 
-    <strong>Note:</strong>
+                        <td>
+                            Village location and beneficiary information
+                        </td>
 
-    These reports are generated from the datasets available
-    in the project. Machine learning cluster labels are
-    analytical classifications and are not official government
-    FRA implementation priority labels.
+                        <td>
+                            <span class="csv-tag">CSV</span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="report-name">
+                            <i class="bi bi-diagram-3 text-success me-2"></i>
+                            K-Means Clustering
+                        </td>
+
+                        <td>
+                            Village records and K-Means cluster labels
+                        </td>
+
+                        <td>
+                            <span class="csv-tag">CSV</span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="report-name">
+                            <i class="bi bi-diagram-2 text-success me-2"></i>
+                            Hierarchical Clustering
+                        </td>
+
+                        <td>
+                            Village records and hierarchical cluster labels
+                        </td>
+
+                        <td>
+                            <span class="csv-tag">CSV</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Disclaimer -->
+    <div class="report-disclaimer mb-4">
+
+        <div class="report-disclaimer-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+
+            <strong>Data & Classification Disclaimer</strong>
+
+            <p>
+                These reports are generated from the datasets available
+                in the project. Machine learning cluster labels are
+                analytical classifications and are not official government
+                FRA implementation priority labels.
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 
