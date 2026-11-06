@@ -1,284 +1,560 @@
 
 {% extends "base.html" %}
 
+{% block title %}District Analytics | Odisha FRA Monitoring System{% endblock %}
+
 {% block content %}
 
-<!-- Page Header -->
-<div class="page-header mb-4">
-    <h2>District Analytics</h2>
-    <p class="text-muted">
-        Explore district-wise Forest Rights Act implementation statistics across Odisha.
-    </p>
-</div>
+<style>
+/* =========================================
+   DISTRICT ANALYTICS - FOREST GREEN THEME
+========================================= */
 
-<!-- District Selector -->
-<div class="content-card mb-4">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-        <div>
-            <h4>Select District</h4>
-            <p class="text-muted mb-0">
-                Choose a district to view its FRA implementation performance.
-            </p>
+.district-page {
+    color: var(--text, #244236);
+}
+
+.district-page .page-header h2 {
+    color: var(--text, #174b35);
+    font-weight: 750;
+}
+
+.district-page .page-header p {
+    color: var(--text-muted, #718078);
+}
+
+.district-page .content-card,
+.district-page .stat-card {
+    background: var(--surface, #ffffff);
+    color: var(--text, #244236);
+    border: 1px solid var(--border, #dce8df);
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(20, 70, 45, 0.055);
+    padding: 22px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.district-page .content-card:hover,
+.district-page .stat-card:hover {
+    border-color: #198754;
+    box-shadow: 0 7px 22px rgba(20, 90, 55, 0.09);
+}
+
+.district-page h3,
+.district-page h4,
+.district-page h5 {
+    color: var(--text, #174b35);
+    font-weight: 700;
+}
+
+.district-page h6 {
+    color: var(--text-muted, #718078);
+    font-weight: 600;
+}
+
+.district-page p {
+    color: var(--text-muted, #718078);
+}
+
+.district-page .stat-card {
+    min-height: 120px;
+    border-left: 4px solid #198754;
+}
+
+.district-page .stat-card h2 {
+    color: #198754;
+    font-weight: 800;
+    margin-top: 10px;
+}
+
+.district-page .stat-card h6 {
+    font-size: 0.9rem;
+}
+
+.district-page .form-select {
+    background-color: var(--surface, #ffffff);
+    color: var(--text, #244236);
+    border: 1px solid var(--border, #dce8df);
+    border-radius: 9px;
+    min-height: 43px;
+}
+
+.district-page .form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.14);
+}
+
+.district-page .performance-card {
+    background: var(--surface-secondary, #f3f8f4);
+    border: 1px solid var(--border, #dce8df);
+    border-radius: 12px;
+    padding: 22px;
+    height: 100%;
+}
+
+.district-page .performance-card h2 {
+    font-weight: 750;
+}
+
+.district-page .progress {
+    background: var(--surface-secondary, #e6eee8);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.district-page .progress-bar {
+    border-radius: 20px;
+}
+
+.district-page .table {
+    color: var(--text, #244236);
+    margin-bottom: 0;
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text, #244236);
+    --bs-table-border-color: var(--border, #dce8df);
+}
+
+.district-page .table thead th {
+    background: var(--surface-secondary, #eaf4ed);
+    color: var(--text, #174b35);
+    font-weight: 700;
+    padding: 14px;
+    border-bottom: 1px solid var(--border, #dce8df);
+}
+
+.district-page .table tbody th,
+.district-page .table tbody td {
+    padding: 13px 14px;
+    vertical-align: middle;
+}
+
+.district-page .table tbody tr:hover {
+    background: var(--surface-secondary, #f0f7f2);
+}
+
+.district-page .alert-info {
+    background: var(--surface-secondary, #eaf4ed);
+    color: var(--text, #244236);
+    border: 1px solid var(--border, #dce8df);
+    border-left: 4px solid #198754;
+    border-radius: 10px;
+}
+
+/* Chart container */
+.district-page .chart-container {
+    width: 100%;
+    min-height: 380px;
+}
+
+/* Dark mode compatibility */
+body.dark-mode .district-page .content-card,
+body.dark-mode .district-page .stat-card {
+    background: var(--surface, #1c3026);
+    color: var(--text, #e4eee7);
+    border-color: var(--border, #365342);
+}
+
+body.dark-mode .district-page .performance-card {
+    background: var(--surface-secondary, #243b2e);
+    border-color: var(--border, #365342);
+}
+
+body.dark-mode .district-page .table thead th {
+    background: var(--surface-secondary, #243b2e);
+    color: var(--text, #e4eee7);
+}
+
+body.dark-mode .district-page .table tbody tr:hover {
+    background: var(--surface-secondary, #243b2e);
+}
+
+body.dark-mode .district-page .form-select {
+    background-color: var(--surface, #1c3026);
+    color: var(--text, #e4eee7);
+    border-color: var(--border, #365342);
+}
+
+body.dark-mode .district-page .alert-info {
+    background: var(--surface-secondary, #243b2e);
+    color: var(--text, #e4eee7);
+    border-color: var(--border, #365342);
+}
+
+@media (max-width: 768px) {
+    .district-page .content-card,
+    .district-page .stat-card {
+        padding: 16px;
+    }
+
+    .district-page .stat-card {
+        min-height: 105px;
+    }
+}
+</style>
+
+
+<div class="district-page">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div class="eyebrow">FOREST RIGHTS ACT • ODISHA</div>
+        <h2>District Analytics</h2>
+        <p>
+            Explore district-wise Forest Rights Act implementation
+            statistics across Odisha.
+        </p>
+    </div>
+
+
+    <!-- District Selector -->
+    <div class="content-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+                <h4>Select District</h4>
+                <p class="mb-0">
+                    Choose a district to view its FRA implementation performance.
+                </p>
+            </div>
+
+            <form method="GET" action="{{ url_for('district') }}">
+
+                <select name="district"
+                        class="form-select"
+                        onchange="this.form.submit()"
+                        style="min-width: 250px;">
+
+                    {% for item in districts %}
+                    <option value="{{ item }}"
+                        {% if selected_district == item %}selected{% endif %}>
+                        {{ item }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- District Heading -->
+    <div class="content-card mb-4">
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span style="color:#198754;">●</span>
+            <h3 class="mb-0">
+                {{ district.get('District', 'District') }}
+            </h3>
         </div>
 
-        <form method="GET" action="{{ url_for('district') }}">
-            <select name="district"
-                    class="form-select"
-                    onchange="this.form.submit()"
-                    style="min-width: 250px;">
+        <p class="mb-0">
+            FRA implementation overview and monitoring indicators.
+        </p>
 
-                {% for item in districts %}
-                <option value="{{ item }}"
-                    {% if selected_district == item %}selected{% endif %}>
-                    {{ item }}
-                </option>
-                {% endfor %}
-
-            </select>
-        </form>
-    </div>
-</div>
-
-<!-- District Heading -->
-<div class="content-card mb-4">
-    <h3>{{ district.get('District', 'District') }}</h3>
-    <p class="text-muted mb-0">
-        FRA implementation overview and monitoring indicators.
-    </p>
-</div>
-
-<!-- Main Statistics -->
-<div class="row g-3 mb-4">
-
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Claims Filed</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Claims_Filed', 0) or 0) }}</h2>
-        </div>
     </div>
 
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Claims Approved</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Claims_Approved', 0) or 0) }}</h2>
-        </div>
-    </div>
 
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Claims Rejected</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Claims_Rejected', 0) or 0) }}</h2>
-        </div>
-    </div>
+    <!-- Main Statistics -->
+    <div class="row g-3 mb-4">
 
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Titles Distributed</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Titles_Distributed', 0) or 0) }}</h2>
-        </div>
-    </div>
-
-</div>
-
-<!-- Additional Statistics -->
-<div class="row g-3 mb-4">
-
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Total Beneficiaries</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Total_Beneficiaries', 0) or 0) }}</h2>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Village Records</h6>
-            <h2>{{ "{:,.0f}".format(district.get('Village_Records', 0) or 0) }}</h2>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>FRA Committees</h6>
-            <h2>{{ "{:,.0f}".format(district.get('FRA_Committees', 0) or 0) }}</h2>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-        <div class="stat-card">
-            <h6>Forest Land Titles (Ha)</h6>
-            <h2>{{ "{:,.2f}".format(district.get('Forest_Land_Titles_Ha', 0) or 0) }}</h2>
-        </div>
-    </div>
-
-</div>
-
-<!-- Implementation Performance -->
-<div class="content-card mb-4">
-
-    <h4>Implementation Performance</h4>
-    <p class="text-muted">
-        District-level analytical performance indicators.
-    </p>
-
-    <div class="row g-4">
-
-        <!-- Approval Rate -->
-        <div class="col-md-4">
-            {% set approval = district.get('Approval_Rate', 0) or 0 %}
-            {% set approval = [[approval, 0]|max, 100]|min %}
-
-            <div class="border rounded-3 p-4 h-100">
-                <h6 class="text-muted">Approval Rate</h6>
-
-                <h2 class="text-success">
-                    {{ "%.2f"|format(approval) }}%
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Claims Filed</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Claims_Filed', 0) or 0) }}
                 </h2>
-
-                <div class="progress mt-3" style="height: 10px;">
-                    <div class="progress-bar bg-success"
-                         style="width: {{ approval }}%">
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Rejection Rate -->
-        <div class="col-md-4">
-            {% set rejection = district.get('Rejection_Rate', 0) or 0 %}
-            {% set rejection = [[rejection, 0]|max, 100]|min %}
-
-            <div class="border rounded-3 p-4 h-100">
-                <h6 class="text-muted">Rejection Rate</h6>
-
-                <h2 class="text-danger">
-                    {{ "%.2f"|format(rejection) }}%
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Claims Approved</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Claims_Approved', 0) or 0) }}
                 </h2>
-
-                <div class="progress mt-3" style="height: 10px;">
-                    <div class="progress-bar bg-danger"
-                         style="width: {{ rejection }}%">
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Title Distribution Rate -->
-        <div class="col-md-4">
-            {% set title_rate = district.get('Title_Distribution_Rate', 0) or 0 %}
-            {% set title_rate = [[title_rate, 0]|max, 100]|min %}
-
-            <div class="border rounded-3 p-4 h-100">
-                <h6 class="text-muted">Title Distribution Rate</h6>
-
-                <h2 class="text-primary">
-                    {{ "%.2f"|format(title_rate) }}%
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Claims Rejected</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Claims_Rejected', 0) or 0) }}
                 </h2>
+            </div>
+        </div>
 
-                <div class="progress mt-3" style="height: 10px;">
-                    <div class="progress-bar bg-primary"
-                         style="width: {{ title_rate }}%">
-                    </div>
-                </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Titles Distributed</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Titles_Distributed', 0) or 0) }}
+                </h2>
             </div>
         </div>
 
     </div>
-</div>
 
-<!-- Claims Overview Chart -->
-<div class="content-card mb-4">
 
-    <h4>Claims Overview</h4>
-    <p class="text-muted">
-        Comparison of claims filed, approved, rejected and titles distributed.
-    </p>
+    <!-- Additional Statistics -->
+    <div class="row g-3 mb-4">
 
-    <div id="districtClaimsChart" style="height: 380px;"></div>
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Total Beneficiaries</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Total_Beneficiaries', 0) or 0) }}
+                </h2>
+            </div>
+        </div>
 
-</div>
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Village Records</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('Village_Records', 0) or 0) }}
+                </h2>
+            </div>
+        </div>
 
-<!-- Monitoring Indicators -->
-<div class="content-card mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>FRA Committees</h6>
+                <h2>
+                    {{ "{:,.0f}".format(district.get('FRA_Committees', 0) or 0) }}
+                </h2>
+            </div>
+        </div>
 
-    <h4>Monitoring Indicators</h4>
+        <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+                <h6>Forest Land Titles (Ha)</h6>
+                <h2>
+                    {{ "{:,.2f}".format(district.get('Forest_Land_Titles_Ha', 0) or 0) }}
+                </h2>
+            </div>
+        </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-
-            <thead>
-                <tr>
-                    <th>Indicator</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <th>Claims Filed</th>
-                    <td>{{ "{:,.0f}".format(district.get('Claims_Filed', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Remaining Claims (Derived)</th>
-                    <td>{{ "{:,.0f}".format(district.get('Remaining_Claims', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Implementation Gap (Derived)</th>
-                    <td>{{ "{:,.0f}".format(district.get('Implementation_Gap', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Unique Villages</th>
-                    <td>{{ "{:,.0f}".format(district.get('Unique_Villages', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Unique Blocks</th>
-                    <td>{{ "{:,.0f}".format(district.get('Unique_Blocks', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Unique Gram Panchayats</th>
-                    <td>{{ "{:,.0f}".format(district.get('Unique_Gram_Panchayats', 0) or 0) }}</td>
-                </tr>
-
-                <tr>
-                    <th>Monitoring Priority</th>
-                    <td>
-                        {% set priority = district.get('Monitoring_Priority', 'N/A') %}
-
-                        {% if priority == 'High' %}
-                            <span class="badge bg-danger">High</span>
-                        {% elif priority == 'Medium' %}
-                            <span class="badge bg-warning text-dark">Medium</span>
-                        {% elif priority == 'Low' %}
-                            <span class="badge bg-success">Low</span>
-                        {% else %}
-                            <span class="badge bg-secondary">{{ priority }}</span>
-                        {% endif %}
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
     </div>
+
+
+    <!-- Implementation Performance -->
+    <div class="content-card mb-4">
+
+        <h4>Implementation Performance</h4>
+
+        <p>
+            District-level analytical performance indicators.
+        </p>
+
+        <div class="row g-4">
+
+            <!-- Approval Rate -->
+            <div class="col-md-4">
+
+                {% set approval = district.get('Approval_Rate', 0) or 0 %}
+                {% set approval = [[approval, 0]|max, 100]|min %}
+
+                <div class="performance-card">
+
+                    <h6>Approval Rate</h6>
+
+                    <h2 style="color:#198754;">
+                        {{ "%.2f"|format(approval) }}%
+                    </h2>
+
+                    <div class="progress mt-3" style="height:10px;">
+                        <div class="progress-bar bg-success"
+                             style="width:{{ approval }}%">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Rejection Rate -->
+            <div class="col-md-4">
+
+                {% set rejection = district.get('Rejection_Rate', 0) or 0 %}
+                {% set rejection = [[rejection, 0]|max, 100]|min %}
+
+                <div class="performance-card">
+
+                    <h6>Rejection Rate</h6>
+
+                    <h2 class="text-danger">
+                        {{ "%.2f"|format(rejection) }}%
+                    </h2>
+
+                    <div class="progress mt-3" style="height:10px;">
+                        <div class="progress-bar bg-danger"
+                             style="width:{{ rejection }}%">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Title Distribution Rate -->
+            <div class="col-md-4">
+
+                {% set title_rate = district.get('Title_Distribution_Rate', 0) or 0 %}
+                {% set title_rate = [[title_rate, 0]|max, 100]|min %}
+
+                <div class="performance-card">
+
+                    <h6>Title Distribution Rate</h6>
+
+                    <h2 style="color:#0d9b76;">
+                        {{ "%.2f"|format(title_rate) }}%
+                    </h2>
+
+                    <div class="progress mt-3" style="height:10px;">
+                        <div class="progress-bar"
+                             style="width:{{ title_rate }}%; background:#0d9b76;">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Claims Overview Chart -->
+    <div class="content-card mb-4">
+
+        <h4>Claims Overview</h4>
+
+        <p>
+            Comparison of claims filed, approved, rejected and titles distributed.
+        </p>
+
+        <div id="districtClaimsChart" class="chart-container"></div>
+
+    </div>
+
+
+    <!-- Monitoring Indicators -->
+    <div class="content-card mb-4">
+
+        <h4>Monitoring Indicators</h4>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Indicator</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <th>Claims Filed</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Claims_Filed', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Remaining Claims (Derived)</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Remaining_Claims', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Implementation Gap (Derived)</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Implementation_Gap', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Unique Villages</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Unique_Villages', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Unique Blocks</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Unique_Blocks', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Unique Gram Panchayats</th>
+                        <td>
+                            {{ "{:,.0f}".format(district.get('Unique_Gram_Panchayats', 0) or 0) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Monitoring Priority</th>
+
+                        <td>
+
+                            {% set priority = district.get('Monitoring_Priority', 'N/A') %}
+
+                            {% if priority == 'High' %}
+                                <span class="badge bg-danger">High</span>
+
+                            {% elif priority == 'Medium' %}
+                                <span class="badge bg-warning text-dark">Medium</span>
+
+                            {% elif priority == 'Low' %}
+                                <span class="badge bg-success">Low</span>
+
+                            {% else %}
+                                <span class="badge bg-secondary">{{ priority }}</span>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Disclaimer -->
+    <div class="alert alert-info">
+
+        <strong>Note:</strong>
+
+        Approval, rejection and title distribution rates are calculated from
+        the available district dataset. Remaining Claims and Implementation
+        Gap are derived analytical indicators and should not be interpreted
+        as official government pending-claim figures.
+
+    </div>
+
 </div>
 
-<!-- Disclaimer -->
-<div class="alert alert-info">
-    <strong>Note:</strong>
-
-    Approval, rejection and title distribution rates are calculated from the available
-    district dataset. Remaining Claims and Implementation Gap are derived analytical
-    indicators and should not be interpreted as official government pending-claim figures.
-</div>
 
 <!-- Plotly Chart -->
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const chartElement = document.getElementById("districtClaimsChart");
@@ -301,7 +577,17 @@ document.addEventListener("DOMContentLoaded", function () {
         {{ district.get('Titles_Distributed', 0) | default(0, true) | tojson }}
     ];
 
+    const darkMode = document.body.classList.contains("dark-mode");
+
+    const styles = getComputedStyle(document.body);
+
+    const textColor = styles.getPropertyValue("--text").trim()
+        || (darkMode ? "#e4eee7" : "#244236");
+
+    const gridColor = darkMode ? "#365342" : "#e3ece5";
+
     Plotly.newPlot(chartElement, [{
+
         x: labels,
         y: values,
         type: "bar",
@@ -317,22 +603,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
         margin: { t: 25, r: 25, b: 80, l: 65 },
 
-        paper_bgcolor: "white",
-        plot_bgcolor: "white",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "rgba(0,0,0,0)",
 
         yaxis: {
             title: "Number of Claims",
             rangemode: "tozero",
-            gridcolor: "#E8EFEB"
+            gridcolor: gridColor,
+            color: textColor
         },
 
         xaxis: {
-            tickangle: -15
+            tickangle: -15,
+            color: textColor
         },
 
         font: {
             family: "Arial, sans-serif",
-            color: "#244236"
+            color: textColor
         }
 
     }, {
@@ -343,6 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
 </script>
 
 {% endblock %}

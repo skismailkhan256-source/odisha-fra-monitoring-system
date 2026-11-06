@@ -39,7 +39,295 @@
 
     {% block extra_head %}{% endblock %}
 
+
+    <!-- ======================================
+         ADMIN NOTIFICATION CENTER STYLES
+    ======================================= -->
+
+    <style>
+
+        .notification-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .notification-bell {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            border: 1px solid var(--border, #dce4df);
+            background: var(--surface, #ffffff);
+            color: var(--text, #173629);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-size: 19px;
+        }
+
+        .notification-bell:hover {
+            background: rgba(25, 135, 84, 0.10);
+            color: #198754;
+            border-color: #198754;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            border-radius: 20px;
+            background: #dc3545;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--surface, #ffffff);
+        }
+
+        .notification-count.d-none {
+            display: none !important;
+        }
+
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            right: 0;
+            width: 370px;
+            max-width: calc(100vw - 30px);
+            background: var(--surface, #ffffff);
+            border: 1px solid var(--border, #dce4df);
+            border-radius: 14px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+            animation: notificationFade 0.18s ease;
+        }
+
+        @keyframes notificationFade {
+            from {
+                opacity: 0;
+                transform: translateY(-7px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-dropdown-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border, #dce4df);
+        }
+
+        .notification-dropdown-header h6 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 750;
+            color: var(--text, #173629);
+        }
+
+        .notification-dropdown-header small {
+            color: var(--text-muted, #64748b);
+            font-size: 11px;
+        }
+
+        .mark-all-read {
+            border: none;
+            background: transparent;
+            color: #198754;
+            font-size: 11px;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .mark-all-read:hover {
+            text-decoration: underline;
+        }
+
+        .notification-demo-label {
+            padding: 8px 15px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #9a7219;
+            background: rgba(245, 184, 55, 0.12);
+            border-bottom: 1px solid var(--border, #dce4df);
+        }
+
+        .notification-list {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 15px;
+            border-bottom: 1px solid var(--border, #e5e7eb);
+            background: var(--surface, #ffffff);
+            transition: background 0.2s ease;
+        }
+
+        .notification-item:hover {
+            background: var(--surface-secondary, #f5f8f6);
+        }
+
+        .notification-item.unread {
+            background: rgba(25, 135, 84, 0.055);
+        }
+
+        .notification-item-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .notification-item-icon.approved {
+            background: rgba(25, 135, 84, 0.13);
+            color: #198754;
+        }
+
+        .notification-item-icon.pending {
+            background: rgba(255, 193, 7, 0.17);
+            color: #b18410;
+        }
+
+        .notification-item-icon.under_review {
+            background: rgba(13, 110, 253, 0.12);
+            color: #0d6efd;
+        }
+
+        .notification-item-icon.rejected {
+            background: rgba(220, 53, 69, 0.12);
+            color: #dc3545;
+        }
+
+        .notification-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-item-content strong {
+            display: block;
+            font-size: 12px;
+            color: var(--text, #173629);
+            margin-bottom: 4px;
+        }
+
+        .notification-item-content p {
+            font-size: 11px;
+            color: var(--text-muted, #64748b);
+            margin: 0 0 5px;
+            line-height: 1.5;
+        }
+
+        .notification-item-content small {
+            font-size: 10px;
+            color: var(--text-muted, #64748b);
+        }
+
+        .notification-read-btn {
+            align-self: center;
+            flex-shrink: 0;
+            border: none;
+            background: transparent;
+            color: #198754;
+            font-size: 10px;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .notification-read-btn:hover {
+            text-decoration: underline;
+        }
+
+        .notification-read-label {
+            align-self: center;
+            font-size: 10px;
+            color: var(--text-muted, #64748b);
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 35px 15px;
+            color: var(--text-muted, #64748b);
+        }
+
+        .notification-empty i {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #198754;
+        }
+
+        .notification-empty p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .notification-footer {
+            padding: 10px 15px;
+            text-align: center;
+            border-top: 1px solid var(--border, #dce4df);
+            color: var(--text-muted, #64748b);
+            font-size: 10px;
+        }
+
+        .notification-error {
+            padding: 15px;
+            text-align: center;
+            color: #dc3545;
+            font-size: 12px;
+        }
+
+        @media (max-width: 991px) {
+
+            .notification-wrapper {
+                margin: 10px 0;
+                justify-content: flex-start;
+            }
+
+            .notification-dropdown {
+                left: 0;
+                right: auto;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .notification-dropdown {
+                width: calc(100vw - 35px);
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
@@ -83,6 +371,7 @@
         <div class="container-fluid">
 
             <!-- Project Logo -->
+
             <a
                 class="navbar-brand project-brand"
                 href="{{ url_for('home') }}"
@@ -108,6 +397,7 @@
 
 
             <!-- Mobile Navigation Toggle -->
+
             <button
                 class="navbar-toggler"
                 type="button"
@@ -124,11 +414,13 @@
 
 
             <!-- Navigation Links -->
+
             <div class="collapse navbar-collapse" id="mainNavbar">
 
                 <ul class="navbar-nav mx-auto">
 
                     <!-- HOME -->
+
                     <li class="nav-item">
 
                         <a
@@ -142,6 +434,7 @@
 
 
                     <!-- DASHBOARD -->
+
                     <li class="nav-item">
 
                         <a
@@ -155,6 +448,7 @@
 
 
                     <!-- DISTRICT ANALYTICS -->
+
                     <li class="nav-item">
 
                         <a
@@ -168,6 +462,7 @@
 
 
                     <!-- VILLAGE EXPLORER -->
+
                     <li class="nav-item">
 
                         <a
@@ -181,6 +476,7 @@
 
 
                     <!-- ML ANALYSIS -->
+
                     <li class="nav-item">
 
                         <a
@@ -194,6 +490,7 @@
 
 
                     <!-- WEBGIS -->
+
                     <li class="nav-item">
 
                         <a
@@ -207,6 +504,7 @@
 
 
                     <!-- REPORTS -->
+
                     <li class="nav-item">
 
                         <a
@@ -220,6 +518,7 @@
 
 
                     <!-- ABOUT -->
+
                     <li class="nav-item">
 
                         <a
@@ -235,9 +534,106 @@
 
 
                 <!-- HEADER ACTIONS -->
+
                 <div class="navigation-actions">
 
-                    <!-- Theme Toggle -->
+
+                    <!-- ADMIN NOTIFICATION CENTER -->
+
+                    <div class="notification-wrapper" id="notificationWrapper">
+
+                        <button
+                            type="button"
+                            class="notification-bell"
+                            id="notificationBell"
+                            aria-label="Open notifications"
+                            aria-expanded="false"
+                            title="Admin Notifications"
+                        >
+
+                            <i class="bi bi-bell-fill"></i>
+
+                            <span
+                                class="notification-count d-none"
+                                id="notificationCount"
+                            >
+                                0
+                            </span>
+
+                        </button>
+
+
+                        <!-- NOTIFICATION DROPDOWN -->
+
+                        <div
+                            class="notification-dropdown"
+                            id="notificationDropdown"
+                            aria-label="Admin notifications"
+                        >
+
+                            <div class="notification-dropdown-header">
+
+                                <div>
+                                    <h6>Admin Notifications</h6>
+
+                                    <small id="notificationSummary">
+                                        Loading notifications...
+                                    </small>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="mark-all-read"
+                                    id="markAllReadBtn"
+                                >
+                                    Mark all as read
+                                </button>
+
+                            </div>
+
+
+                            <div class="notification-demo-label">
+
+                                <i class="bi bi-info-circle me-1"></i>
+
+                                DEMO NOTIFICATIONS — SAMPLE DATA ONLY
+
+                            </div>
+
+
+                            <div
+                                class="notification-list"
+                                id="notificationList"
+                            >
+
+                                <div class="notification-empty">
+
+                                    <i class="bi bi-arrow-repeat"></i>
+
+                                    <p>Loading notifications...</p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="notification-footer">
+
+                                Odisha FRA Monitoring System
+
+                                <br>
+
+                                Not official government alerts
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- THEME TOGGLE -->
+
                     <button
                         type="button"
                         class="theme-toggle"
@@ -257,7 +653,8 @@
                     </button>
 
 
-                    <!-- Portal Status -->
+                    <!-- PORTAL STATUS -->
+
                     <div class="portal-status">
 
                         <span class="status-indicator"></span>
@@ -336,9 +733,11 @@
     ======================================= -->
 
     <!-- Bootstrap JavaScript -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Existing Project JavaScript -->
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 
@@ -370,6 +769,555 @@
                 localStorage.setItem("fra-theme", newTheme);
 
             });
+
+        });
+
+    </script>
+
+
+    <!-- ======================================
+         ADMIN NOTIFICATION JAVASCRIPT
+    ======================================= -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const bell = document.getElementById("notificationBell");
+
+            const dropdown =
+                document.getElementById("notificationDropdown");
+
+            const wrapper =
+                document.getElementById("notificationWrapper");
+
+            const countBadge =
+                document.getElementById("notificationCount");
+
+            const notificationList =
+                document.getElementById("notificationList");
+
+            const summary =
+                document.getElementById("notificationSummary");
+
+            const markAllButton =
+                document.getElementById("markAllReadBtn");
+
+
+            if (
+                !bell ||
+                !dropdown ||
+                !notificationList ||
+                !countBadge
+            ) {
+                return;
+            }
+
+
+            const API_BASE = "/api/admin/notifications";
+
+
+            let notifications = [];
+
+            let unreadCount = 0;
+
+
+            // ----------------------------------
+            // NOTIFICATION ICON
+            // ----------------------------------
+
+            function getNotificationIcon(type) {
+
+                const icons = {
+
+                    approved: "bi-check-circle-fill",
+
+                    rejected: "bi-x-circle-fill",
+
+                    pending: "bi-clock-fill",
+
+                    under_review: "bi-search"
+
+                };
+
+                return icons[type] || "bi-bell-fill";
+
+            }
+
+
+            // ----------------------------------
+            // UPDATE UNREAD BADGE
+            // ----------------------------------
+
+            function updateUnreadBadge() {
+
+                countBadge.textContent =
+                    unreadCount > 99 ? "99+" : unreadCount;
+
+                countBadge.classList.toggle(
+                    "d-none",
+                    unreadCount === 0
+                );
+
+                summary.textContent =
+                    unreadCount + " unread notification(s)";
+
+            }
+
+
+            // ----------------------------------
+            // SAFE TEXT HELPER
+            // ----------------------------------
+
+            function createTextElement(tag, className, text) {
+
+                const element = document.createElement(tag);
+
+                element.className = className;
+
+                element.textContent = text || "";
+
+                return element;
+
+            }
+
+
+            // ----------------------------------
+            // LOAD NOTIFICATIONS
+            // ----------------------------------
+
+            async function loadNotifications() {
+
+                notificationList.innerHTML = "";
+
+                const loading = document.createElement("div");
+
+                loading.className = "notification-empty";
+
+                const loadingIcon = document.createElement("i");
+
+                loadingIcon.className = "bi bi-arrow-repeat";
+
+                const loadingText = document.createElement("p");
+
+                loadingText.textContent = "Loading notifications...";
+
+                loading.appendChild(loadingIcon);
+
+                loading.appendChild(loadingText);
+
+                notificationList.appendChild(loading);
+
+
+                try {
+
+                    const response = await fetch(API_BASE, {
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    });
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Unable to load notifications."
+                        );
+
+                    }
+
+
+                    const data = await response.json();
+
+
+                    if (!data.success || !data.demo) {
+
+                        throw new Error(
+                            "Invalid notification response."
+                        );
+
+                    }
+
+
+                    notifications = data.notifications || [];
+
+                    unreadCount = data.unread_count || 0;
+
+
+                    updateUnreadBadge();
+
+                    renderNotifications();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Notification loading error:",
+                        error
+                    );
+
+                    notificationList.innerHTML = "";
+
+                    const errorBox =
+                        createTextElement(
+                            "div",
+                            "notification-error",
+                            error.message || "Unable to load notifications."
+                        );
+
+                    notificationList.appendChild(errorBox);
+
+                    summary.textContent = "Unable to load notifications.";
+
+                }
+
+            }
+
+
+            // ----------------------------------
+            // RENDER NOTIFICATIONS
+            // ----------------------------------
+
+            function renderNotifications() {
+
+                notificationList.innerHTML = "";
+
+
+                if (notifications.length === 0) {
+
+                    const empty = document.createElement("div");
+
+                    empty.className = "notification-empty";
+
+                    const icon = document.createElement("i");
+
+                    icon.className = "bi bi-bell-slash";
+
+                    const message = document.createElement("p");
+
+                    message.textContent = "No notifications available.";
+
+                    empty.appendChild(icon);
+
+                    empty.appendChild(message);
+
+                    notificationList.appendChild(empty);
+
+                    return;
+
+                }
+
+
+                notifications.forEach(function (notification) {
+
+                    const item = document.createElement("div");
+
+                    item.className =
+                        "notification-item" +
+                        (notification.is_read ? "" : " unread");
+
+
+                    // Icon
+
+                    const iconBox = document.createElement("div");
+
+                    iconBox.className =
+                        "notification-item-icon " +
+                        notification.type;
+
+                    const icon = document.createElement("i");
+
+                    icon.className =
+                        "bi " + getNotificationIcon(notification.type);
+
+                    iconBox.appendChild(icon);
+
+
+                    // Content
+
+                    const content = document.createElement("div");
+
+                    content.className = "notification-item-content";
+
+
+                    const title = createTextElement(
+                        "strong",
+                        "",
+                        notification.title
+                    );
+
+                    const message = createTextElement(
+                        "p",
+                        "",
+                        notification.message
+                    );
+
+                    const date = createTextElement(
+                        "small",
+                        "",
+                        notification.date || ""
+                    );
+
+
+                    content.appendChild(title);
+
+                    content.appendChild(message);
+
+                    content.appendChild(date);
+
+
+                    // Read Button
+
+                    let action;
+
+                    if (!notification.is_read) {
+
+                        action = document.createElement("button");
+
+                        action.type = "button";
+
+                        action.className = "notification-read-btn";
+
+                        action.textContent = "Mark read";
+
+                        action.addEventListener(
+                            "click",
+                            function () {
+
+                                markSingleAsRead(
+                                    notification.notification_id
+                                );
+
+                            }
+                        );
+
+                    } else {
+
+                        action = createTextElement(
+                            "span",
+                            "notification-read-label",
+                            "Read"
+                        );
+
+                    }
+
+
+                    item.appendChild(iconBox);
+
+                    item.appendChild(content);
+
+                    item.appendChild(action);
+
+                    notificationList.appendChild(item);
+
+                });
+
+            }
+
+
+            // ----------------------------------
+            // MARK SINGLE NOTIFICATION AS READ
+            // ----------------------------------
+
+            async function markSingleAsRead(notificationId) {
+
+                try {
+
+                    const response = await fetch(
+                        `${API_BASE}/${encodeURIComponent(notificationId)}/read`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        }
+                    );
+
+
+                    const data = await response.json();
+
+
+                    if (!response.ok || !data.success) {
+
+                        throw new Error(
+                            data.error || "Unable to update notification."
+                        );
+
+                    }
+
+
+                    await loadNotifications();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Mark as read error:",
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                        "Unable to mark notification as read."
+                    );
+
+                }
+
+            }
+
+
+            // ----------------------------------
+            // MARK ALL NOTIFICATIONS AS READ
+            // ----------------------------------
+
+            async function markAllAsRead() {
+
+                if (unreadCount === 0) {
+                    return;
+                }
+
+                markAllButton.disabled = true;
+
+                markAllButton.textContent = "Updating...";
+
+
+                try {
+
+                    const response = await fetch(
+                        `${API_BASE}/mark-all-read`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        }
+                    );
+
+
+                    const data = await response.json();
+
+
+                    if (!response.ok || !data.success) {
+
+                        throw new Error(
+                            data.error ||
+                            "Unable to mark all notifications as read."
+                        );
+
+                    }
+
+
+                    await loadNotifications();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Mark all as read error:",
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                        "Unable to update notifications."
+                    );
+
+                } finally {
+
+                    markAllButton.disabled = false;
+
+                    markAllButton.textContent = "Mark all as read";
+
+                }
+
+            }
+
+
+            // ----------------------------------
+            // TOGGLE DROPDOWN
+            // ----------------------------------
+
+            bell.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    dropdown.classList.toggle("show");
+
+                bell.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+
+                if (isOpen) {
+
+                    loadNotifications();
+
+                }
+
+            });
+
+
+            // ----------------------------------
+            // CLOSE ON OUTSIDE CLICK
+            // ----------------------------------
+
+            document.addEventListener("click", function (event) {
+
+                if (!wrapper.contains(event.target)) {
+
+                    dropdown.classList.remove("show");
+
+                    bell.setAttribute("aria-expanded", "false");
+
+                }
+
+            });
+
+
+            // ----------------------------------
+            // PREVENT DROPDOWN CLOSE ON INTERNAL CLICK
+            // ----------------------------------
+
+            dropdown.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+            });
+
+
+            // ----------------------------------
+            // MARK ALL BUTTON
+            // ----------------------------------
+
+            markAllButton.addEventListener(
+                "click",
+                markAllAsRead
+            );
+
+
+            // ----------------------------------
+            // INITIAL LOAD
+            // ----------------------------------
+
+            loadNotifications();
+
+
+            // ----------------------------------
+            // REFRESH BADGE PERIODICALLY
+            // ----------------------------------
+
+            setInterval(function () {
+
+                if (!document.hidden) {
+
+                    loadNotifications();
+
+                }
+
+            }, 30000);
 
         });
 

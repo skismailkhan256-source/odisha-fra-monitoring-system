@@ -5,7 +5,10 @@
 
 {% block content %}
 
-<!-- Hero Section -->
+<!-- ==============================
+     HERO SECTION
+================================== -->
+
 <div class="hero-section">
     <div class="eyebrow">FOREST RIGHTS ACT • ODISHA</div>
 
@@ -22,7 +25,10 @@
 </div>
 
 
-<!-- Overview -->
+<!-- ==============================
+     STATE OVERVIEW
+================================== -->
+
 <h4 class="section-heading">State Overview</h4>
 
 <div class="row g-3 mb-4">
@@ -62,7 +68,10 @@
 </div>
 
 
-<!-- Village Statistics -->
+<!-- ==============================
+     VILLAGE STATISTICS
+================================== -->
+
 <h4 class="section-heading">Village-Level Statistics</h4>
 
 <div class="row g-3 mb-4">
@@ -94,21 +103,283 @@
 </div>
 
 
-<!-- Charts -->
+<!-- ==============================
+     APPLICATION TRACKING PORTAL
+================================== -->
+
+<div class="tracking-section mt-5 mb-5" id="applicationTracking">
+
+    <div class="tracking-header">
+
+        <div>
+            <div class="tracking-eyebrow">
+                FOREST RIGHTS ACT • APPLICATION SERVICES
+            </div>
+
+            <h3>Application Tracking Portal</h3>
+
+            <p>
+                Track application progress using your Application ID.
+            </p>
+        </div>
+
+        <div class="tracking-icon">
+            <i class="bi bi-file-earmark-check"></i>
+        </div>
+
+    </div>
+
+
+    <!-- DEMO NOTICE -->
+
+    <div class="demo-notice">
+        <i class="bi bi-info-circle-fill"></i>
+
+        <div>
+            <strong>DEMO PORTAL – SAMPLE DATA ONLY</strong>
+
+            <p>
+                The applications displayed here are fictional sample records
+                created for project demonstration. They are not official
+                Government of Odisha records.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="row g-3 mb-4" id="trackingSummary">
+
+        <div class="col-6 col-md">
+            <div class="tracking-stat">
+                <span>Total Applications</span>
+                <h3 id="summaryTotal">--</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md">
+            <div class="tracking-stat">
+                <span>Approved</span>
+                <h3 id="summaryApproved">--</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md">
+            <div class="tracking-stat">
+                <span>Pending</span>
+                <h3 id="summaryPending">--</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md">
+            <div class="tracking-stat">
+                <span>Under Review</span>
+                <h3 id="summaryReview">--</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md">
+            <div class="tracking-stat">
+                <span>Rejected</span>
+                <h3 id="summaryRejected">--</h3>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH APPLICATION -->
+
+    <div class="tracking-search-card">
+
+        <h5>
+            <i class="bi bi-search me-2"></i>
+            Track Your Application
+        </h5>
+
+        <p>
+            Enter an Application ID to view its current status and timeline.
+        </p>
+
+        <div class="tracking-search-form">
+
+            <input
+                type="text"
+                id="applicationIdInput"
+                class="form-control"
+                placeholder="Example: FRA-OD-2026-001"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="trackApplicationBtn"
+                class="btn tracking-search-btn"
+            >
+                <i class="bi bi-search me-2"></i>
+                Track Application
+            </button>
+
+        </div>
+
+        <div class="tracking-examples">
+
+            <span>Try demo IDs:</span>
+
+            <button type="button" class="demo-id-btn"
+                data-id="FRA-OD-2026-001">
+                001 Approved
+            </button>
+
+            <button type="button" class="demo-id-btn"
+                data-id="FRA-OD-2026-002">
+                002 Under Review
+            </button>
+
+            <button type="button" class="demo-id-btn"
+                data-id="FRA-OD-2026-003">
+                003 Pending
+            </button>
+
+            <button type="button" class="demo-id-btn"
+                data-id="FRA-OD-2026-004">
+                004 Rejected
+            </button>
+
+        </div>
+
+        <div id="trackingMessage"
+             class="tracking-message"
+             role="status"
+             aria-live="polite">
+        </div>
+
+    </div>
+
+
+    <!-- APPLICATION RESULT -->
+
+    <div id="applicationResult" class="application-result d-none">
+
+        <div class="result-header">
+
+            <div>
+                <span class="result-label">APPLICATION DETAILS</span>
+
+                <h5 id="resultApplicationId">Application ID</h5>
+            </div>
+
+            <span id="resultStatus" class="application-status">
+                Status
+            </span>
+
+        </div>
+
+
+        <!-- APPLICANT INFORMATION -->
+
+        <div class="applicant-details-grid">
+
+            <div class="applicant-detail">
+                <span>Applicant Name</span>
+                <strong id="resultApplicantName">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>Application Type</span>
+                <strong id="resultApplicationType">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>District</span>
+                <strong id="resultDistrict">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>Block</span>
+                <strong id="resultBlock">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>Village</span>
+                <strong id="resultVillage">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>Submission Date</span>
+                <strong id="resultSubmittedDate">--</strong>
+            </div>
+
+            <div class="applicant-detail">
+                <span>Last Updated</span>
+                <strong id="resultUpdatedDate">--</strong>
+            </div>
+
+        </div>
+
+
+        <!-- REMARKS -->
+
+        <div class="application-remarks">
+
+            <strong>
+                <i class="bi bi-chat-left-text me-2"></i>
+                Application Remarks
+            </strong>
+
+            <p id="resultRemarks">--</p>
+
+        </div>
+
+
+        <!-- APPLICATION TIMELINE -->
+
+        <div class="application-timeline-section">
+
+            <h5>
+                <i class="bi bi-clock-history me-2"></i>
+                Application Progress Timeline
+            </h5>
+
+            <p class="timeline-subtitle">
+                Track each stage of the application verification process.
+            </p>
+
+            <div id="applicationTimeline" class="application-timeline">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==============================
+     MONITORING ANALYTICS
+================================== -->
+
 <h4 class="section-heading">Monitoring Analytics</h4>
 
 <div class="row g-3 mb-4">
 
     <div class="col-lg-6">
         <div class="content-card">
-            <h6 class="fw-bold mb-3">District Monitoring Categories</h6>
+            <h6 class="fw-bold mb-3">
+                District Monitoring Categories
+            </h6>
+
             <div id="priorityChart"></div>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="content-card">
-            <h6 class="fw-bold mb-3">Claims Overview</h6>
+            <h6 class="fw-bold mb-3">
+                Claims Overview
+            </h6>
+
             <div id="claimsChart"></div>
         </div>
     </div>
@@ -116,10 +387,15 @@
 </div>
 
 
-<!-- Top Districts -->
+<!-- ==============================
+     TOP DISTRICTS
+================================== -->
+
 <div class="content-card">
 
-    <h5 class="section-heading">Top 10 Districts by Claims Filed</h5>
+    <h5 class="section-heading">
+        Top 10 Districts by Claims Filed
+    </h5>
 
     <div class="table-responsive">
 
@@ -136,27 +412,51 @@
             </thead>
 
             <tbody>
+
                 {% for row in top_districts %}
+
                 <tr>
-                    <td class="fw-semibold">{{ row["District"] }}</td>
-                    <td>{{ "{:,.0f}".format(row["Claims_Filed"]) }}</td>
-                    <td>{{ "{:,.0f}".format(row["Claims_Approved"]) }}</td>
-                    <td>{{ "{:,.0f}".format(row["Claims_Rejected"]) }}</td>
-                    <td>{{ "{:,.0f}".format(row["Titles_Distributed"]) }}</td>
+                    <td class="fw-semibold">
+                        {{ row["District"] }}
+                    </td>
+
+                    <td>
+                        {{ "{:,.0f}".format(row["Claims_Filed"]) }}
+                    </td>
+
+                    <td>
+                        {{ "{:,.0f}".format(row["Claims_Approved"]) }}
+                    </td>
+
+                    <td>
+                        {{ "{:,.0f}".format(row["Claims_Rejected"]) }}
+                    </td>
+
+                    <td>
+                        {{ "{:,.0f}".format(row["Titles_Distributed"]) }}
+                    </td>
                 </tr>
+
                 {% endfor %}
+
             </tbody>
 
         </table>
 
     </div>
+
 </div>
 
 
-<!-- Top Villages -->
+<!-- ==============================
+     TOP VILLAGES
+================================== -->
+
 <div class="content-card">
 
-    <h5 class="section-heading">Top 10 Villages by Beneficiary Count</h5>
+    <h5 class="section-heading">
+        Top 10 Villages by Beneficiary Count
+    </h5>
 
     <div class="table-responsive">
 
@@ -174,14 +474,25 @@
             </thead>
 
             <tbody>
+
                 {% for row in top_villages %}
+
                 <tr>
+
                     <td>{{ row["Village"] }}</td>
+
                     <td>{{ row["Gram Panchayat"] }}</td>
+
                     <td>{{ row["Block"] }}</td>
+
                     <td>{{ row["District"] }}</td>
-                    <td>{{ "{:,.0f}".format(row["Beneficiary_Count"]) }}</td>
+
                     <td>
+                        {{ "{:,.0f}".format(row["Beneficiary_Count"]) }}
+                    </td>
+
+                    <td>
+
                         <span class="badge
                             {% if row['Village_Monitoring_Priority'] == 'High' %}
                                 bg-danger
@@ -190,16 +501,23 @@
                             {% else %}
                                 bg-success
                             {% endif %}">
+
                             {{ row["Village_Monitoring_Priority"] }}
+
                         </span>
+
                     </td>
+
                 </tr>
+
                 {% endfor %}
+
             </tbody>
 
         </table>
 
     </div>
+
 </div>
 
 
@@ -209,7 +527,457 @@
 </p>
 
 
-<!-- Plotly Charts -->
+<!-- ==============================
+     DASHBOARD STYLES
+================================== -->
+
+<style>
+
+.tracking-section {
+    padding: 26px;
+    border-radius: 18px;
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #e5e7eb);
+}
+
+.tracking-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.tracking-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #23865a;
+    margin-bottom: 8px;
+}
+
+.tracking-header h3 {
+    font-weight: 750;
+    margin-bottom: 7px;
+    color: var(--text, #172b23);
+}
+
+.tracking-header p {
+    color: var(--text-muted, #64748b);
+    margin: 0;
+}
+
+.tracking-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(35, 134, 90, 0.12);
+    color: #23865a;
+    font-size: 27px;
+    flex-shrink: 0;
+}
+
+.demo-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 16px;
+    margin-bottom: 22px;
+    border: 1px solid #e5bd65;
+    border-radius: 12px;
+    background: rgba(245, 184, 55, 0.10);
+    color: var(--text, #172b23);
+}
+
+.demo-notice > i {
+    color: #bd8517;
+    font-size: 21px;
+    margin-top: 2px;
+}
+
+.demo-notice strong {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.demo-notice p {
+    font-size: 13px;
+    margin: 5px 0 0;
+    color: var(--text-muted, #64748b);
+}
+
+.tracking-stat {
+    height: 100%;
+    padding: 17px;
+    border-radius: 12px;
+    border: 1px solid var(--border, #e5e7eb);
+    background: var(--surface-secondary, #f8faf9);
+}
+
+.tracking-stat span {
+    font-size: 12px;
+    color: var(--text-muted, #64748b);
+    display: block;
+}
+
+.tracking-stat h3 {
+    margin: 8px 0 0;
+    font-size: 27px;
+    font-weight: 750;
+    color: var(--text, #172b23);
+}
+
+.tracking-search-card {
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid var(--border, #e5e7eb);
+    background: var(--surface-secondary, #f8faf9);
+}
+
+.tracking-search-card h5 {
+    font-weight: 700;
+    color: var(--text, #172b23);
+}
+
+.tracking-search-card > p {
+    font-size: 13px;
+    color: var(--text-muted, #64748b);
+}
+
+.tracking-search-form {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.tracking-search-form input {
+    min-height: 48px;
+    background: var(--surface, #ffffff);
+    color: var(--text, #172b23);
+    border-color: var(--border, #dce4df);
+}
+
+.tracking-search-form input:focus {
+    border-color: #23865a;
+    box-shadow: 0 0 0 3px rgba(35, 134, 90, 0.12);
+}
+
+.tracking-search-btn {
+    min-height: 48px;
+    padding: 0 22px;
+    background: #176b46;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tracking-search-btn:hover {
+    background: #105537;
+    color: #ffffff;
+}
+
+.tracking-search-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.tracking-examples {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 17px;
+}
+
+.tracking-examples > span {
+    font-size: 12px;
+    color: var(--text-muted, #64748b);
+}
+
+.demo-id-btn {
+    border: 1px solid var(--border, #dce4df);
+    border-radius: 20px;
+    padding: 6px 11px;
+    background: var(--surface, #ffffff);
+    color: var(--text, #172b23);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.demo-id-btn:hover {
+    border-color: #23865a;
+    color: #23865a;
+}
+
+.tracking-message {
+    display: none;
+    margin-top: 15px;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.tracking-message.show {
+    display: block;
+}
+
+.tracking-message.error {
+    background: rgba(220, 53, 69, 0.10);
+    color: #dc3545;
+}
+
+.tracking-message.success {
+    background: rgba(25, 135, 84, 0.10);
+    color: #198754;
+}
+
+.application-result {
+    margin-top: 22px;
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid var(--border, #e5e7eb);
+    background: var(--surface, #ffffff);
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.result-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #23865a;
+}
+
+.result-header h5 {
+    font-weight: 750;
+    margin: 6px 0 0;
+    color: var(--text, #172b23);
+    overflow-wrap: anywhere;
+}
+
+.application-status {
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-approved {
+    background: rgba(25, 135, 84, 0.13);
+    color: #198754;
+}
+
+.status-pending {
+    background: rgba(255, 193, 7, 0.18);
+    color: #a77b00;
+}
+
+.status-under-review {
+    background: rgba(13, 110, 253, 0.12);
+    color: #0d6efd;
+}
+
+.status-rejected {
+    background: rgba(220, 53, 69, 0.12);
+    color: #dc3545;
+}
+
+.applicant-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    padding: 22px 0;
+}
+
+.applicant-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.applicant-detail span {
+    font-size: 11px;
+    color: var(--text-muted, #64748b);
+}
+
+.applicant-detail strong {
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--text, #172b23);
+    overflow-wrap: anywhere;
+}
+
+.application-remarks {
+    padding: 15px;
+    border-radius: 10px;
+    background: var(--surface-secondary, #f8faf9);
+    border: 1px solid var(--border, #e5e7eb);
+}
+
+.application-remarks strong {
+    font-size: 13px;
+    color: var(--text, #172b23);
+}
+
+.application-remarks p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--text-muted, #64748b);
+}
+
+.application-timeline-section {
+    margin-top: 25px;
+}
+
+.application-timeline-section h5 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text, #172b23);
+}
+
+.timeline-subtitle {
+    font-size: 12px;
+    color: var(--text-muted, #64748b);
+}
+
+.application-timeline {
+    position: relative;
+    margin-top: 22px;
+    padding-left: 7px;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    padding-bottom: 24px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: relative;
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    z-index: 1;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 27px;
+    height: calc(100% - 27px);
+    width: 2px;
+    background: var(--border, #dce4df);
+}
+
+.timeline-item.completed .timeline-marker {
+    background: #198754;
+    color: #ffffff;
+}
+
+.timeline-item.in_progress .timeline-marker {
+    background: #0d6efd;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+}
+
+.timeline-item.upcoming .timeline-marker {
+    background: var(--surface-secondary, #f1f5f2);
+    color: var(--text-muted, #64748b);
+    border: 1px solid var(--border, #dce4df);
+}
+
+.timeline-content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 3px;
+}
+
+.timeline-content strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text, #172b23);
+}
+
+.timeline-content span {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-muted, #64748b);
+}
+
+@media (max-width: 768px) {
+
+    .tracking-section {
+        padding: 16px;
+    }
+
+    .tracking-header h3 {
+        font-size: 21px;
+    }
+
+    .tracking-search-form {
+        flex-direction: column;
+    }
+
+    .tracking-search-btn {
+        width: 100%;
+    }
+
+    .applicant-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .applicant-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tracking-header {
+        align-items: flex-start;
+    }
+
+    .tracking-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 21px;
+    }
+
+}
+
+</style>
+
+
+<!-- ==============================
+     PLOTLY CHARTS
+================================== -->
+
 <script>
 
 const priorityData = {{ priority_counts | tojson }};
@@ -258,6 +1026,382 @@ Plotly.newPlot("claimsChart", [{
     showlegend: false
 }, {
     responsive: true
+});
+
+</script>
+
+
+<!-- ==============================
+     APPLICATION TRACKING JAVASCRIPT
+================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("applicationIdInput");
+    const trackButton = document.getElementById("trackApplicationBtn");
+    const resultBox = document.getElementById("applicationResult");
+    const messageBox = document.getElementById("trackingMessage");
+    const timelineBox = document.getElementById("applicationTimeline");
+
+    const API_BASE = "/api";
+
+    // --------------------------------
+    // SHOW MESSAGE
+    // --------------------------------
+
+    function showMessage(message, type) {
+
+        messageBox.textContent = message;
+        messageBox.className = "tracking-message show " + type;
+
+    }
+
+
+    // --------------------------------
+    // HIDE MESSAGE
+    // --------------------------------
+
+    function hideMessage() {
+
+        messageBox.textContent = "";
+        messageBox.className = "tracking-message";
+
+    }
+
+
+    // --------------------------------
+    // LOAD APPLICATION SUMMARY
+    // --------------------------------
+
+    async function loadTrackingSummary() {
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/application-tracking-summary`
+            );
+
+            if (!response.ok) {
+                throw new Error("Unable to load summary.");
+            }
+
+            const data = await response.json();
+
+            if (!data.success || !data.demo) {
+                throw new Error("Invalid demo summary response.");
+            }
+
+            const summary = data.summary;
+
+            document.getElementById("summaryTotal").textContent =
+                summary.total;
+
+            document.getElementById("summaryApproved").textContent =
+                summary.approved;
+
+            document.getElementById("summaryPending").textContent =
+                summary.pending;
+
+            document.getElementById("summaryReview").textContent =
+                summary.under_review;
+
+            document.getElementById("summaryRejected").textContent =
+                summary.rejected;
+
+        } catch (error) {
+
+            console.error("Tracking summary error:", error);
+
+            document.getElementById("summaryTotal").textContent = "N/A";
+
+        }
+
+    }
+
+
+    // --------------------------------
+    // STATUS CLASS
+    // --------------------------------
+
+    function getStatusClass(status) {
+
+        const normalized = status.toLowerCase();
+
+        if (normalized === "approved") {
+            return "status-approved";
+        }
+
+        if (normalized === "pending") {
+            return "status-pending";
+        }
+
+        if (normalized === "under review") {
+            return "status-under-review";
+        }
+
+        if (normalized === "rejected") {
+            return "status-rejected";
+        }
+
+        return "";
+
+    }
+
+
+    // --------------------------------
+    // DISPLAY APPLICATION DETAILS
+    // --------------------------------
+
+    function displayApplication(application) {
+
+        document.getElementById("resultApplicationId").textContent =
+            application.application_id;
+
+        document.getElementById("resultApplicantName").textContent =
+            application.applicant_name;
+
+        document.getElementById("resultApplicationType").textContent =
+            application.application_type;
+
+        document.getElementById("resultDistrict").textContent =
+            application.district;
+
+        document.getElementById("resultBlock").textContent =
+            application.block;
+
+        document.getElementById("resultVillage").textContent =
+            application.village;
+
+        document.getElementById("resultSubmittedDate").textContent =
+            application.submitted_date || "Not Available";
+
+        document.getElementById("resultUpdatedDate").textContent =
+            application.last_updated || "Not Available";
+
+        document.getElementById("resultRemarks").textContent =
+            application.remarks || "No remarks available.";
+
+        const statusElement =
+            document.getElementById("resultStatus");
+
+        statusElement.textContent = application.status;
+
+        statusElement.className =
+            "application-status " +
+            getStatusClass(application.status);
+
+        renderTimeline(application.timeline || []);
+
+        resultBox.classList.remove("d-none");
+
+        resultBox.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+    }
+
+
+    // --------------------------------
+    // RENDER APPLICATION TIMELINE
+    // --------------------------------
+
+    function renderTimeline(timeline) {
+
+        timelineBox.replaceChildren();
+
+        const icons = {
+            completed: "bi-check-lg",
+            in_progress: "bi-arrow-repeat",
+            upcoming: "bi-circle"
+        };
+
+        timeline.forEach(function (item) {
+
+            const status = item.status || "upcoming";
+
+            const timelineItem = document.createElement("div");
+
+            timelineItem.className =
+                "timeline-item " + status;
+
+            const marker = document.createElement("div");
+
+            marker.className = "timeline-marker";
+
+            const icon = document.createElement("i");
+
+            icon.className =
+                "bi " + (icons[status] || icons.upcoming);
+
+            marker.appendChild(icon);
+
+            const content = document.createElement("div");
+
+            content.className = "timeline-content";
+
+            const title = document.createElement("strong");
+
+            title.textContent = item.title || "Application Stage";
+
+            const date = document.createElement("span");
+
+            date.textContent =
+                item.date
+                    ? item.date
+                    : "Awaiting completion";
+
+            content.appendChild(title);
+            content.appendChild(date);
+
+            timelineItem.appendChild(marker);
+            timelineItem.appendChild(content);
+
+            timelineBox.appendChild(timelineItem);
+
+        });
+
+    }
+
+
+    // --------------------------------
+    // SEARCH APPLICATION
+    // --------------------------------
+
+    async function trackApplication() {
+
+        const applicationId = input.value.trim().toUpperCase();
+
+        if (!applicationId) {
+
+            resultBox.classList.add("d-none");
+
+            showMessage(
+                "Please enter an Application ID.",
+                "error"
+            );
+
+            input.focus();
+
+            return;
+
+        }
+
+        hideMessage();
+
+        resultBox.classList.add("d-none");
+
+        trackButton.disabled = true;
+
+        trackButton.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>Searching...';
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE}/application-tracking/${encodeURIComponent(applicationId)}`
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+
+                throw new Error(
+                    data.error || "Application not found."
+                );
+
+            }
+
+            if (!data.demo || !data.application) {
+
+                throw new Error("Invalid application response.");
+
+            }
+
+            displayApplication(data.application);
+
+            showMessage(
+                "Demo application details loaded successfully.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error("Application tracking error:", error);
+
+            resultBox.classList.add("d-none");
+
+            showMessage(
+                error.message || "Unable to fetch application details.",
+                "error"
+            );
+
+        } finally {
+
+            trackButton.disabled = false;
+
+            trackButton.innerHTML =
+                '<i class="bi bi-search me-2"></i>Track Application';
+
+        }
+
+    }
+
+
+    // --------------------------------
+    // BUTTON CLICK
+    // --------------------------------
+
+    trackButton.addEventListener(
+        "click",
+        trackApplication
+    );
+
+
+    // --------------------------------
+    // ENTER KEY
+    // --------------------------------
+
+    input.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            trackApplication();
+
+        }
+
+    });
+
+
+    // --------------------------------
+    // DEMO APPLICATION BUTTONS
+    // --------------------------------
+
+    document.querySelectorAll(".demo-id-btn").forEach(
+        function (button) {
+
+            button.addEventListener("click", function () {
+
+                input.value = button.dataset.id;
+
+                trackApplication();
+
+            });
+
+        }
+    );
+
+
+    // --------------------------------
+    // INITIALIZE
+    // --------------------------------
+
+    loadTrackingSummary();
+
 });
 
 </script>

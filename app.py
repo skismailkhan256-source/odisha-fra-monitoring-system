@@ -1295,6 +1295,148 @@ def beneficiary_map():
         )
 
         return f"Beneficiary map error: {error}", 500
+# ==================================================
+# 16. DEMO APPLICATION TRACKING API
+# ==================================================
+# SAMPLE DATA - NOT OFFICIAL GOVERNMENT RECORDS
+
+DEMO_APPLICATIONS = {
+    "FRA-OD-2026-001": {
+        "application_id": "FRA-OD-2026-001",
+        "applicant_name": "Demo Applicant 01",
+        "district": "Koraput",
+        "block": "Example Block 01",
+        "village": "Example Village 01",
+        "application_type": "Individual Forest Rights",
+        "status": "Approved",
+        "submitted_date": "2026-10-01",
+        "last_updated": "2026-10-20",
+        "remarks": "Demo application approved for testing.",
+        "timeline": [
+            {"title": "Application Submitted", "date": "2026-10-01", "status": "completed"},
+            {"title": "Document Verification", "date": "2026-10-05", "status": "completed"},
+            {"title": "Field Verification", "date": "2026-10-12", "status": "completed"},
+            {"title": "Committee Review", "date": "2026-10-17", "status": "completed"},
+            {"title": "Final Decision", "date": "2026-10-20", "status": "completed"}
+        ]
+    },
+
+    "FRA-OD-2026-002": {
+        "application_id": "FRA-OD-2026-002",
+        "applicant_name": "Demo Applicant 02",
+        "district": "Mayurbhanj",
+        "block": "Example Block 02",
+        "village": "Example Village 02",
+        "application_type": "Community Forest Rights",
+        "status": "Under Review",
+        "submitted_date": "2026-10-03",
+        "last_updated": "2026-10-22",
+        "remarks": "Demo application is currently under review.",
+        "timeline": [
+            {"title": "Application Submitted", "date": "2026-10-03", "status": "completed"},
+            {"title": "Document Verification", "date": "2026-10-09", "status": "completed"},
+            {"title": "Field Verification", "date": "2026-10-16", "status": "completed"},
+            {"title": "Committee Review", "date": "2026-10-22", "status": "in_progress"},
+            {"title": "Final Decision", "date": None, "status": "upcoming"}
+        ]
+    },
+
+    "FRA-OD-2026-003": {
+        "application_id": "FRA-OD-2026-003",
+        "applicant_name": "Demo Applicant 03",
+        "district": "Kandhamal",
+        "block": "Example Block 03",
+        "village": "Example Village 03",
+        "application_type": "Individual Forest Rights",
+        "status": "Pending",
+        "submitted_date": "2026-10-08",
+        "last_updated": "2026-10-08",
+        "remarks": "Demo application awaiting initial verification.",
+        "timeline": [
+            {"title": "Application Submitted", "date": "2026-10-08", "status": "completed"},
+            {"title": "Document Verification", "date": None, "status": "upcoming"},
+            {"title": "Field Verification", "date": None, "status": "upcoming"},
+            {"title": "Committee Review", "date": None, "status": "upcoming"},
+            {"title": "Final Decision", "date": None, "status": "upcoming"}
+        ]
+    },
+
+    "FRA-OD-2026-004": {
+        "application_id": "FRA-OD-2026-004",
+        "applicant_name": "Demo Applicant 04",
+        "district": "Angul",
+        "block": "Example Block 04",
+        "village": "Example Village 04",
+        "application_type": "Individual Forest Rights",
+        "status": "Rejected",
+        "submitted_date": "2026-09-25",
+        "last_updated": "2026-10-18",
+        "remarks": "Demo rejection due to incomplete documents.",
+        "timeline": [
+            {"title": "Application Submitted", "date": "2026-09-25", "status": "completed"},
+            {"title": "Document Verification", "date": "2026-10-02", "status": "completed"},
+            {"title": "Field Verification", "date": "2026-10-10", "status": "completed"},
+            {"title": "Committee Review", "date": "2026-10-15", "status": "completed"},
+            {"title": "Final Decision", "date": "2026-10-18", "status": "completed"}
+        ]
+    }
+}
+
+
+@app.route("/api/application-tracking/<application_id>", methods=["GET"])
+def application_tracking_api(application_id):
+
+    tracking_id = application_id.strip().upper()
+
+    application = DEMO_APPLICATIONS.get(tracking_id)
+
+    if application is None:
+        return jsonify({
+            "success": False,
+            "demo": True,
+            "notice": "DEMO DATA - NOT OFFICIAL GOVERNMENT RECORDS",
+            "error": "Application ID not found in demo records."
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "demo": True,
+        "notice": "DEMO DATA - NOT OFFICIAL GOVERNMENT RECORDS",
+        "application": application
+    }), 200
+
+
+@app.route("/api/application-tracking-summary", methods=["GET"])
+def application_tracking_summary_api():
+
+    applications = list(DEMO_APPLICATIONS.values())
+
+    summary = {
+        "total": len(applications),
+        "approved": sum(
+            item["status"] == "Approved"
+            for item in applications
+        ),
+        "pending": sum(
+            item["status"] == "Pending"
+            for item in applications
+        ),
+        "under_review": sum(
+            item["status"] == "Under Review"
+            for item in applications
+        ),
+        "rejected": sum(
+            item["status"] == "Rejected"
+            for item in applications
+        )
+    }
+
+    return jsonify({
+        "success": True,
+        "demo": True,
+        "notice": "DEMO DATA - NOT OFFICIAL GOVERNMENT RECORDS",
+        "summary": summary
+    }), 200
 
 
 # ==================================================
@@ -1326,6 +1468,578 @@ def reports():
         app.logger.exception("Reports page loading failed")
 
         return f"Reports error: {error}", 500
+
+# ==================================================
+#  ADMIN NOTIFICATION CENTER
+#  DEMO DATA ONLY - NOT OFFICIAL ALERTS
+# ==================================================
+
+DEMO_NOTIFICATIONS = []
+
+for application in DEMO_APPLICATIONS.values():
+
+    status = application["status"]
+
+    notification_types = {
+        "Approved": {
+            "type": "approved",
+            "title": "Application Approved",
+            "message": (
+                f"Application {application['application_id']} "
+                "has been approved."
+            )
+        },
+        "Rejected": {
+            "type": "rejected",
+            "title": "Application Rejected",
+            "message": (
+                f"Application {application['application_id']} "
+                "has been rejected."
+            )
+        },
+        "Pending": {
+            "type": "pending",
+            "title": "Pending Verification",
+            "message": (
+                f"Application {application['application_id']} "
+                "is awaiting initial verification."
+            )
+        },
+        "Under Review": {
+            "type": "under_review",
+            "title": "Application Under Review",
+            "message": (
+                f"Application {application['application_id']} "
+                "is currently under review."
+            )
+        }
+    }
+
+    info = notification_types.get(status)
+
+    if info:
+        DEMO_NOTIFICATIONS.append({
+            "notification_id": (
+                f"NOTIF-{application['application_id']}"
+            ),
+            "application_id": application["application_id"],
+            "applicant_name": application["applicant_name"],
+            "district": application["district"],
+            "type": info["type"],
+            "title": info["title"],
+            "message": info["message"],
+            "date": application["last_updated"],
+            "is_read": False
+        })
+
+
+# ==================================================
+# GET ALL NOTIFICATIONS
+# ==================================================
+
+@app.route("/api/admin/notifications", methods=["GET"])
+def get_admin_notifications():
+
+    unread_count = sum(
+        not item["is_read"]
+        for item in DEMO_NOTIFICATIONS
+    )
+
+    return jsonify({
+        "success": True,
+        "demo": True,
+        "notice": "DEMO NOTIFICATIONS - NOT OFFICIAL GOVERNMENT ALERTS",
+        "total_notifications": len(DEMO_NOTIFICATIONS),
+        "unread_count": unread_count,
+        "notifications": DEMO_NOTIFICATIONS
+    }), 200
+
+
+# ==================================================
+# MARK SINGLE NOTIFICATION AS READ
+# ==================================================
+
+@app.route(
+    "/api/admin/notifications/<notification_id>/read",
+    methods=["POST"]
+)
+def mark_notification_read(notification_id):
+
+    for notification in DEMO_NOTIFICATIONS:
+
+        if notification["notification_id"] == notification_id:
+
+            notification["is_read"] = True
+
+            return jsonify({
+                "success": True,
+                "message": "Notification marked as read."
+            }), 200
+
+    return jsonify({
+        "success": False,
+        "error": "Notification not found."
+    }), 404
+
+
+# ==================================================
+# MARK ALL NOTIFICATIONS AS READ
+# ==================================================
+
+@app.route(
+    "/api/admin/notifications/mark-all-read",
+    methods=["POST"]
+)
+def mark_all_notifications_read():
+
+    for notification in DEMO_NOTIFICATIONS:
+        notification["is_read"] = True
+
+    return jsonify({
+        "success": True,
+        "message": "All notifications marked as read.",
+        "unread_count": 0
+    }), 200
+
+# ==========================================================
+# APPLICATION SUBMISSION API
+# DEMO MODULE - NOT AN OFFICIAL GOVERNMENT SUBMISSION PORTAL
+# ==========================================================
+
+@app.route("/api/application-submit", methods=["POST"])
+def submit_application_api():
+
+    try:
+
+        # ------------------------------------------
+        # 1. RECEIVE FORM DATA
+        # ------------------------------------------
+
+        data = request.get_json(silent=True) or {}
+
+        applicant_name = str(
+            data.get("applicant_name", "")
+        ).strip()
+
+        application_type = str(
+            data.get("application_type", "")
+        ).strip()
+
+        district = str(
+            data.get("district", "")
+        ).strip()
+
+        block = str(
+            data.get("block", "")
+        ).strip()
+
+        gram_panchayat = str(
+            data.get("gram_panchayat", "")
+        ).strip()
+
+        village = str(
+            data.get("village", "")
+        ).strip()
+
+
+        # ------------------------------------------
+        # 2. VALIDATE REQUIRED FIELDS
+        # ------------------------------------------
+
+        required_fields = {
+            "applicant_name": applicant_name,
+            "application_type": application_type,
+            "district": district,
+            "block": block,
+            "gram_panchayat": gram_panchayat,
+            "village": village
+        }
+
+        missing_fields = [
+            field
+            for field, value in required_fields.items()
+            if not value
+        ]
+
+        if missing_fields:
+
+            return jsonify({
+                "success": False,
+                "error": "Please fill all required fields.",
+                "missing_fields": missing_fields
+            }), 400
+
+
+        if len(applicant_name) > 100:
+
+            return jsonify({
+                "success": False,
+                "error": "Applicant name must not exceed 100 characters."
+            }), 400
+
+
+        allowed_types = [
+            "Individual Forest Rights",
+            "Community Forest Rights",
+            "Community Forest Resource Rights"
+        ]
+
+        if application_type not in allowed_types:
+
+            return jsonify({
+                "success": False,
+                "error": "Invalid application type."
+            }), 400
+
+
+        # ------------------------------------------
+        # 3. VALIDATE LOCATION FROM VILLAGE DATASET
+        # ------------------------------------------
+
+        villages_data = load_villages()
+
+        location_columns = [
+            "District",
+            "Block",
+            "Gram Panchayat",
+            "Village"
+        ]
+
+        missing_columns = [
+            column
+            for column in location_columns
+            if column not in villages_data.columns
+        ]
+
+        if missing_columns:
+
+            return jsonify({
+                "success": False,
+                "error": "Required location columns are missing.",
+                "missing_columns": missing_columns
+            }), 500
+
+
+        filtered = villages_data.copy()
+
+        location_values = {
+            "District": district,
+            "Block": block,
+            "Gram Panchayat": gram_panchayat,
+            "Village": village
+        }
+
+        for column, value in location_values.items():
+
+            filtered = filtered[
+                filtered[column]
+                .astype(str)
+                .str.strip()
+                .str.casefold() == value.casefold()
+            ]
+
+
+        if filtered.empty:
+
+            return jsonify({
+                "success": False,
+                "error": (
+                    "Invalid location. Please select a valid "
+                    "District, Block, Gram Panchayat and Village."
+                )
+            }), 400
+
+
+        # Use the official spelling from the project dataset.
+        location_record = filtered.iloc[0]
+
+        district = str(location_record["District"]).strip()
+        block = str(location_record["Block"]).strip()
+        gram_panchayat = str(
+            location_record["Gram Panchayat"]
+        ).strip()
+        village = str(location_record["Village"]).strip()
+
+
+        # ------------------------------------------
+        # 4. GENERATE UNIQUE APPLICATION ID
+        # ------------------------------------------
+
+        today = pd.Timestamp.now().strftime("%Y-%m-%d")
+
+        current_year = pd.Timestamp.now().year
+
+        sequence = len(DEMO_APPLICATIONS) + 1
+
+        while True:
+
+            application_id = (
+                f"FRA-OD-{current_year}-{sequence:03d}"
+            )
+
+            if application_id not in DEMO_APPLICATIONS:
+                break
+
+            sequence += 1
+
+
+        # ------------------------------------------
+        # 5. CREATE APPLICATION RECORD
+        # ------------------------------------------
+
+        new_application = {
+
+            "application_id": application_id,
+
+            "applicant_name": applicant_name,
+
+            "district": district,
+
+            "block": block,
+
+            "gram_panchayat": gram_panchayat,
+
+            "village": village,
+
+            "application_type": application_type,
+
+            "status": "Pending",
+
+            "submitted_date": today,
+
+            "last_updated": today,
+
+            "remarks": (
+                "Demo application submitted successfully. "
+                "Awaiting initial verification."
+            ),
+
+            "timeline": [
+
+                {
+                    "title": "Application Submitted",
+                    "date": today,
+                    "status": "completed"
+                },
+
+                {
+                    "title": "Document Verification",
+                    "date": None,
+                    "status": "upcoming"
+                },
+
+                {
+                    "title": "Field Verification",
+                    "date": None,
+                    "status": "upcoming"
+                },
+
+                {
+                    "title": "Committee Review",
+                    "date": None,
+                    "status": "upcoming"
+                },
+
+                {
+                    "title": "Final Decision",
+                    "date": None,
+                    "status": "upcoming"
+                }
+
+            ]
+
+        }
+
+
+        # ------------------------------------------
+        # 6. SAVE IN DEMO APPLICATION RECORDS
+        # ------------------------------------------
+
+        DEMO_APPLICATIONS[application_id] = new_application
+
+
+        # ------------------------------------------
+        # 7. CREATE ADMIN NOTIFICATION
+        # ------------------------------------------
+
+        new_notification = {
+
+            "notification_id": f"NOTIF-{application_id}",
+
+            "application_id": application_id,
+
+            "applicant_name": applicant_name,
+
+            "district": district,
+
+            "type": "new_application",
+
+            "title": "New Application Submitted",
+
+            "message": (
+                f"{applicant_name} submitted a new "
+                f"FRA application in {district}."
+            ),
+
+            "date": today,
+
+            "is_read": False
+
+        }
+
+
+        # Show newest notification first.
+        DEMO_NOTIFICATIONS.insert(
+            0,
+            new_notification
+        )
+
+
+        # ------------------------------------------
+        # 8. RETURN SUCCESS RESPONSE
+        # ------------------------------------------
+
+        return jsonify({
+
+            "success": True,
+
+            "demo": True,
+
+            "notice": (
+                "DEMO APPLICATION - "
+                "NOT AN OFFICIAL GOVERNMENT SUBMISSION"
+            ),
+
+            "message": "Application submitted successfully.",
+
+            "application_id": application_id,
+
+            "status": "Pending",
+
+            "application": new_application
+
+        }), 201
+
+
+    except Exception as error:
+
+        app.logger.exception(
+            "Application submission failed"
+        )
+
+        return jsonify({
+
+            "success": False,
+
+            "error": "Unable to submit application.",
+
+            "details": str(error)
+
+        }), 500
+
+
+# ==========================================================
+# APPLICATION SUBMISSION PAGE
+# ==========================================================
+
+
+# ==========================================================
+# APPLICATION SUBMISSION PAGE
+# ==========================================================
+
+
+# ==========================================================
+# APPLICATION SUBMISSION - VILLAGE DROPDOWN API
+# ==========================================================
+
+@app.route("/api/application-villages")
+def application_villages_api():
+
+    try:
+
+        villages = load_villages()
+
+        district = request.args.get(
+            "district", ""
+        ).strip()
+
+        block = request.args.get(
+            "block", ""
+        ).strip()
+
+        gp = request.args.get(
+            "gp", ""
+        ).strip()
+
+        if not district or not block or not gp:
+            return jsonify([])
+
+        filtered = villages[
+            (villages["District"].astype(str).str.strip() == district) &
+            (villages["Block"].astype(str).str.strip() == block) &
+            (villages["Gram Panchayat"].astype(str).str.strip() == gp)
+        ]
+
+        village_names = sorted(
+            filtered["Village"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+            .unique()
+            .tolist()
+        )
+
+        return jsonify(village_names)
+
+    except Exception as error:
+
+        app.logger.exception(
+            "Application village dropdown API failed"
+        )
+
+        return jsonify({
+            "error": str(error)
+        }), 500
+
+@app.route("/application-submit", methods=["GET"])
+def application_submit():
+
+    try:
+
+        # Load existing FRA village dataset
+        villages = load_villages()
+
+        # Get unique district names
+        districts = sorted(
+            villages["District"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+            .unique()
+            .tolist()
+        )
+
+        # Remove empty values
+        districts = [
+            district
+            for district in districts
+            if district
+        ]
+
+        return render_template(
+            "application_submit.html",
+            districts=districts
+        )
+
+    except Exception as error:
+
+        app.logger.exception(
+            "Application Submission Page loading failed"
+        )
+
+        return f"Application Submission Error: {error}", 500
+
+
 
 
 # ==================================================

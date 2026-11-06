@@ -15,9 +15,7 @@
     color: var(--text-primary, #24352c);
 }
 
-/* ==========================================
-   HERO BANNER
-========================================== */
+/* HERO BANNER */
 
 .fra-hero {
     position: relative;
@@ -86,6 +84,8 @@
     margin-bottom: 0;
 }
 
+/* HERO BUTTONS */
+
 .fra-hero-actions {
     display: flex;
     gap: 12px;
@@ -94,7 +94,8 @@
 }
 
 .fra-btn-primary,
-.fra-btn-outline {
+.fra-btn-outline,
+.fra-btn-apply {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -130,9 +131,22 @@
     transform: translateY(-3px);
 }
 
-/* ==========================================
-   STATISTICS SECTION
-========================================== */
+/* APPLY FOR FRA BUTTON */
+
+.fra-btn-apply {
+    color: #123f29;
+    background: #c7f49b;
+    border: 1px solid #c7f49b;
+}
+
+.fra-btn-apply:hover {
+    background: #e1ffc5;
+    border-color: #e1ffc5;
+    color: #10442b;
+    transform: translateY(-3px);
+}
+
+/* STATISTICS SECTION */
 
 .fra-stats {
     display: grid;
@@ -187,9 +201,7 @@
     line-height: 1.1;
 }
 
-/* ==========================================
-   SECTION HEADINGS
-========================================== */
+/* SECTION HEADINGS */
 
 .fra-section {
     margin-bottom: 28px;
@@ -213,9 +225,7 @@
     margin: 0;
 }
 
-/* ==========================================
-   PLATFORM MODULE CARDS
-========================================== */
+/* PLATFORM MODULE CARDS */
 
 .fra-feature-card {
     height: 100%;
@@ -270,9 +280,7 @@
     color: #12472e;
 }
 
-/* ==========================================
-   ABOUT + WORKFLOW LAYOUT
-========================================== */
+/* ABOUT + WORKFLOW LAYOUT */
 
 .fra-lower-grid {
     display: grid;
@@ -327,9 +335,7 @@
     line-height: 1.7;
 }
 
-/* ==========================================
-   OVERVIEW TREE ILLUSTRATION
-========================================== */
+/* OVERVIEW TREE ILLUSTRATION */
 
 .fra-tree-illustration {
     font-size: 95px;
@@ -346,9 +352,7 @@
     font-size: 11px;
 }
 
-/* ==========================================
-   WORKFLOW STEPS
-========================================== */
+/* WORKFLOW STEPS */
 
 .fra-workflow-steps {
     display: grid;
@@ -393,9 +397,7 @@
     line-height: 1.6;
 }
 
-/* ==========================================
-   BOTTOM FOREST BANNER
-========================================== */
+/* BOTTOM FOREST BANNER */
 
 .fra-bottom-banner {
     position: relative;
@@ -449,9 +451,7 @@
     transform: translateY(-2px);
 }
 
-/* ==========================================
-   DARK MODE
-========================================== */
+/* DARK MODE */
 
 [data-theme="dark"] .fra-feature-card,
 [data-theme="dark"] .fra-workflow-card,
@@ -504,9 +504,7 @@
     color: #7ecb93;
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN
-========================================== */
+/* RESPONSIVE DESIGN */
 
 @media(max-width: 992px) {
 
@@ -594,7 +592,8 @@
     }
 
     .fra-btn-primary,
-    .fra-btn-outline {
+    .fra-btn-outline,
+    .fra-btn-apply {
         padding: 10px 12px;
         font-size: 11px;
     }
@@ -617,9 +616,7 @@
 
 <div class="fra-home">
 
-    <!-- ======================================
-         HERO BANNER
-    ======================================= -->
+    <!-- HERO BANNER -->
 
     <section class="fra-hero">
 
@@ -661,6 +658,16 @@
 
                 </a>
 
+                <!-- NEW: APPLICATION SUBMISSION BUTTON -->
+
+                <a href="{{ url_for('application_submit') }}"
+                   class="fra-btn-apply">
+
+                    <i class="bi bi-file-earmark-plus"></i>
+                    Apply for FRA
+
+                </a>
+
             </div>
 
         </div>
@@ -668,9 +675,7 @@
     </section>
 
 
-    <!-- ======================================
-         PROJECT STATISTICS
-    ======================================= -->
+    <!-- PROJECT STATISTICS -->
 
     <section class="fra-stats">
 
@@ -732,9 +737,7 @@
     </section>
 
 
-    <!-- ======================================
-         PLATFORM MODULES
-    ======================================= -->
+    <!-- PLATFORM MODULES -->
 
     <section class="fra-section">
 
@@ -924,9 +927,7 @@
     </section>
 
 
-    <!-- ======================================
-         ABOUT + PLATFORM WORKFLOW
-    ======================================= -->
+    <!-- ABOUT + PLATFORM WORKFLOW -->
 
     <section class="fra-lower-grid">
 
@@ -1081,9 +1082,7 @@
     </section>
 
 
-    <!-- ======================================
-         FINAL FOREST BANNER
-    ======================================= -->
+    <!-- FINAL FOREST BANNER -->
 
     <section class="fra-bottom-banner">
 

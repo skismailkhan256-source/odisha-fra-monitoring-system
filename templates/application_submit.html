@@ -1,0 +1,1041 @@
+
+{% extends "base.html" %}
+
+{% block title %}Application Submission | Odisha FRA Monitoring System{% endblock %}
+
+{% block content %}
+
+<style>
+.application-page {
+    max-width: 1050px;
+    width: 100%;
+    margin: 25px auto;
+}
+
+.application-hero {
+    background: linear-gradient(120deg, #125b3d, #198754);
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+}
+
+.application-hero h2 {
+    font-weight: 750;
+    margin-bottom: 10px;
+}
+
+.application-card {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #dce4df);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    color: var(--text, #173629);
+}
+
+.application-card h5 {
+    font-weight: 750;
+    margin-bottom: 22px;
+}
+
+.application-card .form-label {
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--text, #173629);
+}
+
+.application-card .form-control,
+.application-card .form-select {
+    background-color: var(--surface, #ffffff);
+    color: var(--text, #173629);
+    border-color: var(--border, #dce4df);
+    border-radius: 9px;
+    min-height: 44px;
+}
+
+.application-card .form-control:focus,
+.application-card .form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+}
+
+.application-submit-btn {
+    background: #16784f;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 28px;
+    font-weight: 700;
+}
+
+.application-submit-btn:hover {
+    background: #105d3c;
+    color: white;
+}
+
+.application-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.application-notice {
+    background: rgba(255, 193, 7, 0.12);
+    border: 1px solid rgba(245, 184, 55, 0.35);
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 12px;
+    color: var(--text, #173629);
+}
+
+.application-result {
+    display: none;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.application-result.success {
+    display: block;
+    background: rgba(25, 135, 84, 0.10);
+    border: 1px solid #198754;
+}
+
+.application-result.error {
+    display: block;
+    background: rgba(220, 53, 69, 0.08);
+    border: 1px solid #dc3545;
+}
+
+.application-id {
+    font-size: 22px;
+    font-weight: 800;
+    color: #198754;
+    word-break: break-word;
+}
+
+.required-mark {
+    color: #dc3545;
+}
+
+.dropdown-help {
+    font-size: 12px;
+    color: var(--text-muted, #718078);
+}
+
+@media(max-width: 576px) {
+    .application-hero {
+        padding: 22px;
+    }
+
+    .application-card {
+        padding: 18px;
+    }
+}
+</style>
+
+
+<div class="application-page">
+
+    <!-- HERO -->
+
+    <div class="application-hero">
+
+        <div class="small mb-2">
+            FOREST RIGHTS ACT • ODISHA
+        </div>
+
+        <h2>
+            <i class="bi bi-file-earmark-plus me-2"></i>
+            Application Submission Portal
+        </h2>
+
+        <p class="mb-0">
+            Submit a demonstration FRA application and
+            receive a unique Application ID for tracking.
+        </p>
+
+    </div>
+
+
+    <!-- DEMO NOTICE -->
+
+    <div class="application-notice mb-4">
+
+        <i class="bi bi-info-circle-fill me-2"></i>
+
+        <strong>Demo Portal:</strong>
+
+        This form uses sample data for academic demonstration.
+        It is not an official Government of Odisha application portal.
+
+    </div>
+
+
+    <form id="applicationForm">
+
+
+        <!-- APPLICANT INFORMATION -->
+
+        <div class="application-card">
+
+            <h5>
+                <i class="bi bi-person-circle text-success me-2"></i>
+                Applicant Information
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-12">
+
+                    <label class="form-label">
+                        Applicant Full Name
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="applicantName"
+                        maxlength="100"
+                        placeholder="Enter applicant full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="col-md-12">
+
+                    <label class="form-label">
+                        FRA Application Type
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="applicationType"
+                        required
+                    >
+
+                        <option value="">Select Application Type</option>
+
+                        <option value="Individual Forest Rights">
+                            Individual Forest Rights
+                        </option>
+
+                        <option value="Community Forest Rights">
+                            Community Forest Rights
+                        </option>
+
+                        <option value="Community Forest Resource Rights">
+                            Community Forest Resource Rights
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADMINISTRATIVE LOCATION -->
+
+        <div class="application-card">
+
+            <h5>
+                <i class="bi bi-geo-alt-fill text-success me-2"></i>
+                Administrative Location
+            </h5>
+
+            <p class="text-muted small mb-3">
+                Select the exact administrative location from
+                the existing FRA village dataset.
+            </p>
+
+            <div class="row g-3">
+
+
+                <!-- DISTRICT -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        District
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="district"
+                        required
+                    >
+
+                        <option value="">Select District</option>
+
+                        {% for district_name in districts %}
+                            <option value="{{ district_name }}">
+                                {{ district_name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- BLOCK -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Block
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="block"
+                        required
+                        disabled
+                    >
+
+                        <option value="">Select District First</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- GRAM PANCHAYAT -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Gram Panchayat
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="gramPanchayat"
+                        required
+                        disabled
+                    >
+
+                        <option value="">Select Block First</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- VILLAGE -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Village
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="village"
+                        required
+                        disabled
+                    >
+
+                        <option value="">Select Gram Panchayat First</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <p
+                class="dropdown-help text-muted small mt-3 mb-0"
+                id="locationMessage"
+                aria-live="polite"
+            >
+                Select a district to load available blocks.
+            </p>
+
+        </div>
+
+
+        <!-- REVIEW AND SUBMIT -->
+
+        <div class="application-card">
+
+            <h5>
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Review and Submit
+            </h5>
+
+            <p class="text-muted small">
+                Please verify the entered details before submitting
+                your demonstration application.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 align-items-center">
+
+                <button
+                    type="submit"
+                    class="btn application-submit-btn"
+                    id="submitApplicationBtn"
+                >
+
+                    <i class="bi bi-send-fill me-2"></i>
+                    Submit Application
+
+                </button>
+
+
+                <!-- CUSTOM RESET BUTTON -->
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    id="resetApplicationBtn"
+                >
+
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+                    Reset Form
+
+                </button>
+
+            </div>
+
+
+            <!-- APPLICATION RESULT -->
+
+            <div
+                id="applicationResult"
+                class="application-result"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("applicationForm");
+
+    const submitButton =
+        document.getElementById("submitApplicationBtn");
+
+    const resetButton =
+        document.getElementById("resetApplicationBtn");
+
+    const result =
+        document.getElementById("applicationResult");
+
+    const districtSelect =
+        document.getElementById("district");
+
+    const blockSelect =
+        document.getElementById("block");
+
+    const gpSelect =
+        document.getElementById("gramPanchayat");
+
+    const villageSelect =
+        document.getElementById("village");
+
+    const locationMessage =
+        document.getElementById("locationMessage");
+
+
+    // ==========================================
+    // 1. DROPDOWN HELPER FUNCTIONS
+    // ==========================================
+
+    function resetDropdown(select, placeholder) {
+
+        select.innerHTML = "";
+
+        const option = document.createElement("option");
+
+        option.value = "";
+
+        option.textContent = placeholder;
+
+        select.appendChild(option);
+
+        select.disabled = true;
+
+    }
+
+
+    function populateDropdown(select, values, placeholder) {
+
+        resetDropdown(select, placeholder);
+
+        values.forEach(function (value) {
+
+            const option = document.createElement("option");
+
+            option.value = value;
+
+            option.textContent = value;
+
+            select.appendChild(option);
+
+        });
+
+        select.disabled = values.length === 0;
+
+        if (values.length === 0) {
+
+            select.options[0].textContent = "No records available";
+
+        }
+
+    }
+
+
+    async function fetchDropdownData(url) {
+
+        const response = await fetch(url, {
+
+            headers: {
+                "Accept": "application/json"
+            }
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("Unable to load location options.");
+
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                data.error || "Invalid location data received."
+            );
+
+        }
+
+        return data;
+
+    }
+
+
+    // ==========================================
+    // 2. DISTRICT -> BLOCK
+    // ==========================================
+
+    districtSelect.addEventListener("change", async function () {
+
+        const district = districtSelect.value;
+
+        resetDropdown(blockSelect, "Loading blocks...");
+
+        resetDropdown(gpSelect, "Select Block First");
+
+        resetDropdown(villageSelect, "Select Gram Panchayat First");
+
+
+        if (!district) {
+
+            resetDropdown(blockSelect, "Select District First");
+
+            locationMessage.textContent =
+                "Please select a district.";
+
+            return;
+
+        }
+
+
+        try {
+
+            locationMessage.textContent = "Loading blocks...";
+
+            const params = new URLSearchParams({
+                district: district
+            });
+
+            const blocks = await fetchDropdownData(
+                "/api/blocks?" + params.toString()
+            );
+
+            populateDropdown(
+                blockSelect,
+                blocks,
+                "Select Block"
+            );
+
+            locationMessage.textContent =
+                blocks.length + " block(s) available.";
+
+
+        } catch (error) {
+
+            resetDropdown(
+                blockSelect,
+                "Unable to load blocks"
+            );
+
+            locationMessage.textContent = error.message;
+
+        }
+
+    });
+
+
+    // ==========================================
+    // 3. BLOCK -> GRAM PANCHAYAT
+    // ==========================================
+
+    blockSelect.addEventListener("change", async function () {
+
+        const district = districtSelect.value;
+
+        const block = blockSelect.value;
+
+        resetDropdown(gpSelect, "Loading Gram Panchayats...");
+
+        resetDropdown(
+            villageSelect,
+            "Select Gram Panchayat First"
+        );
+
+
+        if (!district || !block) {
+
+            resetDropdown(gpSelect, "Select Block First");
+
+            return;
+
+        }
+
+
+        try {
+
+            locationMessage.textContent =
+                "Loading Gram Panchayats...";
+
+            const params = new URLSearchParams({
+
+                district: district,
+
+                block: block
+
+            });
+
+            const gps = await fetchDropdownData(
+                "/api/gram-panchayats?" + params.toString()
+            );
+
+            populateDropdown(
+                gpSelect,
+                gps,
+                "Select Gram Panchayat"
+            );
+
+            locationMessage.textContent =
+                gps.length + " Gram Panchayat(s) available.";
+
+
+        } catch (error) {
+
+            resetDropdown(
+                gpSelect,
+                "Unable to load Gram Panchayats"
+            );
+
+            locationMessage.textContent = error.message;
+
+        }
+
+    });
+
+
+    // ==========================================
+    // 4. GRAM PANCHAYAT -> VILLAGE
+    // ==========================================
+
+    gpSelect.addEventListener("change", async function () {
+
+        const district = districtSelect.value;
+
+        const block = blockSelect.value;
+
+        const gp = gpSelect.value;
+
+        resetDropdown(villageSelect, "Loading villages...");
+
+
+        if (!district || !block || !gp) {
+
+            resetDropdown(
+                villageSelect,
+                "Select Gram Panchayat First"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            locationMessage.textContent = "Loading villages...";
+
+            const params = new URLSearchParams({
+
+                district: district,
+
+                block: block,
+
+                gp: gp
+
+            });
+
+            const villages = await fetchDropdownData(
+                "/api/application-villages?" + params.toString()
+            );
+
+            populateDropdown(
+                villageSelect,
+                villages,
+                "Select Village"
+            );
+
+            locationMessage.textContent =
+                villages.length + " village(s) available.";
+
+
+        } catch (error) {
+
+            resetDropdown(
+                villageSelect,
+                "Unable to load villages"
+            );
+
+            locationMessage.textContent = error.message;
+
+        }
+
+    });
+
+
+    // ==========================================
+    // 5. CLEAR APPLICATION RESULT
+    // ==========================================
+
+    function clearApplicationResult() {
+
+        result.className = "application-result";
+
+        result.style.display = "none";
+
+        result.innerHTML = "";
+
+    }
+
+
+    // ==========================================
+    // 6. CUSTOM RESET BUTTON
+    // ==========================================
+
+    resetButton.addEventListener("click", function () {
+
+        // Clear all applicant fields
+        form.reset();
+
+        // Remove previous success/error message
+        clearApplicationResult();
+
+        // Reset dependent dropdowns
+        resetDropdown(
+            blockSelect,
+            "Select District First"
+        );
+
+        resetDropdown(
+            gpSelect,
+            "Select Block First"
+        );
+
+        resetDropdown(
+            villageSelect,
+            "Select Gram Panchayat First"
+        );
+
+        // Reset location message
+        locationMessage.textContent =
+            "Select a district to load available blocks.";
+
+        // Restore submit button
+        submitButton.disabled = false;
+
+        submitButton.innerHTML =
+            '<i class="bi bi-send-fill me-2"></i>Submit Application';
+
+    });
+
+
+    // ==========================================
+    // 7. APPLICATION SUBMISSION
+    // ==========================================
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+
+            form.reportValidity();
+
+            return;
+
+        }
+
+
+        const body = {
+
+            applicant_name:
+                document.getElementById("applicantName").value.trim(),
+
+            application_type:
+                document.getElementById("applicationType").value,
+
+            district:
+                districtSelect.value,
+
+            block:
+                blockSelect.value,
+
+            gram_panchayat:
+                gpSelect.value,
+
+            village:
+                villageSelect.value
+
+        };
+
+
+        // Validate location selections
+
+        if (
+            !body.district ||
+            !body.block ||
+            !body.gram_panchayat ||
+            !body.village
+        ) {
+
+            result.className = "application-result error";
+
+            result.style.display = "block";
+
+            result.textContent =
+                "Please select all administrative location fields.";
+
+            return;
+
+        }
+
+
+        clearApplicationResult();
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+
+
+        try {
+
+            const response = await fetch(
+                "/api/application-submit",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json",
+
+                        "Accept": "application/json"
+
+                    },
+
+                    body: JSON.stringify(body)
+
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok || !data.success) {
+
+                throw new Error(
+                    data.error || "Application submission failed."
+                );
+
+            }
+
+
+            // ==================================
+            // DISPLAY SUCCESS RESULT
+            // ==================================
+
+            result.className = "application-result success";
+
+            result.style.display = "block";
+
+            result.innerHTML = "";
+
+
+            const heading = document.createElement("h5");
+
+            heading.className = "text-success fw-bold";
+
+            heading.textContent =
+                "Application Submitted Successfully!";
+
+
+            const message = document.createElement("p");
+
+            message.textContent =
+                data.message ||
+                "Your demo application has been submitted.";
+
+
+            const idLabel = document.createElement("p");
+
+            idLabel.className = "small mb-1";
+
+            idLabel.textContent = "Your Application ID:";
+
+
+            const applicationId = document.createElement("div");
+
+            applicationId.className = "application-id";
+
+            applicationId.textContent = data.application_id;
+
+
+            const status = document.createElement("p");
+
+            status.className = "mt-2 mb-2";
+
+            status.textContent =
+                "Current Status: " + data.status;
+
+
+            const notice = document.createElement("p");
+
+            notice.className = "small text-muted mb-0";
+
+            notice.textContent =
+                "Keep this ID to track your application in the Tracking Portal. " +
+                "This is a demo record, not an official government submission.";
+
+
+            const copyButton = document.createElement("button");
+
+            copyButton.type = "button";
+
+            copyButton.className =
+                "btn btn-outline-success btn-sm mt-3";
+
+            copyButton.textContent = "Copy Application ID";
+
+
+            copyButton.addEventListener("click", async function () {
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        data.application_id
+                    );
+
+                    copyButton.textContent = "Copied!";
+
+                } catch (error) {
+
+                    copyButton.textContent =
+                        "Copy unavailable - select the ID manually";
+
+                }
+
+            });
+
+
+            result.appendChild(heading);
+
+            result.appendChild(message);
+
+            result.appendChild(idLabel);
+
+            result.appendChild(applicationId);
+
+            result.appendChild(status);
+
+            result.appendChild(notice);
+
+            result.appendChild(copyButton);
+
+
+            result.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "center"
+
+            });
+
+
+            // IMPORTANT:
+            // Do not automatically reset the form here.
+            // Keep the success message and Application ID visible.
+
+
+        } catch (error) {
+
+            result.className = "application-result error";
+
+            result.style.display = "block";
+
+            result.textContent =
+                error.message || "Unable to submit application.";
+
+
+        } finally {
+
+            submitButton.disabled = false;
+
+            submitButton.innerHTML =
+                '<i class="bi bi-send-fill me-2"></i>Submit Application';
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}
