@@ -1,0 +1,20 @@
+{
+    "total_villages": 12424,
+    "kmeans": {
+        "clusters": 5,
+        "silhouette": 0.5942,
+        "davies_bouldin": 0.6249,
+        "calinski_harabasz": 6756.02
+    },
+    "hierarchical": {
+        "clusters": 6,
+        "silhouette": 0.5449,
+        "davies_bouldin": 0.6121,
+        "calinski_harabasz": 6089.03
+    },
+    "pca": {
+        "pc1": 39.38,
+        "pc2": 22.44,
+        "total_variance": 61.82
+    }
+}

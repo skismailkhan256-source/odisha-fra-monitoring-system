@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Odisha FRA Monitoring System{% endblock %}</title>
+
+    <!-- Apply saved theme before page rendering -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("fra-theme") || "light";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        })();
+    </script>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Main stylesheet -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    {% block extra_head %}{% endblock %}
+
+</head>
+
+<body>
+
+    <!-- ======================================
+         GOVERNMENT TOP HEADER
+    ======================================= -->
+
+    <header class="government-header">
+
+        <div class="government-brand">
+
+            <div class="government-emblem">
+                <i class="bi bi-bank"></i>
+            </div>
+
+            <div class="government-brand-text">
+                <strong>Government of Odisha</strong>
+                <span>Forest & Environment Department</span>
+            </div>
+
+        </div>
+
+        <div class="government-header-right">
+
+            <span class="official-label">
+                <i class="bi bi-shield-check"></i>
+                FRA Monitoring Portal
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         MAIN NAVIGATION
+    ======================================= -->
+
+    <nav class="main-navigation navbar navbar-expand-lg">
+
+        <div class="container-fluid">
+
+            <!-- Project Logo -->
+            <a
+                class="navbar-brand project-brand"
+                href="{{ url_for('home') }}"
+            >
+
+                <div class="project-logo">
+                    <i class="bi bi-tree-fill"></i>
+                </div>
+
+                <div class="project-brand-text">
+
+                    <strong>
+                        Odisha FRA Monitoring System
+                    </strong>
+
+                    <small>
+                        AI & WebGIS Based Monitoring Platform
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Mobile Navigation Toggle -->
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto">
+
+                    <!-- HOME -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
+                            href="{{ url_for('home') }}"
+                        >
+                            Home
+                        </a>
+
+                    </li>
+
+
+                    <!-- DASHBOARD -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}"
+                            href="{{ url_for('dashboard') }}"
+                        >
+                            Dashboard
+                        </a>
+
+                    </li>
+
+
+                    <!-- DISTRICT ANALYTICS -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'district' %}active{% endif %}"
+                            href="{{ url_for('district') }}"
+                        >
+                            District Analytics
+                        </a>
+
+                    </li>
+
+
+                    <!-- VILLAGE EXPLORER -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'village' %}active{% endif %}"
+                            href="{{ url_for('village') }}"
+                        >
+                            Village Explorer
+                        </a>
+
+                    </li>
+
+
+                    <!-- ML ANALYSIS -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'ml_analysis' %}active{% endif %}"
+                            href="{{ url_for('ml_analysis') }}"
+                        >
+                            ML Analysis
+                        </a>
+
+                    </li>
+
+
+                    <!-- WEBGIS -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint in ['webgis', 'beneficiary_map'] %}active{% endif %}"
+                            href="{{ url_for('webgis') }}"
+                        >
+                            WebGIS
+                        </a>
+
+                    </li>
+
+
+                    <!-- REPORTS -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint in ['reports', 'download_report'] %}active{% endif %}"
+                            href="{{ url_for('reports') }}"
+                        >
+                            Reports
+                        </a>
+
+                    </li>
+
+
+                    <!-- ABOUT -->
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link {% if request.endpoint == 'about' %}active{% endif %}"
+                            href="{{ url_for('about') }}"
+                        >
+                            About
+                        </a>
+
+                    </li>
+
+                </ul>
+
+
+                <!-- HEADER ACTIONS -->
+                <div class="navigation-actions">
+
+                    <!-- Theme Toggle -->
+                    <button
+                        type="button"
+                        class="theme-toggle"
+                        id="themeToggle"
+                        aria-label="Toggle light and dark theme"
+                        title="Switch theme"
+                    >
+
+                        <i class="bi bi-sun-fill"></i>
+
+                        <span class="theme-toggle-track">
+                            <span class="theme-toggle-thumb"></span>
+                        </span>
+
+                        <i class="bi bi-moon-fill"></i>
+
+                    </button>
+
+
+                    <!-- Portal Status -->
+                    <div class="portal-status">
+
+                        <span class="status-indicator"></span>
+
+                        <span>Online</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ======================================
+         MAIN PAGE CONTENT
+    ======================================= -->
+
+    <main class="main-content">
+
+        <section class="page-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+
+    <footer class="main-footer">
+
+        <div class="footer-content">
+
+            <div>
+
+                <strong>
+                    Odisha FRA Monitoring System
+                </strong>
+
+                <p>
+                    AI & WebGIS Based Forest Rights Act
+                    Implementation Monitoring System
+                </p>
+
+            </div>
+
+            <div class="footer-right">
+
+                <span>Forest Rights Act, 2006</span>
+
+                <span>Odisha, India</span>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            Academic Project | Data-driven FRA Monitoring
+
+        </div>
+
+    </footer>
+
+
+    <!-- ======================================
+         JAVASCRIPT
+    ======================================= -->
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Existing Project JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+    <!-- ======================================
+         LIGHT / DARK THEME SYSTEM
+    ======================================= -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const themeButton = document.getElementById("themeToggle");
+
+            if (!themeButton) return;
+
+            themeButton.addEventListener("click", function () {
+
+                const currentTheme =
+                    document.documentElement.getAttribute("data-theme");
+
+                const newTheme =
+                    currentTheme === "light" ? "dark" : "light";
+
+                document.documentElement.setAttribute(
+                    "data-theme",
+                    newTheme
+                );
+
+                localStorage.setItem("fra-theme", newTheme);
+
+            });
+
+        });
+
+    </script>
+
+
+    {% block extra_scripts %}{% endblock %}
+
+</body>
+
+</html>

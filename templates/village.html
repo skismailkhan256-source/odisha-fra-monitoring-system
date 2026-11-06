@@ -1,0 +1,1112 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="page-header village-header mb-4">
+    <div>
+        <span class="village-eyebrow">
+            <i class="bi bi-geo-alt-fill"></i> FRA DATA MANAGEMENT
+        </span>
+        <h2 class="mt-2">Village Explorer</h2>
+        <p class="text-muted mb-0">
+            Explore village-level Forest Rights Act beneficiary information across Odisha.
+        </p>
+    </div>
+</div>
+
+<!-- ================= OVERVIEW CARDS ================= -->
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="village-stat-card">
+            <div class="village-stat-icon green">
+                <i class="bi bi-houses-fill"></i>
+            </div>
+            <div>
+                <p>Total Village Records</p>
+                <h2>{{ "{:,}".format(total_villages) }}</h2>
+                <small>Available in FRA dataset</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="village-stat-card">
+            <div class="village-stat-icon blue">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+                <p>Total Beneficiaries</p>
+                <h2>{{ "{:,}".format(total_beneficiaries) }}</h2>
+                <small>Recorded FRA beneficiaries</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= SEARCH AND FILTERS ================= -->
+
+<div class="content-card village-search-card mb-4">
+    <div class="village-section-heading">
+        <div>
+            <h4>
+                <i class="bi bi-search text-success"></i>
+                Find a Village
+            </h4>
+            <p class="text-muted mb-0">
+                Search villages and filter records by administrative location.
+            </p>
+        </div>
+
+        <a href="{{ url_for('village') }}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            Reset Filters
+        </a>
+    </div>
+
+    <hr>
+
+    <form method="GET"
+          action="{{ url_for('village') }}"
+          id="villageSearchForm">
+
+        <input type="hidden"
+               name="village_id"
+               id="selectedVillageId"
+               value="{{ selected_village }}">
+
+        <div class="row g-3 align-items-end">
+
+            <!-- Village Search -->
+            <div class="col-lg-5">
+                <label class="form-label fw-semibold">
+                    <i class="bi bi-house-door text-success"></i>
+                    Village Name
+                </label>
+
+                <div class="village-autocomplete">
+                    <div class="village-search-input">
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            id="villageSearchInput"
+                            class="form-control"
+                            placeholder="Search village name..."
+                            autocomplete="off"
+                            aria-label="Search village">
+
+                        <button
+                            type="button"
+                            id="clearVillageSearch"
+                            class="clear-search-btn"
+                            aria-label="Clear village search">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div
+                        id="villageSuggestions"
+                        class="village-suggestions"
+                        role="listbox"
+                        hidden>
+                    </div>
+                </div>
+
+                <small class="text-muted">
+                    Search suggestions include village, GP, block and district.
+                </small>
+            </div>
+
+            <!-- District -->
+            <div class="col-lg-2">
+                <label class="form-label fw-semibold">District</label>
+
+                <select name="district"
+                        id="districtFilter"
+                        class="form-select">
+                    <option value="">All Districts</option>
+
+                    {% for item in districts %}
+                    <option value="{{ item }}"
+                        {% if selected_district == item %}selected{% endif %}>
+                        {{ item }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Block -->
+            <div class="col-lg-2">
+                <label class="form-label fw-semibold">Block</label>
+
+                <select name="block"
+                        id="blockFilter"
+                        class="form-select"
+                        {% if not selected_district %}disabled{% endif %}>
+                    <option value="">All Blocks</option>
+
+                    {% for item in blocks %}
+                    <option value="{{ item }}"
+                        {% if selected_block == item %}selected{% endif %}>
+                        {{ item }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Gram Panchayat -->
+            <div class="col-lg-2">
+                <label class="form-label fw-semibold">Gram Panchayat</label>
+
+                <select name="gp"
+                        id="gpFilter"
+                        class="form-select"
+                        {% if not selected_block %}disabled{% endif %}>
+                    <option value="">All Gram Panchayats</option>
+
+                    {% for item in gps %}
+                    <option value="{{ item }}"
+                        {% if selected_gp == item %}selected{% endif %}>
+                        {{ item }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-lg-1">
+                <button
+                    type="submit"
+                    class="btn btn-success w-100"
+                    id="villageSubmitButton">
+                    <i class="bi bi-search"></i>
+                    Go
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- ================= SELECTED VILLAGE DETAILS ================= -->
+
+{% if village_record %}
+
+<div class="content-card mb-4 village-profile-card">
+    <div class="village-section-heading">
+        <div>
+            <span class="village-eyebrow">VILLAGE PROFILE</span>
+
+            <h4 class="mt-2 mb-1">
+                <i class="bi bi-house-check-fill text-success"></i>
+                {{ village_record['Village'] }}
+            </h4>
+
+            <p class="text-muted mb-0">
+                Detailed FRA information for the selected village.
+            </p>
+        </div>
+
+        <a
+            href="{{ url_for('village',
+                village_id=selected_village,
+                district=selected_district,
+                block=selected_block,
+                gp=selected_gp,
+                download='csv') }}"
+            class="btn btn-success">
+            <i class="bi bi-download"></i>
+            Download Report
+        </a>
+    </div>
+
+    <hr>
+
+    <!-- Administrative Information -->
+    <h5 class="village-subheading">
+        <i class="bi bi-geo-alt-fill text-success"></i>
+        Administrative Information
+    </h5>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="village-detail-card">
+                <span>
+                    <i class="bi bi-map text-success"></i>
+                    District
+                </span>
+                <h5>{{ village_record['District'] }}</h5>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="village-detail-card">
+                <span>
+                    <i class="bi bi-grid text-success"></i>
+                    Block
+                </span>
+                <h5>{{ village_record['Block'] }}</h5>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="village-detail-card">
+                <span>
+                    <i class="bi bi-diagram-3 text-success"></i>
+                    Gram Panchayat
+                </span>
+                <h5>{{ village_record['Gram Panchayat'] }}</h5>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="village-detail-card beneficiary-detail">
+                <span>
+                    <i class="bi bi-people-fill text-success"></i>
+                    Total Beneficiaries
+                </span>
+                <h2>{{ "{:,}".format(village_record['Beneficiary_Count']|int) }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Beneficiary Analysis -->
+    <h5 class="village-subheading">
+        <i class="bi bi-bar-chart-fill text-success"></i>
+        Beneficiary Analysis
+    </h5>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="village-analysis-card">
+                <div>
+                    <span>Beneficiary Category</span>
+                    <p class="text-muted small mb-0">
+                        Analytical beneficiary classification
+                    </p>
+                </div>
+
+                {% if village_record['Beneficiary_Category'] == 'High' %}
+                    <span class="badge bg-danger">High</span>
+                {% elif village_record['Beneficiary_Category'] == 'Medium' %}
+                    <span class="badge bg-warning text-dark">Medium</span>
+                {% else %}
+                    <span class="badge bg-success">Low</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="village-analysis-card">
+                <div>
+                    <span>Village Monitoring Priority</span>
+                    <p class="text-muted small mb-0">
+                        Analytical monitoring classification
+                    </p>
+                </div>
+
+                {% if village_record['Village_Monitoring_Priority'] == 'High' %}
+                    <span class="badge bg-danger">High</span>
+                {% elif village_record['Village_Monitoring_Priority'] == 'Medium' %}
+                    <span class="badge bg-warning text-dark">Medium</span>
+                {% else %}
+                    <span class="badge bg-success">Low</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ANALYTICAL INFORMATION ================= -->
+
+<div class="content-card mb-4 village-analytics-card">
+    <div class="village-analytics-heading">
+        <h4>
+            <i class="bi bi-graph-up-arrow text-success"></i>
+            Village Analytical Information
+        </h4>
+
+        <p class="text-muted">
+            Beneficiary distribution across different administrative levels.
+        </p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table village-data-table align-middle">
+            <thead>
+                <tr>
+                    <th>Analytical Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <i class="bi bi-people text-success"></i>
+                        GP Total Beneficiaries
+                    </td>
+                    <td>{{ village_record['GP_Total_Beneficiaries'] }}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <i class="bi bi-people text-success"></i>
+                        Block Total Beneficiaries
+                    </td>
+                    <td>{{ village_record['Block_Total_Beneficiaries'] }}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <i class="bi bi-people text-success"></i>
+                        District Total Beneficiaries
+                    </td>
+                    <td>{{ village_record['District_Total_Beneficiaries'] }}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <i class="bi bi-percent text-success"></i>
+                        Village Share in GP
+                    </td>
+                    <td>
+                        {{ "%.2f"|format(village_record['Village_Share_in_GP'] * 100) }}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <i class="bi bi-percent text-success"></i>
+                        Village Share in Block
+                    </td>
+                    <td>
+                        {{ "%.2f"|format(village_record['Village_Share_in_Block'] * 100) }}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <i class="bi bi-percent text-success"></i>
+                        Village Share in District
+                    </td>
+                    <td>
+                        {{ "%.2f"|format(village_record['Village_Share_in_District'] * 100) }}%
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% elif matching_villages %}
+
+<!-- ================= MATCHING VILLAGE RESULTS ================= -->
+
+<div class="content-card mb-4">
+    <div class="village-section-heading">
+        <div>
+            <h4>
+                <i class="bi bi-list-ul text-success"></i>
+                Matching Village Records
+            </h4>
+
+            <p class="text-muted mb-0">
+                Select a village to explore its complete information.
+            </p>
+        </div>
+
+        <span class="badge bg-success">
+            {{ matching_villages|length }} Results
+        </span>
+    </div>
+
+    <hr>
+
+    <div class="table-responsive">
+        <table class="table table-hover village-data-table align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Village Name</th>
+                    <th>District</th>
+                    <th>Block</th>
+                    <th>Gram Panchayat</th>
+                    <th>Beneficiaries</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in matching_villages %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    <td>
+                        <strong>{{ row.village }}</strong>
+                    </td>
+
+                    <td>{{ row.district }}</td>
+                    <td>{{ row.block }}</td>
+                    <td>{{ row.gp }}</td>
+
+                    <td>
+                        <span class="beneficiary-count">
+                            {{ "{:,}".format(row.beneficiaries|int) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <a
+                            class="btn btn-sm btn-outline-success"
+                            href="{{ url_for('village',
+                                village_id=row.id,
+                                district=selected_district,
+                                block=selected_block,
+                                gp=selected_gp) }}">
+                            <i class="bi bi-eye"></i>
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-muted small mb-0">
+        Showing up to 100 matching records.
+    </p>
+</div>
+
+{% else %}
+
+<!-- ================= EMPTY STATE ================= -->
+
+<div class="content-card village-empty-state text-center">
+    <div class="empty-state-icon">
+        <i class="bi bi-search"></i>
+    </div>
+
+    <h4 class="mt-3">Explore Village Information</h4>
+
+    <p class="text-muted mb-0">
+        Search for a village or select District, Block and Gram Panchayat
+        filters to explore FRA records.
+    </p>
+</div>
+
+{% endif %}
+
+<!-- ================= DISCLAIMER ================= -->
+
+<div class="alert alert-info mt-4">
+    <i class="bi bi-info-circle-fill"></i>
+    <strong>Note:</strong>
+
+    Beneficiary categories and village monitoring priorities are
+    analytical classifications derived from available data.
+    They are not official government FRA priority labels.
+</div>
+
+<!-- ================= API CONFIGURATION ================= -->
+
+<script>
+    window.VILLAGE_API_URL = {{ url_for('village_search_api') | tojson }};
+    window.BLOCK_API_URL = {{ url_for('blocks_api') | tojson }};
+    window.GP_API_URL = {{ url_for('gram_panchayats_api') | tojson }};
+</script>
+
+<script src="{{ url_for('static', filename='js/village.js') }}"></script>
+
+<!-- ================= PAGE STYLING ================= -->
+
+<style>
+
+/* PAGE HEADER */
+
+.village-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.village-eyebrow {
+    color: #198754;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+/* OVERVIEW CARDS */
+
+.village-stat-card {
+    background: #ffffff;
+    border: 1px solid #e2ebe5;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 100%;
+    transition: all 0.25s ease;
+}
+
+.village-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+}
+
+.village-stat-card p {
+    color: #64748b;
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+.village-stat-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #164b36;
+    margin-bottom: 3px;
+}
+
+.village-stat-card small {
+    color: #94a3b8;
+}
+
+.village-stat-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.village-stat-icon.green {
+    color: #198754;
+    background: #e8f5ed;
+}
+
+.village-stat-icon.blue {
+    color: #0d6efd;
+    background: #eaf2ff;
+}
+
+/* SECTION HEADINGS */
+
+.village-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.village-section-heading h4 {
+    font-weight: 700;
+    color: #173e30;
+    font-size: 23px;
+}
+
+.village-subheading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 19px;
+    font-weight: 750;
+    margin-bottom: 20px;
+    color: #164b36;
+}
+
+/* SEARCH AND FILTER SECTION */
+
+.village-search-card {
+    position: relative;
+    z-index: 5;
+}
+
+.village-autocomplete {
+    position: relative;
+}
+
+.village-search-input {
+    position: relative;
+}
+
+.village-search-input > i {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #198754;
+    z-index: 2;
+}
+
+.village-search-input input {
+    padding-left: 38px;
+    padding-right: 38px;
+    min-height: 44px;
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.village-suggestions {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #dce8df;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    z-index: 1000;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.village-search-card .form-select,
+.village-search-card .form-control {
+    min-height: 44px;
+    border-radius: 8px;
+}
+
+.village-search-card .form-select:focus,
+.village-search-card .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25,135,84,0.12);
+}
+
+/* VILLAGE PROFILE */
+
+.village-profile-card {
+    border-radius: 16px;
+}
+
+.village-detail-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 145px;
+    padding: 24px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #f5fbf7);
+    border: 1px solid #dcebe1;
+    transition: all 0.25s ease;
+    height: 100%;
+}
+
+.village-detail-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(22, 75, 54, 0.09);
+    border-color: #9acbad;
+}
+
+.village-detail-card span {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.village-detail-card h5 {
+    font-size: 19px;
+    font-weight: 750;
+    color: #164b36;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+
+.village-detail-card.beneficiary-detail {
+    background: linear-gradient(135deg, #eaf8ef, #f4fcf6);
+    border: 1px solid #b9e3c7;
+}
+
+.village-detail-card.beneficiary-detail h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #16834e;
+    margin: 8px 0 0;
+}
+
+/* BENEFICIARY ANALYSIS */
+
+.village-analysis-card {
+    min-height: 125px;
+    padding: 25px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #dcebe1;
+    transition: all 0.25s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+}
+
+.village-analysis-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(22, 75, 54, 0.07);
+}
+
+.village-analysis-card span {
+    font-size: 15px;
+    font-weight: 650;
+    color: #244b39;
+}
+
+.village-analysis-card p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.village-analysis-card .badge {
+    padding: 9px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    min-width: 85px;
+    text-align: center;
+}
+
+/* ANALYTICAL INFORMATION */
+
+.village-analytics-card {
+    border-radius: 16px;
+}
+
+.village-analytics-heading {
+    margin-bottom: 22px;
+}
+
+.village-analytics-heading h4 {
+    font-size: 25px;
+    font-weight: 750;
+    color: #173e30;
+}
+
+.village-analytics-heading p {
+    margin-top: 8px;
+}
+
+.village-data-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #e1ebe4;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.village-data-table thead th {
+    background: #eaf5ee;
+    color: #164b36;
+    padding: 19px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid #d7e8dc;
+    white-space: nowrap;
+}
+
+.village-data-table tbody td {
+    padding: 17px 22px;
+    font-size: 14px;
+    border-bottom: 1px solid #edf1ee;
+    color: #475569;
+}
+
+.village-data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.village-data-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.village-data-table tbody tr:hover {
+    background: #f0f9f3;
+}
+
+.village-data-table tbody td:first-child {
+    font-weight: 600;
+    color: #365b48;
+}
+
+.village-data-table tbody td:last-child {
+    font-weight: 750;
+    color: #16834e;
+}
+
+/* MATCHING VILLAGE RESULTS */
+
+.beneficiary-count {
+    font-weight: 700;
+    color: #198754;
+}
+
+.village-data-table tbody tr:hover .beneficiary-count {
+    color: #116b3f;
+}
+
+/* EMPTY STATE */
+
+.village-empty-state {
+    padding: 55px 20px;
+    border-radius: 16px;
+}
+
+.empty-state-icon {
+    width: 75px;
+    height: 75px;
+    margin: auto;
+    border-radius: 50%;
+    background: #eaf5ee;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media(max-width: 768px) {
+    .village-stat-card {
+        padding: 18px;
+    }
+
+    .village-section-heading {
+        align-items: flex-start;
+    }
+
+    .village-section-heading .btn {
+        width: 100%;
+    }
+
+    .village-detail-card {
+        min-height: 120px;
+        padding: 19px;
+    }
+
+    .village-detail-card h5 {
+        font-size: 16px;
+    }
+
+    .village-detail-card.beneficiary-detail h2 {
+        font-size: 30px;
+    }
+
+    .village-analysis-card {
+        padding: 18px;
+        min-height: 105px;
+        align-items: center;
+    }
+
+    .village-data-table thead th,
+    .village-data-table tbody td {
+        padding: 13px;
+        font-size: 13px;
+    }
+
+    .village-section-heading h4 {
+        font-size: 20px;
+    }
+
+    .village-analytics-heading h4 {
+        font-size: 21px;
+    }
+}
+
+/* =========================================
+   THEME-AWARE VILLAGE EXPLORER OVERRIDES
+   Keeps all existing search, filter and API behaviour unchanged.
+========================================= */
+
+.village-stat-card,
+.village-detail-card,
+.village-analysis-card,
+.village-suggestions,
+.village-empty-state {
+    color: var(--text-primary, #173e30);
+}
+
+.village-search-card .form-control,
+.village-search-card .form-select {
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.village-suggestions {
+    padding: 5px;
+}
+
+.village-data-table th,
+.village-data-table td {
+    vertical-align: middle;
+}
+
+.village-empty-state h4 {
+    color: var(--text-primary, #173e30);
+}
+
+/* DARK THEME */
+
+[data-theme="dark"] .village-stat-card,
+[data-theme="dark"] .village-detail-card,
+[data-theme="dark"] .village-analysis-card,
+[data-theme="dark"] .village-suggestions,
+[data-theme="dark"] .village-empty-state {
+    background: #1b2c23 !important;
+    border-color: #344d3d !important;
+    color: #e6f1e9 !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .12);
+}
+
+[data-theme="dark"] .village-detail-card.beneficiary-detail {
+    background: linear-gradient(145deg, #1b3829, #203d2d) !important;
+    border-color: #35694a !important;
+}
+
+[data-theme="dark"] .village-stat-card p,
+[data-theme="dark"] .village-stat-card small,
+[data-theme="dark"] .village-detail-card span,
+[data-theme="dark"] .village-analysis-card p,
+[data-theme="dark"] .village-section-heading .text-muted,
+[data-theme="dark"] .village-analytics-heading .text-muted,
+[data-theme="dark"] .village-search-card small {
+    color: #a9bdb0 !important;
+}
+
+[data-theme="dark"] .village-stat-card h2,
+[data-theme="dark"] .village-section-heading h4,
+[data-theme="dark"] .village-subheading,
+[data-theme="dark"] .village-detail-card h5,
+[data-theme="dark"] .village-detail-card.beneficiary-detail h2,
+[data-theme="dark"] .village-analysis-card span,
+[data-theme="dark"] .village-analytics-heading h4,
+[data-theme="dark"] .village-empty-state h4 {
+    color: #e5f3e9 !important;
+}
+
+[data-theme="dark"] .village-search-card .form-control,
+[data-theme="dark"] .village-search-card .form-select {
+    color: #e6f1e9 !important;
+    background-color: #14251c !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-search-card .form-control::placeholder {
+    color: #91a99a !important;
+}
+
+[data-theme="dark"] .village-search-card .form-select option {
+    color: #e6f1e9;
+    background: #1b2c23;
+}
+
+[data-theme="dark"] .village-suggestions {
+    background: #1b2c23 !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-data-table {
+    border-color: #3a5142 !important;
+    --bs-table-bg: #1b2c23;
+    --bs-table-color: #dce9e0;
+    --bs-table-border-color: #3a5142;
+    --bs-table-hover-bg: #263d2f;
+    --bs-table-hover-color: #f0f7f2;
+}
+
+[data-theme="dark"] .village-data-table thead th {
+    color: #e7f3eb !important;
+    background: #263d2f !important;
+    border-color: #405b49 !important;
+}
+
+[data-theme="dark"] .village-data-table tbody td,
+[data-theme="dark"] .village-data-table tbody td:first-child {
+    color: #c8d9ce !important;
+    border-color: #344d3d !important;
+}
+
+[data-theme="dark"] .village-data-table tbody td:last-child,
+[data-theme="dark"] .beneficiary-count {
+    color: #72d49a !important;
+}
+
+[data-theme="dark"] .village-data-table tbody tr:hover {
+    background: #263d2f !important;
+}
+
+[data-theme="dark"] .empty-state-icon {
+    background: #244632 !important;
+    color: #79d69e !important;
+}
+
+[data-theme="dark"] .village-search-input > i,
+[data-theme="dark"] .clear-search-btn {
+    color: #83d5a2;
+}
+
+[data-theme="dark"] .village-search-card hr,
+[data-theme="dark"] .village-profile-card hr {
+    border-color: #405b49;
+    opacity: 1;
+}
+
+/* LIGHT THEME */
+
+[data-theme="light"] .village-stat-card,
+[data-theme="light"] .village-detail-card,
+[data-theme="light"] .village-analysis-card,
+[data-theme="light"] .village-suggestions,
+[data-theme="light"] .village-empty-state {
+    color: #173e30;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 576px) {
+    .village-stat-card {
+        gap: 14px;
+    }
+
+    .village-stat-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 21px;
+    }
+
+    .village-stat-card h2 {
+        font-size: 24px;
+    }
+
+    .village-analysis-card {
+        flex-wrap: wrap;
+    }
+}
+
+</style>
+
+{% endblock %}

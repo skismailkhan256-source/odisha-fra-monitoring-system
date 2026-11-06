@@ -1,0 +1,265 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Odisha FRA Monitoring System{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="eyebrow">FOREST RIGHTS ACT • ODISHA</div>
+
+    <h1>Odisha FRA Monitoring Dashboard</h1>
+
+    <p>
+        Monitor district implementation progress,
+        village-level beneficiaries and analytical insights.
+    </p>
+
+    <p class="mt-3 small">
+        Implementation data as of 30 September 2025
+    </p>
+</div>
+
+
+<!-- Overview -->
+<h4 class="section-heading">State Overview</h4>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6>Total Districts</h6>
+            <h3>{{ "{:,}".format(total_districts) }}</h3>
+            <p>Districts in monitoring dataset</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6>Total Claims Filed</h6>
+            <h3>{{ "{:,.0f}".format(total_claims) }}</h3>
+            <p>Claims recorded</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6>Claims Approved</h6>
+            <h3>{{ "{:,.0f}".format(total_approved) }}</h3>
+            <p>Approved claims</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <h6>Titles Distributed</h6>
+            <h3>{{ "{:,.0f}".format(total_titles) }}</h3>
+            <p>Titles recorded as distributed</p>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Village Statistics -->
+<h4 class="section-heading">Village-Level Statistics</h4>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Village Records</h6>
+            <h3>{{ "{:,}".format(total_villages) }}</h3>
+            <p>Records in featured village dataset</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Total Beneficiaries</h6>
+            <h3>{{ "{:,.0f}".format(total_beneficiaries) }}</h3>
+            <p>Sum of village beneficiary counts</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Claims Rejected</h6>
+            <h3>{{ "{:,.0f}".format(total_rejected) }}</h3>
+            <p>Rejected claims recorded</p>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Charts -->
+<h4 class="section-heading">Monitoring Analytics</h4>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-lg-6">
+        <div class="content-card">
+            <h6 class="fw-bold mb-3">District Monitoring Categories</h6>
+            <div id="priorityChart"></div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="content-card">
+            <h6 class="fw-bold mb-3">Claims Overview</h6>
+            <div id="claimsChart"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Top Districts -->
+<div class="content-card">
+
+    <h5 class="section-heading">Top 10 Districts by Claims Filed</h5>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>District</th>
+                    <th>Claims Filed</th>
+                    <th>Claims Approved</th>
+                    <th>Claims Rejected</th>
+                    <th>Titles Distributed</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in top_districts %}
+                <tr>
+                    <td class="fw-semibold">{{ row["District"] }}</td>
+                    <td>{{ "{:,.0f}".format(row["Claims_Filed"]) }}</td>
+                    <td>{{ "{:,.0f}".format(row["Claims_Approved"]) }}</td>
+                    <td>{{ "{:,.0f}".format(row["Claims_Rejected"]) }}</td>
+                    <td>{{ "{:,.0f}".format(row["Titles_Distributed"]) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Top Villages -->
+<div class="content-card">
+
+    <h5 class="section-heading">Top 10 Villages by Beneficiary Count</h5>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>Village</th>
+                    <th>Gram Panchayat</th>
+                    <th>Block</th>
+                    <th>District</th>
+                    <th>Beneficiaries</th>
+                    <th>Review Category</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in top_villages %}
+                <tr>
+                    <td>{{ row["Village"] }}</td>
+                    <td>{{ row["Gram Panchayat"] }}</td>
+                    <td>{{ row["Block"] }}</td>
+                    <td>{{ row["District"] }}</td>
+                    <td>{{ "{:,.0f}".format(row["Beneficiary_Count"]) }}</td>
+                    <td>
+                        <span class="badge
+                            {% if row['Village_Monitoring_Priority'] == 'High' %}
+                                bg-danger
+                            {% elif row['Village_Monitoring_Priority'] == 'Medium' %}
+                                bg-warning text-dark
+                            {% else %}
+                                bg-success
+                            {% endif %}">
+                            {{ row["Village_Monitoring_Priority"] }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<p class="text-muted small mt-3">
+    Note: Village beneficiary counts and review categories are
+    analytical data, not official village-level pending claim figures.
+</p>
+
+
+<!-- Plotly Charts -->
+<script>
+
+const priorityData = {{ priority_counts | tojson }};
+
+const priorityLabels = Object.keys(priorityData);
+const priorityValues = Object.values(priorityData);
+
+Plotly.newPlot("priorityChart", [{
+    labels: priorityLabels,
+    values: priorityValues,
+    type: "pie",
+    hole: 0.55,
+    textinfo: "label+value"
+}], {
+    height: 320,
+    margin: { t: 10, b: 10, l: 10, r: 10 },
+    showlegend: true
+}, {
+    responsive: true
+});
+
+
+const claimValues = {{ [
+    total_claims,
+    total_approved,
+    total_rejected,
+    total_titles
+] | tojson }};
+
+Plotly.newPlot("claimsChart", [{
+    x: [
+        "Filed",
+        "Approved",
+        "Rejected",
+        "Titles Distributed"
+    ],
+    y: claimValues,
+    type: "bar",
+    text: claimValues.map(v => v.toLocaleString("en-IN")),
+    textposition: "outside"
+}], {
+    height: 320,
+    margin: { t: 20, b: 60, l: 55, r: 15 },
+    yaxis: { title: "Number of claims" },
+    xaxis: { tickangle: -15 },
+    showlegend: false
+}, {
+    responsive: true
+});
+
+</script>
+
+{% endblock %}
