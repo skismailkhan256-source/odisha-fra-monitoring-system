@@ -278,7 +278,13 @@ GitHub Repository:
 
 https://github.com/skismailkhan256-source/odisha-fra-monitoring-system
 
-## 15. Project Team
+## 15. Live Demo
+
+The deployed version of the Odisha FRA Monitoring System can be accessed here:
+
+Live Application: https://odisha-fra-monitoring-system.onrender.com
+
+## 16. Project Team
 
 | Team Member | Registration Number |
 |---|---|
@@ -296,6 +302,6 @@ https://github.com/skismailkhan256-source/odisha-fra-monitoring-system
 
 ---
 
-## 16. Disclaimer
+## 17. Disclaimer
 
 This project is developed for academic purposes. All analytical indicators, beneficiary categories and machine-learning cluster labels are intended for data exploration and decision-support demonstration only. They do not represent official government classifications, legal eligibility decisions or verified administrative priorities.
